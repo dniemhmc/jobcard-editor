@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+.vite/
+# Real jobcards may be confidential: only commit sanitized fixtures (see fixtures/README.md)
+fixtures/private/
