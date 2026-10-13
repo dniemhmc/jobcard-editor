@@ -28,7 +28,8 @@ python3 -m http.server 8080 --directory docs/wireframes
 
 | #   | Screen                         | Requirements   | Phase |
 | --- | ------------------------------ | -------------- | ----- |
-| 01  | Projects & workpacks overview  | R7             | 1     |
+| 00  | Open project (on app start)    | R7             | 1     |
+| 01  | Project overview (one project) | R7             | 1     |
 | 02  | New jobcard (content template) | R5             | 1     |
 | 03  | Jobcard editor                 | R1, R2, R3, N3 | 1     |
 | 04  | Image annotation               | R6             | 2     |

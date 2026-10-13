@@ -6,15 +6,21 @@
     <link rel="stylesheet" href="wireframe.css" />
   </head>
   <body>
-    <div class="caption"><a href="index.html">← index</a> · <b>01 Projects &amp; workpacks overview</b> · requirements: R7</div>
+    <div class="caption"><a href="index.html">← index</a> · <b>01 Project overview (workpacks &amp; jobcards)</b> · requirements: R7</div>
     <div class="screen">
-      <div class="topbar"><span class="logo">Jobcards</span><span class="grow"></span><span class="input">user ▾</span></div>
+      <div class="topbar"><span class="logo">Jobcards</span><span class="grow"></span><span class="btn small">⇄ Switch project</span><span class="input">user ▾</span></div>
       <div class="body">
-        <aside class="sidebar col">
-          <h4>Projects</h4>
-          <div class="item active">Project A (sample)</div>
-          <div class="item">Project B (sample)</div>
-          <span class="btn small">+ New project</span>
+        <aside class="sidebar col" style="width: 260px">
+          <h4>Project A</h4>
+          <div class="tree">
+            <div class="node open">Project A (sample)</div>
+            <div class="node lvl1 open active">Workpack: Module 1</div>
+            <div class="node lvl2 leaf">JC-001 Clear old lifting points</div>
+            <div class="node lvl2 leaf">JC-002 Sample title</div>
+            <div class="node lvl2 leaf">JC-003 Sample title</div>
+            <div class="node lvl1 closed">Workpack: Module 2</div>
+            <div class="node lvl1 add">+ New workpack</div>
+          </div>
         </aside>
         <main class="main col">
           <div class="row between"><h1>Project A</h1><span class="btn primary">+ New workpack</span></div>
