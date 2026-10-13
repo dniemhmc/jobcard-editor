@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>01 – Project details</title>
+    <link rel="stylesheet" href="wireframe.css" />
+  </head>
+  <body>
+    <div class="caption"><a href="index.html">← index</a> · <b>01 Project details</b> (project selected in tree) · requirements: R7</div>
+    <div class="screen">
+      <div class="topbar">
+        <span class="logo">Jobcards</span><span>Project A</span>
+        <span class="grow"></span><span class="btn small">⇄ Switch project</span><span class="input">user ▾</span>
+      </div>
+      <div class="body">
+        <aside class="sidebar col" style="width: 260px">
+          <div class="row between"><h4>Project tree</h4><span class="btn small">+ ▾</span></div>
+          <div class="input">🔍 Filter…</div>
+          <div class="tree">
+            <div class="node open active">Project A (sample)</div>
+            <div class="node lvl1 open">Workpack: Module 1</div>
+            <div class="node lvl2 leaf">JC-001 Clear old lifting points</div>
+            <div class="node lvl2 leaf">JC-002 Sample title</div>
+            <div class="node lvl2 leaf">JC-003 Sample title</div>
+            <div class="node lvl2 add">+ New jobcard</div>
+            <div class="node lvl1 closed">Workpack: Module 2</div>
+            <div class="node lvl1 add">+ New workpack</div>
+          </div>
+          <span class="grow"></span>
+          <small>Click the project, a workpack or a jobcard to edit it in the middle.</small>
+        </aside>
+        <main class="main col">
+          <div class="row between"><h1>Project</h1><span class="tag">Project A (sample)</span></div>
+          <div class="row">
+            <div class="grow"><span class="label">Name</span><div class="input">Project A (sample)</div></div>
+            <div style="width: 180px"><span class="label">Project number</span><div class="input">P1234</div></div>
+          </div>
+          <div class="row">
+            <div class="grow"><span class="label">Installation / platform</span><div class="input">Platform X</div></div>
+            <div class="grow"><span class="label">Client</span><div class="input">Client name</div></div>
+          </div>
+          <div><span class="label">Description</span><div class="input area">Short description of the decommissioning scope…</div></div>
+          <small>Created and last modified date are filled in automatically.</small>
+
+          <div class="section row between"><h2>Workpacks in this project</h2><span class="btn small">+ New workpack</span></div>
+          <table>
+            <tr><th>⠿</th><th>Number</th><th>Title</th><th>Module</th><th>Jobcards</th><th>Draft</th></tr>
+            <tr><td class="handle">⠿</td><td>WP-01</td><td>Workpack: Module 1</td><td>Mod 1</td><td>12</td><td>3</td></tr>
+            <tr><td class="handle">⠿</td><td>WP-02</td><td>Workpack: Module 2</td><td>Mod 2</td><td>4</td><td>4</td></tr>
+          </table>
+          <div class="note">Fields follow packages/domain Project schema: code, name, installation, client, description.</div>
+        </main>
+      </div>
+      <div class="statusbar">Saved ✓ 10:42</div>
+    </div>
+  </body>
+</html>
