@@ -13,24 +13,28 @@
         <span class="grow"></span><span class="btn small">⇄ Switch project</span><span class="input">user ▾</span>
       </div>
       <div class="body">
-        <aside class="sidebar col" style="width: 260px">
+        <aside class="sidebar col" style="width: 280px">
           <div class="row between"><h4>Project tree</h4><span class="btn small">+ ▾</span></div>
           <div class="input">🔍 Filter…</div>
           <div class="tree">
             <div class="node open active">Project A (sample)</div>
             <div class="node lvl1 open">Workpack: Module 1</div>
-            <div class="node lvl2 leaf">JC-001 Clear old lifting points</div>
-            <div class="node lvl2 leaf">JC-002 Sample title</div>
-            <div class="node lvl2 leaf">JC-003 Sample title</div>
+            <div class="node lvl2 open">JC-001 Clear old lifting points</div>
+            <div class="node lvl3 leaf">Activity 1: Sample activity</div>
+            <div class="node lvl3 leaf">Activity 2: Sample activity</div>
+            <div class="node lvl3 leaf">Activity 3: Sample activity</div>
+            <div class="node lvl3 add">+ New activity</div>
+            <div class="node lvl2 closed">JC-002 Sample title</div>
+            <div class="node lvl2 closed">JC-003 Sample title</div>
             <div class="node lvl2 add">+ New jobcard</div>
             <div class="node lvl1 closed">Workpack: Module 2</div>
             <div class="node lvl1 add">+ New workpack</div>
           </div>
           <span class="grow"></span>
-          <small>Click the project, a workpack or a jobcard to edit it in the middle.</small>
+          <small>Click an item to edit it in the middle. Drag to reorder or move. Right-click: rename, duplicate, delete.</small>
         </aside>
         <main class="main col">
-          <div class="row between"><h1>Project</h1><span class="tag">Project A (sample)</span></div>
+          <h1>Project</h1>
           <div class="row">
             <div class="grow"><span class="label">Name</span><div class="input">Project A (sample)</div></div>
             <div style="width: 180px"><span class="label">Project number</span><div class="input">P1234</div></div>
@@ -41,7 +45,6 @@
           </div>
           <div><span class="label">Description</span><div class="input area">Short description of the decommissioning scope…</div></div>
           <small>Created and last modified date are filled in automatically.</small>
-
           <div class="note">Fields follow packages/domain Project schema: code, name, installation, client, description.</div>
         </main>
       </div>

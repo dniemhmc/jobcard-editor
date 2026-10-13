@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>06 – Activity details</title>
+    <link rel="stylesheet" href="wireframe.css" />
+  </head>
+  <body>
+    <div class="caption"><a href="index.html">← index</a> · <b>06 Activity details</b> (activity selected in tree) · requirements: R1, R2, R3, R6</div>
+    <div class="screen">
+      <div class="topbar">
+        <span class="logo">Jobcards</span><span>Project A › Module 1 › JC-001 › <b>Activity 2</b></span>
+        <span class="grow"></span><span class="btn small">⇄ Switch project</span><span class="tag draft">draft</span><span class="input">user ▾</span>
+      </div>
+      <div class="body">
+        <aside class="sidebar col" style="width: 280px">
+          <div class="row between"><h4>Project tree</h4><span class="btn small">+ ▾</span></div>
+          <div class="input">🔍 Filter…</div>
+          <div class="tree">
+            <div class="node open">Project A (sample)</div>
+            <div class="node lvl1 open">Workpack: Module 1</div>
+            <div class="node lvl2 open">JC-001 Clear old lifting points</div>
+            <div class="node lvl3 leaf">Activity 1: Sample activity</div>
+            <div class="node lvl3 leaf active">Activity 2: Sample activity</div>
+            <div class="node lvl3 leaf">Activity 3: Sample activity</div>
+            <div class="node lvl3 add">+ New activity</div>
+            <div class="node lvl2 closed">JC-002 Sample title</div>
+            <div class="node lvl2 closed">JC-003 Sample title</div>
+            <div class="node lvl2 add">+ New jobcard</div>
+            <div class="node lvl1 closed">Workpack: Module 2</div>
+            <div class="node lvl1 add">+ New workpack</div>
+          </div>
+          <span class="grow"></span>
+          <small>Click an item to edit it in the middle. Drag to reorder or move. Right-click: rename, duplicate, delete.</small>
+        </aside>
+        <main class="main col">
+          <h1>Activity</h1>
+          <div class="row">
+            <div class="grow"><span class="label">Name</span><div class="input">Sample activity</div></div>
+            <div style="width: 120px"><span class="label">Activity no.</span><div class="input">2</div></div>
+          </div>
+          <div><span class="label">Description</span><div class="input area">What to do offshore in this activity…</div></div>
+          <small>Activity number follows the order in the tree. Created and last modified date are filled in automatically.</small>
+          <div class="section row between"><h2>Images</h2><span class="btn small">+ Add image</span></div>
+          <small>Pictures for this activity. Annotations are stored as vector shapes.</small>
+          <div class="row" style="flex-wrap: wrap; align-items: flex-start">
+            <div class="col" style="width: 150px"><div class="img" style="height: 100px">image 1</div><div class="input">Caption…</div><span class="btn small">Annotate</span></div>
+            <div class="col" style="width: 150px"><div class="img" style="height: 100px">image 2</div><div class="input">Caption…</div><span class="btn small">Annotate</span></div>
+            <div class="card dashed col" style="width: 150px; height: 100px; justify-content: center; align-items: center">drop, paste or<br />+ add image</div>
+          </div>
+          <div class="note">Speed is the adoption goal (R1): keyboard-first entry, paste an image straight into the activity.</div>
+        </main>
+        <aside class="panel col">
+          <h4>Live PDF preview</h4>
+          <div class="page" style="width: 100%; min-height: 300px">
+            <div class="row between"><b>Clear old lifting points</b><small>JC-001 · Rev A</small></div>
+            <div class="line"></div>
+            <h4>Activity 2</h4>
+            <div class="img" style="height: 100px; margin: 8px 0">image</div>
+            <div class="line"></div><div class="line mid"></div><div class="line short"></div>
+          </div>
+          <span class="btn primary">Export PDF</span>
+        </aside>
+      </div>
+      <div class="statusbar">Saved ✓ 10:42</div>
+    </div>
+  </body>
+</html>
