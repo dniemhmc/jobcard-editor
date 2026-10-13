@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>04 – Image annotation</title>
+    <link rel="stylesheet" href="wireframe.css" />
+  </head>
+  <body>
+    <div class="caption"><a href="index.html">← index</a> · <b>04 Image annotation</b> · requirements: R6 (vector annotations, ADR 0004)</div>
+    <div class="screen">
+      <div class="topbar"><span class="logo">Jobcards</span><span>JC-001 › Step 2 › Image</span><span class="grow"></span><span class="btn">Cancel</span><span class="btn primary">Done</span></div>
+      <div class="body">
+        <aside class="sidebar col" style="width:120px">
+          <h4>Tools</h4>
+          <div class="item active">▭ Rect</div><div class="item">◯ Ellipse</div><div class="item">⬠ Polygon</div><div class="item">🏷 Label</div><div class="item">↖ Select</div>
+          <span class="btn small">↶ Undo</span><span class="btn small">↷ Redo</span>
+        </aside>
+        <main class="main row" style="justify-content:center;background:var(--fill)">
+          <div class="img" style="width:760px;height:520px">photo
+            <div class="shape" style="left:200px;top:160px;width:180px;height:120px"></div>
+            <div class="shape ellipse" style="left:480px;top:300px;width:110px;height:80px"></div>
+            <div class="callout" style="left:420px;top:90px">Lifting point A</div>
+          </div>
+        </main>
+        <aside class="panel col">
+          <h4>Annotations</h4>
+          <div class="item active">▭ Rect – “Lifting point A”</div>
+          <div class="item">◯ Ellipse – (no label)</div>
+          <h4>Selected</h4>
+          <div><span class="label">Label</span><div class="input">Lifting point A</div></div>
+          <div><span class="label">Stroke</span><div class="input">● ● ● ●</div></div>
+          <span class="btn small">Delete</span>
+          <div class="note">All shapes stored as normalised 0..1 vectors, never burned into pixels.</div>
+        </aside>
+      </div>
+    </div>
+  </body>
+</html>
