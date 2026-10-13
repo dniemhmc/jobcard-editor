@@ -30,27 +30,18 @@
           <small>Click the project, a workpack or a jobcard to edit it in the middle.</small>
         </aside>
         <main class="main col">
-          <div class="row between"><h1>Workpack</h1><span class="row"><span class="btn">Export workpack PDF</span></span></div>
+          <h1>Workpack</h1>
           <div class="row">
             <div class="grow"><span class="label">Title</span><div class="input">Workpack: Module 1</div></div>
             <div style="width: 180px"><span class="label">Workpack number</span><div class="input">WP-01</div></div>
           </div>
           <div class="row">
             <div class="grow"><span class="label">Module</span><div class="input">Mod 1 ▾</div></div>
-            <div class="grow"><span class="label">Project</span><div class="input" style="background: var(--fill)">Project A (read-only)</div></div>
           </div>
           <div><span class="label">Description</span><div class="input area">What this workpack covers…</div></div>
           <small>Created and last modified date are filled in automatically.</small>
 
-          <div class="section row between"><h2>Jobcards in this workpack</h2><span class="btn small">+ New jobcard</span></div>
-          <small>Order here is the order in the workpack PDF. Drag to reorder.</small>
-          <table>
-            <tr><th>⠿</th><th>Job no.</th><th>Title</th><th>Rev</th><th>Location</th><th>Status</th></tr>
-            <tr><td class="handle">⠿</td><td>JC-001</td><td>Clear old lifting points</td><td>A</td><td>Mod 1 / Deck 2</td><td><span class="tag draft">draft</span></td></tr>
-            <tr><td class="handle">⠿</td><td>JC-002</td><td>Sample title</td><td>A</td><td>Mod 1 / Deck 3</td><td><span class="tag">approved</span></td></tr>
-            <tr><td class="handle">⠿</td><td>JC-003</td><td>Sample title</td><td>B</td><td>Mod 1 / Deck 3</td><td><span class="tag draft">draft</span></td></tr>
-          </table>
-          <div class="note">Fields follow packages/domain Workpack schema: code, title, module, description, jobcard order.</div>
+          <div class="note">Fields follow packages/domain Workpack schema: code, title, module, description. Jobcard order is changed by dragging in the tree.</div>
         </main>
         <aside class="panel col">
           <h4>Workpack PDF preview (phase 3)</h4>
@@ -60,6 +51,7 @@
             <h4>Index</h4>
             <div class="line"></div><div class="line mid"></div><div class="line"></div>
           </div>
+          <span class="btn primary">Export PDF</span>
         </aside>
       </div>
       <div class="statusbar">Saved ✓ 10:42</div>
