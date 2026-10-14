@@ -1,0 +1,94 @@
+/* Low-fidelity wireframe kit. Greyscale on purpose: discuss structure, not styling. */
+:root {
+  --ink: #222;
+  --muted: #777;
+  --line: #999;
+  --paper: #fff;
+  --fill: #eee;
+  --fill-dark: #ccc;
+  --note: #fff3b0;
+  --accent: #444;
+  font-family: 'Comic Sans MS', 'Segoe Print', 'Marker Felt', system-ui, sans-serif;
+  color: var(--ink);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #d8d8d8; }
+h1, h2, h3, h4 { margin: 0 0 8px; }
+h1 { font-size: 20px; } h2 { font-size: 16px; } h3 { font-size: 14px; } h4 { font-size: 12px; color: var(--muted); text-transform: uppercase; }
+small, .muted { color: var(--muted); font-size: 12px; }
+
+/* Screen frame: one per wireframe, 1280x800 desktop browser. */
+.screen { width: 1280px; height: 800px; margin: 24px auto; background: var(--paper); border: 2px solid var(--ink); display: flex; flex-direction: column; overflow: hidden; }
+.screen > .body { flex: 1; display: flex; min-height: 0; }
+.caption { width: 1280px; margin: 24px auto -12px; font-size: 13px; }
+
+/* Layout helpers */
+.row { display: flex; gap: 8px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.grow { flex: 1; min-width: 0; }
+.pad { padding: 12px; }
+.between { justify-content: space-between; }
+.scroll { overflow: auto; }
+
+/* Chrome */
+.topbar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-bottom: 2px solid var(--ink); background: var(--fill); }
+.topbar .logo { font-weight: bold; border: 2px solid var(--ink); padding: 2px 8px; }
+.sidebar { width: 240px; border-right: 2px solid var(--ink); padding: 12px; background: var(--fill); overflow: auto; }
+.panel { width: 320px; border-left: 2px solid var(--ink); padding: 12px; background: var(--fill); overflow: auto; }
+.main { flex: 1; padding: 16px; overflow: auto; min-width: 0; }
+.statusbar { border-top: 2px solid var(--ink); padding: 4px 12px; font-size: 12px; background: var(--fill); }
+
+/* Controls */
+.btn { display: inline-block; border: 2px solid var(--ink); padding: 4px 12px; background: var(--paper); font: inherit; font-size: 13px; cursor: default; }
+.btn.primary { background: var(--accent); color: #fff; }
+.btn.small { padding: 1px 8px; font-size: 12px; }
+.input { border: 2px solid var(--line); padding: 5px 8px; min-height: 30px; background: var(--paper); font-size: 13px; color: var(--muted); }
+.input.area { min-height: 64px; }
+.label { font-size: 12px; font-weight: bold; margin-bottom: 2px; display: block; }
+.tag { display: inline-block; border: 1px solid var(--ink); border-radius: 10px; padding: 0 8px; font-size: 11px; }
+.tag.draft { border-style: dashed; }
+.tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--ink); }
+.tab { padding: 4px 12px; border: 2px solid var(--line); border-bottom: 0; font-size: 13px; }
+.tab.active { border-color: var(--ink); background: var(--fill); font-weight: bold; }
+.item { border: 2px solid var(--line); padding: 6px 8px; background: var(--paper); font-size: 13px; }
+.item.active { border-color: var(--ink); background: var(--fill); font-weight: bold; }
+.card { border: 2px solid var(--ink); padding: 12px; background: var(--paper); }
+.card.dashed { border-style: dashed; border-color: var(--line); color: var(--muted); }
+
+/* Placeholders */
+.img { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill-dark) 10px, var(--fill-dark) 11px); border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; position: relative; }
+.line { height: 8px; background: var(--fill-dark); margin: 4px 0; }
+.line.short { width: 40%; } .line.mid { width: 70%; }
+.handle { cursor: grab; color: var(--muted); user-select: none; }
+
+/* Table */
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { border: 2px solid var(--line); padding: 5px 8px; text-align: left; }
+th { background: var(--fill); }
+
+/* Annotation shapes (vector overlays, normalised coordinates in the real thing) */
+.shape { position: absolute; border: 3px solid var(--ink); }
+.shape.ellipse { border-radius: 50%; }
+.callout { position: absolute; background: var(--paper); border: 2px solid var(--ink); padding: 1px 6px; font-size: 12px; }
+
+/* Sticky-note comment: use for open questions / design remarks */
+.note { background: var(--note); border: 1px solid #c9b200; padding: 6px 8px; font-size: 12px; max-width: 260px; box-shadow: 2px 2px 0 rgba(0,0,0,.15); }
+.note::before { content: '💬 '; }
+
+/* Print/PDF page preview */
+.page { width: 595px; min-height: 420px; border: 2px solid var(--ink); padding: 16px; background: var(--paper); }
+
+/* Project tree (file-explorer style). Indent with .lvl1 / .lvl2; use .open / .closed for the caret. */
+.tree { display: flex; flex-direction: column; font-size: 13px; }
+.tree .node { padding: 3px 6px; border: 2px solid transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tree .node.lvl1 { padding-left: 20px; }
+.tree .node.lvl2 { padding-left: 36px; }
+.tree .node.lvl3 { padding-left: 52px; }
+.tree .node.open::before { content: '▾ '; }
+.tree .node.closed::before { content: '▸ '; }
+.tree .node.leaf::before { content: '▫ '; }
+.tree .node.active { border-color: var(--ink); background: var(--paper); font-weight: bold; }
+.tree .node.add { color: var(--muted); font-style: italic; }
+
+/* Section heading inside a long editable form */
+.section { border-top: 2px solid var(--ink); padding-top: 8px; margin-top: 4px; }
