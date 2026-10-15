@@ -9,7 +9,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@jobcard/content-templates": "workspace:*",
     "@jobcard/domain": "workspace:*",
     "fastify": "^5.12.5"
   },

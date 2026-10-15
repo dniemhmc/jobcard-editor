@@ -1,9 +1,0 @@
-{
-  "id": "generic",
-  "version": 1,
-  "status": "approved",
-  "name": "Generic jobcard",
-  "description": "Empty jobcard. Every field is filled in by the user.",
-  "defaults": {},
-  "steps": []
-}
