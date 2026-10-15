@@ -10,8 +10,8 @@ export interface JobcardRenderContext {
  * Renders a jobcard as a printable HTML page (A4 landscape). The HTML is
  * turned into PDF by headless Chromium (see docs/adr/0003).
  *
- * PLACEHOLDER LAYOUT: this must be replaced by a faithful copy of the current
- * PowerPoint jobcard template once it is added to fixtures/.
+ * SUPERSEDED: use `renderJobcardSheetsHtml` (layout of the General jobcard
+ * template). This flat placeholder layout is removed once callers switch.
  */
 export function renderJobcardHtml(jobcard: Jobcard, ctx: JobcardRenderContext): string {
   const location = [jobcard.location.module, jobcard.location.deck, jobcard.location.area]
