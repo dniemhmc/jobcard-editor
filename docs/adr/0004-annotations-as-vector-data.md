@@ -1,6 +1,6 @@
 # 0004. Image annotations are stored as vector data, not burned into pixels
 
-- Status: Accepted
+- Status: Accepted; applies when images (R6) return, see 0006
 - Date: 2026-10-12
 
 ## Context

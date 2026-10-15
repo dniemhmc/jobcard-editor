@@ -50,12 +50,12 @@ build step between packages.
 - **Schema changes are high-impact.** Stored data and downstream systems depend on them. Prefer
   additive, optional fields. A breaking change needs `SCHEMA_VERSION` bumped, a migration, and an
   ADR. Call out schema changes explicitly in the PR.
-- **Annotations are vector data** with normalised (0..1) coordinates. Never burn edits into image
+- **Annotations are vector data** (when images return, R6) with normalised (0..1) coordinates. Never burn edits into image
   pixels (ADR 0004).
 - **PDF output is generated from data** by `packages/pdf`. Escape every interpolated value with
   `escapeHtml`.
 - `packages/domain` (non-test code) must stay browser-safe: no Node-only APIs.
-- Content templates contain offshore work instructions. **Never invent or change step content**
+- Content templates (when they return, R5) contain offshore work instructions. **Never invent or change step content**
   in an `approved` template; that is owned by engineering. Placeholder content must be clearly
   marked and the template left in `draft`.
 - Keep pure logic out of React components and route handlers so it can be unit-tested.
