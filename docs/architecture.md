@@ -6,11 +6,11 @@
  Browser (apps/web, React)                    Server (apps/api, Fastify)
  ┌──────────────────────────┐   HTTP/JSON    ┌───────────────────────────┐
  │ Editor UI                │ ─────────────▶ │ REST API                  │
- │ Image annotation (Konva) │                │ Validation (domain zod)   │
+ │ Tree + details forms     │                │ Validation (domain zod)   │
  │ Live preview             │                │ PDF render (Chromium)     │──▶ PostgreSQL (planned)
  └──────────────────────────┘                └───────────────────────────┘──▶ Object storage (planned)
             │                                              │
-            └──────── shared: packages/domain, content-templates, pdf ────┘
+            └──────────────── shared: packages/domain, pdf ───────────────┘
                                                            │
                                                            ▼
                                                      R2S (integration TBD)
@@ -18,26 +18,25 @@
 
 ## Data model
 
-Defined in `packages/domain/src` (Zod). Summary:
+Defined in `packages/domain/src` (Zod). Deliberately minimal: only what the wireframes in
+`docs/wireframes` show (see ADR 0006). Fields are added as screens and the PDF template need them.
 
 ```
-Project ─< Workpack (ordered jobcardIds) ─< Jobcard ─< Step
-                                              ├─< JobcardImage ── Asset (original file)
-                                              │      ├─ source: upload | r2s(viewpoint, deepLink)
-                                              │      └─ annotations: highlight | label (normalised coords)
-                                              ├─ status, revision, location, discipline, scope
-                                              └─ contentTemplate { id, version }
+Project { name } ─< Workpack { title } ─< Jobcard { title } ─< Activity { name }
 ```
 
-All persisted top-level records carry `schemaVersion` and `audit` fields.
+- Each parent owns the order of its children: `Project.workpackIds`, `Workpack.jobcardIds`,
+  `Jobcard.activities`. There are no child→parent references.
+- Project, Workpack and Jobcard are separate records carrying `schemaVersion` and `id`.
+  Activities are stored inside their jobcard.
 
 ## Status
 
-| Part                       | Status                                          |
-| -------------------------- | ----------------------------------------------- |
-| Domain schemas             | Draft v1, to validate against real jobcards     |
-| Content template registry  | Done (generic + 1 example draft)                |
-| PDF HTML renderer          | Placeholder layout, no Chromium step yet        |
-| API                        | Health + content templates only, no persistence |
-| Web                        | Placeholder page                                |
-| Persistence, auth, storage | Not started (see ADR 0005, open questions)      |
+| Part                       | Status                                         |
+| -------------------------- | ---------------------------------------------- |
+| Domain schemas             | Minimal v2, matching the wireframes (ADR 0006) |
+| Content templates          | Removed for now (ADR 0006)                     |
+| PDF HTML renderer          | Title + activities only, no Chromium step yet  |
+| API                        | Health check only, no persistence              |
+| Web                        | Placeholder page                               |
+| Persistence, auth, storage | Not started (see ADR 0005, open questions)     |

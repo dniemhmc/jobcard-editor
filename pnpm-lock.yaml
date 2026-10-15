@@ -38,9 +38,6 @@ importers:
 
   apps/api:
     dependencies:
-      '@jobcard/content-templates':
-        specifier: workspace:*
-        version: link:../../packages/content-templates
       '@jobcard/domain':
         specifier: workspace:*
         version: link:../../packages/domain
@@ -54,9 +51,6 @@ importers:
 
   apps/web:
     dependencies:
-      '@jobcard/content-templates':
-        specifier: workspace:*
-        version: link:../../packages/content-templates
       '@jobcard/domain':
         specifier: workspace:*
         version: link:../../packages/domain
@@ -79,12 +73,6 @@ importers:
       vite:
         specifier: ^8.3.4
         version: 8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(tsx@4.23.15)
-
-  packages/content-templates:
-    dependencies:
-      '@jobcard/domain':
-        specifier: workspace:*
-        version: link:../domain
 
   packages/domain:
     dependencies:

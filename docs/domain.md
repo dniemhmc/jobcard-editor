@@ -13,8 +13,8 @@ improving how **jobcards** are created.
 | **Project**          | A decommissioning project, usually one platform/installation. Contains workpacks.                             |
 | **Module**           | A physical part of the platform (e.g. a utilities module) that is decommissioned as a unit.                   |
 | **Workpack**         | A bundle of jobcards, usually all jobcards needed to decommission one module. Published as one PDF document.  |
-| **Jobcard**          | Instructions for one piece of work offshore: metadata, an ordered list of steps, and illustrating images.     |
-| **Step**             | One action to perform offshore, part of a jobcard.                                                            |
+| **Jobcard**          | Instructions for one piece of work offshore: a title and an ordered list of activities.                       |
+| **Activity**         | One item of work on a jobcard, in the order it is performed. Stored inside its jobcard.                       |
 | **Content template** | A prefilled set of steps (and defaults) for a common recurring job. There is also one empty generic template. |
 | **Annotation**       | Markup on a jobcard image: a highlight of an object/area, and labels naming it.                               |
 | **R2S**              | A tool that provides a street-view-like, point-cloud-backed view of a platform. Images can be taken from it.  |
@@ -25,10 +25,16 @@ lifts._
 
 ## Jobcard content
 
-- Metadata shown on the card: title, job number, revision, location on the platform (module,
-  deck, area), last modification date, project and workpack identification, discipline.
-- An ordered list of **steps**: the most important content.
-- **Images**, usually photos edited with shapes, arrows, icons and text to highlight what matters.
+The domain currently holds only what the wireframes show (ADR 0006):
+
+- Project: name, and its workpacks in order.
+- Workpack: title, and its jobcards in order.
+- Jobcard: title, and its activities in order.
+- Activity: name.
+
+Planned later, as screens and the PDF template need them: job number, revision, status, location,
+discipline, detailed steps, images with annotations (ADR 0004), R2S viewpoints and content
+templates. The glossary above keeps these terms so the vocabulary stays consistent.
 
 ## Current workflow (as-is)
 

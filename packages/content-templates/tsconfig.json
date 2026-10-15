@@ -1,8 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    // Node typings are for the tests only; src/index.ts must stay browser-safe.
-    "types": ["node"]
-  },
-  "include": ["src", "templates"]
-}

@@ -10,7 +10,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@jobcard/content-templates": "workspace:*",
     "@jobcard/domain": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

@@ -31,14 +31,13 @@ pnpm format           # fix formatting
 
 ## Layout
 
-| Path                         | Purpose                                                                       |
-| ---------------------------- | ----------------------------------------------------------------------------- |
-| `packages/domain`            | Zod schemas = **single source of truth** for all data, plus pure domain logic |
-| `packages/content-templates` | The prefilled content templates as JSON + registry                            |
-| `packages/pdf`               | Jobcard / workpack → printable HTML (→ PDF via headless Chromium)             |
-| `apps/api`                   | Fastify HTTP API                                                              |
-| `apps/web`                   | React + Vite editor UI                                                        |
-| `fixtures/`                  | Sanitized real-world examples (jobcards, the PowerPoint template)             |
+| Path              | Purpose                                                                       |
+| ----------------- | ----------------------------------------------------------------------------- |
+| `packages/domain` | Zod schemas = **single source of truth** for all data, plus pure domain logic |
+| `packages/pdf`    | Jobcard / workpack → printable HTML (→ PDF via headless Chromium)             |
+| `apps/api`        | Fastify HTTP API                                                              |
+| `apps/web`        | React + Vite editor UI                                                        |
+| `fixtures/`       | Sanitized real-world examples (jobcards, the PowerPoint template)             |
 
 Internal packages export TypeScript source directly (`"exports": "./src/index.ts"`); there is no
 build step between packages.
@@ -55,8 +54,7 @@ build step between packages.
   pixels (ADR 0004).
 - **PDF output is generated from data** by `packages/pdf`. Escape every interpolated value with
   `escapeHtml`.
-- `packages/domain` and `packages/content-templates` (non-test code) must stay browser-safe: no
-  Node-only APIs.
+- `packages/domain` (non-test code) must stay browser-safe: no Node-only APIs.
 - Content templates contain offshore work instructions. **Never invent or change step content**
   in an `approved` template; that is owned by engineering. Placeholder content must be clearly
   marked and the template left in `draft`.
