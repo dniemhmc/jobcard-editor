@@ -15,7 +15,7 @@ data model must be shared exactly between UI, API and PDF generation.
 - TypeScript (strict) everywhere; ESM; Node 22+.
 - Web: React + Vite. API: Fastify. Validation and types: Zod. Tests: Vitest.
 - Internal packages export TS source directly; no inter-package build step.
-- Image annotation (planned): Konva via react-konva.
+- Image annotation (planned, once R6 images return): Konva via react-konva.
 
 ## Consequences
 

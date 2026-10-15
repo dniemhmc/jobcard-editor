@@ -1,6 +1,6 @@
 # 0001. The jobcard is structured data; editor and PDF are views
 
-- Status: Accepted
+- Status: Accepted, amended by 0006 (`status` and `revision` removed until needed)
 - Date: 2026-10-12
 
 ## Context

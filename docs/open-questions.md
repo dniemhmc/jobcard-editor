@@ -5,7 +5,7 @@ Unresolved questions that affect design. AI agents: do not guess answers to thes
 | #   | Question                                                                                                                                           | Affects                            | Owner | Status |
 | --- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ----- | ------ |
 | Q1  | Where will this be hosted (Azure / AWS / on-prem)?                                                                                                 | Deployment, storage, DB            |       | Open   |
-| Q2  | Which SSO / identity provider?                                                                                                                     | Auth, `UserRef`                    |       | Open   |
+| Q2  | Which SSO / identity provider?                                                                                                                     | Auth, user identity in the domain  |       | Open   |
 | Q3  | Does R2S have an API? Can we get an image + viewpoint (position, heading, pitch, FOV)? Deep-link format?                                           | R2S integration (later)            |       | Open   |
 | Q4  | Do several people edit the same jobcard at the same time?                                                                                          | Real-time collab vs locking        |       | Open   |
 | Q5  | Is any editing done offshore with limited connectivity?                                                                                            | Offline support                    |       | Open   |
