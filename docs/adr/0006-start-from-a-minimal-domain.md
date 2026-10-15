@@ -33,7 +33,9 @@ screen or the template needs them.
 ## Consequences
 
 - The schema is small enough to match the wireframes and the PDF template one field at a time.
-- Requirements R4 to R6 and N4 have no data model for now; each needs a schema change when picked
-  up. Prefer additive, optional fields so stored data keeps validating.
+- Requirements R4 (R2S), R5 (content templates) and R6 (images) are deferred to "Later (nice to
+  have)" in `docs/requirements/README.md` and the roadmap. They, and the statuses and revisions of
+  N4, get their schema only when they are picked up. Prefer additive, optional fields so stored
+  data keeps validating.
 - Whether an activity groups several detailed steps is still open (Q12, PR #3); `Activity` can be
   extended when that is decided.

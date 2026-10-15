@@ -30,6 +30,6 @@ python3 -m http.server 8080 --directory docs/wireframes
 | --- | ------------------------------------ | -------------- | ----- |
 | 00  | Open project (on app start)          | R7             | 1     |
 | 01  | Project details (project selected)   | R7             | 1     |
-| 02  | Workpack details (workpack selected) | R7, R8         | 1, 3  |
+| 02  | Workpack details (workpack selected) | R7, R8         | 1, 2  |
 | 03  | Jobcard details (jobcard selected)   | R1, R2, R3, N3 | 1     |
 | 04  | Activity details (activity selected) | R1, R2, R3     | 1     |
