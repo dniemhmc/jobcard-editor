@@ -8,17 +8,17 @@ improving how **jobcards** are created.
 
 ## Glossary
 
-| Term                 | Meaning                                                                                                       |
-| -------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **Project**          | A decommissioning project, usually one platform/installation. Contains workpacks.                             |
-| **Module**           | A physical part of the platform (e.g. a utilities module) that is decommissioned as a unit.                   |
-| **Workpack**         | A bundle of jobcards, usually all jobcards needed to decommission one module. Published as one PDF document.  |
-| **Jobcard**          | Instructions for one piece of work offshore: a title and an ordered list of activities.                       |
-| **Activity**         | One item of work on a jobcard, in the order it is performed. Stored inside its jobcard.                       |
-| **Content template** | A prefilled set of steps (and defaults) for a common recurring job. There is also one empty generic template. |
-| **Annotation**       | Markup on a jobcard image: a highlight of an object/area, and labels naming it.                               |
-| **R2S**              | A tool that provides a street-view-like, point-cloud-backed view of a platform. Images can be taken from it.  |
-| **Viewpoint**        | The position/direction in R2S an image was taken from, so we can link back to it.                             |
+| Term                 | Meaning                                                                                                            |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Project**          | A decommissioning project, usually one platform/installation. Contains workpacks.                                  |
+| **Module**           | A physical part of the platform (e.g. a utilities module) that is decommissioned as a unit.                        |
+| **Workpack**         | A bundle of jobcards, usually all jobcards needed to decommission one module. Published as one PDF document.       |
+| **Jobcard**          | Instructions for one piece of work offshore: a title and an ordered list of activities.                            |
+| **Activity**         | A main activity on a jobcard, in the order it is performed. Stored inside its jobcard (Q12).                       |
+| **Content template** | A prefilled set of activities (and defaults) for a common recurring job. There is also one empty generic template. |
+| **Annotation**       | Markup on a jobcard image: a highlight of an object/area, and labels naming it.                                    |
+| **R2S**              | A tool that provides a street-view-like, point-cloud-backed view of a platform. Images can be taken from it.       |
+| **Viewpoint**        | The position/direction in R2S an image was taken from, so we can link back to it.                                  |
 
 Example jobcard: _clear the old lifting points of the platform so they can be used in future
 lifts._

@@ -14,7 +14,8 @@ layout template. Discovery (Phase 0) runs alongside.
 - [ ] Dries provides the jobcard layout template (into `fixtures/`); fields are added to it one step
       at a time in Phase 1a
 - [ ] Interview 3–5 jobcard authors; time how long a typical jobcard takes today (baseline)
-- [ ] IT constraints: hosting, SSO, data classification, offshore connectivity
+- [x] IT constraints: hosting, SSO, offshore connectivity (Q1, Q2, Q5); data classification assumed
+      (Q10)
 - [ ] Validate `packages/domain` schemas against the layout template
 - [ ] Resolve items in `open-questions.md`; record decisions as ADRs
 
@@ -49,3 +50,4 @@ is picked up (ADR 0006).
 - Review/approval workflow and revisions
 - Read API / export for downstream systems
 - Permitting, execution tracking
+- Read-only tablet app for offshore crews to read jobcards (Q5)
