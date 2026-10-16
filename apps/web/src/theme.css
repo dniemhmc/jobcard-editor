@@ -1,0 +1,39 @@
+/*
+ * Theme settings from docs/style-note.md. Every screen uses these tokens
+ * instead of its own colours or sizes.
+ */
+:root {
+  --bg: #faf9f7;
+  --surface: #ffffff;
+  --surface-alt: #f2f0eb;
+  --border: #e2ded6;
+  --text: #1f1e1c;
+  --text-muted: #6b665e;
+  --text-faint: #9a958c;
+  --accent: #b4532f;
+  --accent-hover: #93432a;
+  --accent-soft: #f6ebe5;
+  --danger: #c62828;
+  --warning: #995c00;
+  --success: #2e7d32;
+
+  --font: 'Inter Variable', system-ui, 'Segoe UI', Arial, sans-serif;
+  --font-size: 13px;
+  --font-size-small: 12px;
+  --font-size-h3: 15px;
+  --font-size-h2: 18px;
+  --font-size-h1: 22px;
+  --line-height: 1.4;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --control-height: 28px;
+  --row-height: 32px;
+  --radius: 4px;
+  --shadow-menu: 0 2px 8px rgb(31 30 28 / 12%);
+}

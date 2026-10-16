@@ -32,11 +32,11 @@ Project { name } ─< Workpack { title } ─< Jobcard { title } ─< Activity { 
 
 ## Status
 
-| Part                       | Status                                         |
-| -------------------------- | ---------------------------------------------- |
-| Domain schemas             | Minimal v2, matching the wireframes (ADR 0006) |
-| Content templates          | Removed for now (ADR 0006)                     |
-| PDF HTML renderer          | Title + activities only, no Chromium step yet  |
-| API                        | Health check only, no persistence              |
-| Web                        | Placeholder page                               |
-| Persistence, auth, storage | Not started (see ADR 0005, open questions)     |
+| Part                       | Status                                                                                               |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Domain schemas             | Minimal v2, matching the wireframes (ADR 0006)                                                       |
+| Content templates          | Removed for now (ADR 0006)                                                                           |
+| PDF HTML renderer          | Title + activities only, no Chromium step yet                                                        |
+| API                        | Health check only, no persistence                                                                    |
+| Web                        | Base editor: open project, tree, details forms, live preview; data in browser storage until Phase 1b |
+| Persistence, auth, storage | Not started (see ADR 0005, open questions)                                                           |
