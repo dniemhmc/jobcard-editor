@@ -4,12 +4,12 @@ interface Props {
   title: string;
   /** Printable HTML document from packages/pdf. */
   html: string;
+  /** Scale of the A4 page, so it fills the pane. */
+  scale: number;
 }
 
-const SCALE = 0.55;
-
 /** Live preview of a PDF template, with printing to PDF through the browser. */
-export function Preview({ title, html }: Props) {
+export function Preview({ title, html, scale }: Props) {
   const frame = useRef<HTMLIFrameElement>(null);
 
   return (
@@ -25,7 +25,7 @@ export function Preview({ title, html }: Props) {
           Print / save as PDF
         </button>
       </div>
-      <div className="preview-page" style={{ '--preview-scale': SCALE } as React.CSSProperties}>
+      <div className="preview-page" style={{ '--preview-scale': scale } as React.CSSProperties}>
         <iframe ref={frame} title={title} srcDoc={html} />
       </div>
     </aside>
