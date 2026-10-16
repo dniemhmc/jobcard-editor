@@ -66,8 +66,8 @@ const BASE_STYLES = `
   .activities { list-style: none; margin: 1.5mm 0 0; padding: 0; }
   .activities li { position: relative; padding-left: 5mm; margin-bottom: 1mm; overflow-wrap: anywhere; }
   .activities li::before {
-    content: ''; position: absolute; left: 0.5mm; top: 0.8mm;
-    width: 2.6mm; height: 2.6mm; border: 0.25mm solid #000;
+    content: ''; position: absolute; left: 1mm; top: 1.4mm;
+    width: 1.4mm; height: 1.4mm; border-radius: 50%; background: #000;
   }
 
   /* Title block */
