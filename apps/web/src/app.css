@@ -208,12 +208,24 @@ h3 {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 300px minmax(320px, 1fr) auto;
+  /* Columns are set by App from the pane layout (layout.ts). */
+}
+
+.splitter {
+  width: 6px;
+  cursor: col-resize;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  touch-action: none;
+}
+.splitter:hover,
+.splitter:focus-visible {
+  background: var(--border);
 }
 
 .sidebar {
   background: var(--surface-alt);
-  border-right: 1px solid var(--border);
   overflow: auto;
   padding: var(--space-3) var(--space-2);
 }
@@ -236,9 +248,9 @@ h3 {
 }
 
 .preview {
-  overflow: auto;
+  overflow: hidden auto;
+  scrollbar-gutter: stable;
   padding: var(--space-4);
-  border-left: 1px solid var(--border);
 }
 
 /* Project tree */
