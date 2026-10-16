@@ -37,7 +37,7 @@ pnpm format           # fix formatting
 | `packages/pdf`    | Jobcard / workpack → printable HTML (→ PDF via headless Chromium)             |
 | `apps/api`        | Fastify HTTP API                                                              |
 | `apps/web`        | React + Vite editor UI                                                        |
-| `fixtures/`       | Sanitized real-world examples (jobcards, the PowerPoint template)             |
+| `fixtures/`       | The jobcard layout template and sanitized examples                            |
 
 Internal packages export TypeScript source directly (`"exports": "./src/index.ts"`); there is no
 build step between packages.

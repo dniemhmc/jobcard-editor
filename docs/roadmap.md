@@ -7,14 +7,15 @@ environment and shown to 2–3 pilot users.
 
 Phase 1a: build the jobcard PDF template step by step on the minimal domain (ADR 0006). Each step
 adds one field or section to the schema, the editor and the PDF together, checked against the
-current PowerPoint template. Discovery (Phase 0) runs alongside.
+layout template. Discovery (Phase 0) runs alongside.
 
 ## Phase 0 – Discovery (ongoing)
 
-- [ ] Collect 10–20 real jobcards + the PowerPoint template into `fixtures/` (sanitized)
+- [ ] Dries provides the jobcard layout template (into `fixtures/`); fields are added to it one step
+      at a time in Phase 1a
 - [ ] Interview 3–5 jobcard authors; time how long a typical jobcard takes today (baseline)
 - [ ] IT constraints: hosting, SSO, data classification, offshore connectivity
-- [ ] Validate `packages/domain` schemas against the real jobcards
+- [ ] Validate `packages/domain` schemas against the layout template
 - [ ] Resolve items in `open-questions.md`; record decisions as ADRs
 
 ## Phase 1a – Jobcard + PDF, built step by step
