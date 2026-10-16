@@ -377,21 +377,22 @@ h3 {
   margin-bottom: var(--space-2);
 }
 .preview-page {
-  /*
-   * A4 at 96 dpi (794 x 1123 px) plus the 8 mm grey margins the templates show
-   * on screen (3 x 30 px), scaled to fit the column.
-   */
-  --page-height: calc(1123px + 91px);
+  /* A4 at 96 dpi (794 x 1123 px), scaled to fit the column. */
   width: calc(794px * var(--preview-scale));
-  height: calc(var(--page-height) * var(--preview-scale));
+  height: calc(1123px * var(--preview-scale));
   border: 1px solid var(--border);
   background: #fff;
   overflow: hidden;
 }
 .preview-page iframe {
+  /*
+   * On screen the templates draw the sheet on a grey background with an 8 mm
+   * margin (packages/pdf sheet.ts). Shift that margin out of view so only
+   * the A4 sheet shows.
+   */
   width: 794px;
-  height: var(--page-height);
+  height: calc(1123px + 24mm);
   border: 0;
-  transform: scale(var(--preview-scale));
+  transform: scale(var(--preview-scale)) translateY(-8mm);
   transform-origin: 0 0;
 }
