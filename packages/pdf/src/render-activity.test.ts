@@ -11,6 +11,7 @@ describe('renderActivityHtml', () => {
   });
 
   it('shows only the given activity, escaped', () => {
+    expect(html).toContain('Activity:</span>');
     expect(html).toContain('<li>Second &lt;b&gt;</li>');
     expect(html).not.toContain('First');
   });

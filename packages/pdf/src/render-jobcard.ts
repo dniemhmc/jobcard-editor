@@ -22,7 +22,7 @@ function coverSheet(jobcard: Jobcard): string {
     <div class="top-left">
       <div class="box location empty"><span class="label">Location:</span></div>
       <div class="box work">
-        <span class="label filled">Work description / execution:</span>
+        <span class="label filled">Activities:</span>
         <ul class="activities">${activities}</ul>
       </div>
     </div>
@@ -41,7 +41,7 @@ const STYLES = `
   /* Cover page */
   .cover .top { display: flex; min-height: 73mm; padding: 0; }
   .cover .top-left { width: 50%; display: flex; flex-direction: column; border-right: 0.3mm solid #000; }
-  .cover .location { height: 7.5mm; flex: none; }
+  .cover .location { height: 7.5mm; flex: none; border-bottom: 0.3mm solid #000; }
   .cover .work { flex: 1; }
   .cover .keyplan { flex: 1; }
   .cover .hazards { height: 18mm; flex: none; }

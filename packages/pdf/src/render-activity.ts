@@ -22,7 +22,7 @@ function activitySheet(jobcard: Jobcard, activity: Activity): string {
   return `<section class="sheet activity">
   <div class="box discipline-bar empty"><span class="label">Discipline</span></div>
   <div class="box work">
-    <span class="label filled">Work description / execution:</span>
+    <span class="label filled">Activity:</span>
     <ul class="activities"><li>${e(activity.name)}</li></ul>
   </div>
   <div class="box steps empty"><span class="label">Detailed activity step(s):</span></div>

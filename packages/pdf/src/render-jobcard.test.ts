@@ -16,7 +16,8 @@ describe('renderJobcardHtml', () => {
     expect(count(html, '<section class="sheet cover">')).toBe(1);
   });
 
-  it('lists all activities in order', () => {
+  it('lists all activities in order under Activities', () => {
+    expect(html).toContain('Activities:</span>');
     expect(html).toContain('<li>First</li>');
     expect(html.indexOf('First')).toBeLessThan(html.indexOf('Second'));
   });
