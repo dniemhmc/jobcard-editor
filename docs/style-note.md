@@ -7,9 +7,10 @@ the PDF (`packages/pdf`) keeps its own print styling.
 
 ## Principles
 
-- **Simple and calm, Claude-like.** The Claude chat interface is the reference: warm off-white
-  background, warm greys, thin borders, one muted clay accent, little decoration. Take only that
-  simple base; fancier UI (animation, illustrations, rich layouts) comes later. No company brand
+- **Simple and calm, white and greys.** White panels on a light grey background, neutral greys
+  for text, borders and selection, thin borders, little decoration. No colour accent: primary
+  actions and focus use dark grey. Red is only used for destructive actions and validation
+  errors. Fancier UI (animation, illustrations, rich layouts) comes later. No company brand
   colours.
 - **Compact.** Authors work through many activities, so screens show a lot at once, closer to a
   desktop business tool than a roomy web form.
@@ -19,19 +20,19 @@ the PDF (`packages/pdf`) keeps its own print styling.
 
 | Token            | Value     | Use                                      |
 | ---------------- | --------- | ---------------------------------------- |
-| `--bg`           | `#faf9f7` | App background (warm off-white)          |
+| `--bg`           | `#f7f7f7` | App background (light grey)              |
 | `--surface`      | `#ffffff` | Panels, cards, inputs                    |
-| `--surface-alt`  | `#f2f0eb` | Sidebar, table headers, hover            |
-| `--border`       | `#e2ded6` | Panel and input borders, dividers        |
-| `--text`         | `#1f1e1c` | Body text                                |
-| `--text-muted`   | `#6b665e` | Labels, hints, secondary text            |
-| `--text-faint`   | `#9a958c` | Placeholders, disabled (not for content) |
-| `--accent`       | `#b4532f` | Primary buttons, links, focus, selection |
-| `--accent-hover` | `#93432a` | Hover / pressed accent                   |
-| `--accent-soft`  | `#f6ebe5` | Selected row or item background          |
+| `--surface-alt`  | `#f0f0f0` | Sidebar, table headers, hover            |
+| `--border`       | `#dddddd` | Panel and input borders, dividers        |
+| `--text`         | `#1a1a1a` | Body text                                |
+| `--text-muted`   | `#5f5f5f` | Labels, hints, secondary text            |
+| `--text-faint`   | `#9e9e9e` | Placeholders, disabled (not for content) |
+| `--accent`       | `#333333` | Primary buttons, links, focus, selection |
+| `--accent-hover` | `#111111` | Hover / pressed accent                   |
+| `--accent-soft`  | `#e0e0e0` | Selected row or item background          |
 | `--danger`       | `#c62828` | Destructive actions, validation errors   |
-| `--warning`      | `#995c00` | Warnings                                 |
-| `--success`      | `#2e7d32` | Saved, valid                             |
+| `--warning`      | `#5f5f5f` | Warnings (grey, always with text)        |
+| `--success`      | `#5f5f5f` | Saved, valid (grey, always with text)    |
 
 Body text, muted text, the accent and white text on the accent meet WCAG AA contrast on
 `--surface` and `--bg`. Status is never shown by colour alone; pair it with text or an icon.
@@ -66,4 +67,4 @@ Dark mode: not planned for now.
 
 ## Open
 
-- Serif headings, as in the Claude interface, are left out for now to keep one font.
+- Serif headings are left out for now to keep one font.
