@@ -1,32 +1,51 @@
 import type { Jobcard } from '@jobcard/domain';
 import { escapeHtml as e } from './html';
+import { sheetDocument, titleBlock } from './sheet';
 
 /**
- * Renders a jobcard as a printable HTML page (A4). The HTML is turned into
- * PDF by headless Chromium (see docs/adr/0003).
+ * Jobcard template: renders the jobcard cover page as a printable HTML
+ * document (A4 portrait). The HTML is turned into PDF by headless Chromium
+ * (see docs/adr/0003). Each activity has its own template (render-activity.ts).
  *
- * MINIMAL LAYOUT: title and activity names only. The jobcard template is
- * built up from here step by step.
+ * Filled in: jobcard title (title block) and the summary of activity names.
  */
 export function renderJobcardHtml(jobcard: Jobcard): string {
+  return sheetDocument(jobcard.title, STYLES, coverSheet(jobcard));
+}
+
+/** Cover page: summary of the activities, plus the empty cover page boxes. */
+function coverSheet(jobcard: Jobcard): string {
   const activities = jobcard.activities.map((a) => `<li>${e(a.name)}</li>`).join('');
 
-  return `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>${e(jobcard.title)}</title>
-<style>
-  @page { size: A4; margin: 10mm; }
-  body { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; margin: 0; }
-  h1 { font-size: 14pt; margin: 0 0 4mm; }
-  h2 { font-size: 11pt; margin: 0 0 2mm; }
-</style>
-</head>
-<body>
-<h1>${e(jobcard.title)}</h1>
-<h2>Activities</h2>
-<ol>${activities}</ol>
-</body>
-</html>`;
+  return `<section class="sheet cover">
+  <div class="top">
+    <div class="top-left">
+      <div class="box location empty"><span class="label">Location:</span></div>
+      <div class="box work">
+        <span class="label filled">Activities:</span>
+        <ul class="activities">${activities}</ul>
+      </div>
+    </div>
+    <div class="box keyplan empty"><span class="label">Keyplan:</span></div>
+  </div>
+  <div class="box hazards empty"><span class="label">Hazards</span></div>
+  <div class="body">
+    <div class="box pictures empty"><span class="label">General picture(s)</span></div>
+    <div class="box disciplines empty"><span class="label">Disciplines:</span></div>
+  </div>
+  ${titleBlock(jobcard)}
+</section>`;
 }
+
+const STYLES = `
+  /* Cover page */
+  .cover .top { display: flex; min-height: 73mm; padding: 0; }
+  .cover .top-left { width: 50%; display: flex; flex-direction: column; border-right: 0.3mm solid #000; }
+  .cover .location { height: 7.5mm; flex: none; border-bottom: 0.3mm solid #000; }
+  .cover .work { flex: 1; }
+  .cover .keyplan { flex: 1; }
+  .cover .hazards { height: 18mm; flex: none; }
+  .cover .body { flex: 1; min-height: 0; display: flex; padding: 0; }
+  .cover .pictures { flex: 1; }
+  .cover .disciplines { width: 44mm; height: 104mm; border-left: 0.3mm solid #000; border-bottom: 0.3mm solid #000; }
+`;

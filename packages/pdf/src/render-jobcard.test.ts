@@ -1,16 +1,6 @@
-import type { Jobcard } from '@jobcard/domain';
 import { describe, expect, it } from 'vitest';
 import { renderJobcardHtml } from './render-jobcard';
-
-const jobcard: Jobcard = {
-  schemaVersion: 2,
-  id: '00000000-0000-4000-8000-000000000003',
-  title: 'Remove <grating> & handrail',
-  activities: [
-    { id: '00000000-0000-4000-8000-000000000004', name: 'First' },
-    { id: '00000000-0000-4000-8000-000000000005', name: 'Second <b>' },
-  ],
-};
+import { count, jobcard } from './test-fixtures';
 
 describe('renderJobcardHtml', () => {
   const html = renderJobcardHtml(jobcard);
@@ -21,8 +11,25 @@ describe('renderJobcardHtml', () => {
     expect(html).toContain('<li>Second &lt;b&gt;</li>');
   });
 
-  it('renders activities in order', () => {
-    expect(html.indexOf('<li>First</li>')).toBeGreaterThan(-1);
+  it('renders only the cover page', () => {
+    expect(count(html, '<section class="sheet')).toBe(1);
+    expect(count(html, '<section class="sheet cover">')).toBe(1);
+  });
+
+  it('lists all activities in order under Activities', () => {
+    expect(html).toContain('Activities:</span>');
+    expect(html).toContain('<li>First</li>');
     expect(html.indexOf('First')).toBeLessThan(html.indexOf('Second'));
+  });
+
+  it('shows the jobcard title in the title block', () => {
+    expect(count(html, 'class="title-block"')).toBe(1);
+    expect(html).toContain('Remove &lt;grating&gt; &amp; handrail</span>');
+  });
+
+  it('renders a cover page without activities', () => {
+    const empty = renderJobcardHtml({ ...jobcard, activities: [] });
+    expect(count(empty, '<section class="sheet cover">')).toBe(1);
+    expect(empty).not.toContain('<li>');
   });
 });
