@@ -23,4 +23,5 @@ pnpm check    # everything CI runs
 - [docs/roadmap.md](docs/roadmap.md): delivery plan
 - [docs/adr/](docs/adr/): architecture decision records
 - [docs/open-questions.md](docs/open-questions.md): open questions
+- [docs/ideas.md](docs/ideas.md): loose ideas and directions, not commitments
 - [docs/ai-workflow.md](docs/ai-workflow.md): how we develop with AI
