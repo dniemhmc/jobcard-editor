@@ -34,6 +34,14 @@ One or two lines on the idea.
 
 ## Entries
 
+### 2026-10-17: Low-friction feedback in the early-access version
+
+**Status:** raw
+
+Build a feedback option into the early-access version that makes it very easy for users to send
+Dries a few lines of feedback, for example by email or a link to GitHub (not decided yet). The
+feedback should end up somewhere that is easy to keep an overview of.
+
 ### 2026-10-17: Early-access static version hosted outside the company
 
 **Status:** raw
