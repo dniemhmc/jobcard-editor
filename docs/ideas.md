@@ -34,4 +34,12 @@ One or two lines on the idea.
 
 ## Entries
 
-_No ideas yet._
+### 2026-10-17: Early-access static version hosted outside the company
+
+**Status:** raw
+
+Before the real deployment, put a stripped-down version of the editor online as a static web app
+on a platform outside the company, which Dries can host himself at little or no cost. Future users
+can then try it early and give feedback. No company data leaves the company: users upload a
+workspace file from their own computer, work on it in the browser and download it again when they
+are done.
