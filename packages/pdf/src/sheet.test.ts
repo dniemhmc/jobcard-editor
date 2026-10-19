@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { sheetCount, sheetLabel, titleBlock } from './sheet';
+import { sheetCount, sheetDocument, sheetLabel, titleBlock } from './sheet';
 import { jobcard } from './test-fixtures';
 
 describe('titleBlock', () => {
@@ -17,6 +17,22 @@ describe('titleBlock', () => {
     const html = titleBlock(jobcard);
     expect(html).toContain('cell project empty');
     expect(html).toContain('cell sht empty');
+  });
+});
+
+describe('title block styles', () => {
+  const css = (selector: string) => {
+    const html = sheetDocument('t', '', '');
+    return new RegExp(`${selector.replace('.', '\\.')} \\{([^}]*)\\}`).exec(html)?.[1] ?? '';
+  };
+
+  it('prints the filled-in values in blue', () => {
+    expect(css('.cell-value')).toContain('color: #0070C0');
+  });
+
+  it('centres the value vertically in its cell', () => {
+    expect(css('.cell')).toContain('align-items: center');
+    expect(css('.cell-value')).not.toContain('padding-top');
   });
 });
 
