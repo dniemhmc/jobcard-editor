@@ -92,9 +92,12 @@ export function App({ store }: { store: WorkspaceStore }) {
     ? resolved.activity
       ? {
           title: 'Live PDF preview: activity',
-          html: renderActivityHtml(resolved.jobcard, resolved.activity),
+          html: renderActivityHtml(resolved.jobcard, resolved.activity, resolved.project.name),
         }
-      : { title: 'Live PDF preview: jobcard', html: renderJobcardHtml(resolved.jobcard) }
+      : {
+          title: 'Live PDF preview: jobcard',
+          html: renderJobcardHtml(resolved.jobcard, resolved.project.name),
+        }
     : undefined;
 
   const columns = [

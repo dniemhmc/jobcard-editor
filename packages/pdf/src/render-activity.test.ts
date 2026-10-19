@@ -16,6 +16,14 @@ describe('renderActivityHtml', () => {
     expect(html).not.toContain('First');
   });
 
+  it('shows the project name in the title block, escaped', () => {
+    const withProject = renderActivityHtml(jobcard, jobcard.activities[1]!, 'Platform <A> & B');
+    expect(withProject).toContain('Platform &lt;A&gt; &amp; B</span>');
+    expect(withProject).not.toContain('<A>');
+    expect(withProject).not.toContain('cell project empty');
+    expect(html).toContain('cell project empty');
+  });
+
   it('shows the jobcard title in the title block, escaped', () => {
     expect(count(html, 'class="title-block"')).toBe(1);
     expect(html).toContain('Remove &lt;grating&gt; &amp; handrail</span>');
