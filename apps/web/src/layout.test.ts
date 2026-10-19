@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import {
   defaultLayout,
+  LAYOUT_KEY,
+  loadLayout,
   parseLayout,
   PREVIEW_WIDTH,
   previewScale,
   resizePreview,
   resizeTree,
+  saveLayout,
   TREE_WIDTH,
 } from './layout';
 
@@ -32,5 +35,26 @@ describe('layout', () => {
     expect(parseLayout('{')).toEqual(defaultLayout());
     expect(parseLayout('null')).toEqual(defaultLayout());
     expect(parseLayout(null)).toEqual(defaultLayout());
+  });
+
+  it('saves and loads through browser storage', () => {
+    const data = new Map<string, string>();
+    const storage = () =>
+      ({
+        getItem: (k: string) => data.get(k) ?? null,
+        setItem: (k: string, v: string) => void data.set(k, v),
+      }) as Storage;
+    const layout = resizeTree(defaultLayout(), 420);
+    saveLayout(storage, layout);
+    expect(data.has(LAYOUT_KEY)).toBe(true);
+    expect(loadLayout(storage)).toEqual(layout);
+  });
+
+  it('falls back to the default when storage is blocked', () => {
+    const blocked = (): Storage => {
+      throw new Error('SecurityError');
+    };
+    expect(loadLayout(blocked)).toEqual(defaultLayout());
+    expect(() => saveLayout(blocked, defaultLayout())).not.toThrow();
   });
 });

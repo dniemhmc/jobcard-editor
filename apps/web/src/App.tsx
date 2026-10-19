@@ -4,16 +4,17 @@ import { useState } from 'react';
 import { Details } from './components/Details';
 import { OpenProject } from './components/OpenProject';
 import { Preview } from './components/Preview';
-import { Splitter } from './components/Splitter';
 import { ProjectTree } from './components/ProjectTree';
+import { Splitter } from './components/Splitter';
 import { createEditorActions } from './editor-actions';
 import {
-  LAYOUT_KEY,
-  parseLayout,
+  loadLayout,
+  MAIN_MIN_WIDTH,
   PREVIEW_WIDTH,
   previewScale,
   resizePreview,
   resizeTree,
+  saveLayout,
   TREE_WIDTH,
   type Layout,
 } from './layout';
@@ -24,21 +25,8 @@ type SaveState = 'idle' | 'saved' | 'failed';
 
 const newId = () => crypto.randomUUID();
 
-function loadLayout(): Layout {
-  try {
-    return parseLayout(window.localStorage.getItem(LAYOUT_KEY));
-  } catch {
-    return parseLayout(null);
-  }
-}
-
-function saveLayout(layout: Layout) {
-  try {
-    window.localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout));
-  } catch {
-    // A layout preference that cannot be stored is not worth an error.
-  }
-}
+// Read lazily: accessing window.localStorage itself can throw when storage is blocked.
+const layoutStorage = () => window.localStorage;
 
 export function App({ store }: { store: WorkspaceStore }) {
   const [loaded] = useState(() => store.load());
@@ -47,12 +35,12 @@ export function App({ store }: { store: WorkspaceStore }) {
   const [projectId, setProjectId] = useState<Id>();
   const [selection, setSelection] = useState<Selection>({ kind: 'project' });
   const [focusName, setFocusName] = useState(false);
-  const [layout, setLayout] = useState(loadLayout);
+  const [layout, setLayout] = useState(() => loadLayout(layoutStorage));
 
   const changeLayout = (fn: (l: Layout) => Layout) => {
     const next = fn(layout);
     setLayout(next);
-    saveLayout(next);
+    saveLayout(layoutStorage, next);
   };
 
   const update = (next: Workspace) => {
@@ -100,7 +88,7 @@ export function App({ store }: { store: WorkspaceStore }) {
   const columns = [
     `${layout.treeWidth}px`,
     'auto',
-    'minmax(320px, 1fr)',
+    `minmax(${MAIN_MIN_WIDTH}px, 1fr)`,
     ...(preview ? ['auto', `${layout.previewWidth}px`] : []),
   ].join(' ');
 

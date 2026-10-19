@@ -76,18 +76,6 @@ h3 {
   width: var(--control-height);
   padding: 0;
 }
-.btn-link {
-  border: none;
-  background: none;
-  padding: 0;
-  color: var(--accent);
-  font: inherit;
-  cursor: pointer;
-}
-.btn-link:hover {
-  color: var(--accent-hover);
-  text-decoration: underline;
-}
 
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -133,20 +121,6 @@ h3 {
 .hint {
   font-size: var(--font-size-small);
   color: var(--text-muted);
-}
-
-.panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-4);
-}
-.panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  margin-bottom: var(--space-3);
 }
 
 .banner {

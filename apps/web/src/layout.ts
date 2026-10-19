@@ -10,6 +10,8 @@ export interface Layout {
 
 export const TREE_WIDTH = { min: 200, max: 600, default: 300 };
 export const PREVIEW_WIDTH = { min: 320, max: 1000, default: 470 };
+/** The details form between the two panes never gets narrower than this. */
+export const MAIN_MIN_WIDTH = 320;
 
 export const defaultLayout = (): Layout => ({
   treeWidth: TREE_WIDTH.default,
@@ -63,3 +65,21 @@ export function parseLayout(raw: string | null): Layout {
 }
 
 export const LAYOUT_KEY = 'jobcard-editor/layout';
+
+/** Loads the layout from browser storage; falls back to the default when storage is blocked. */
+export function loadLayout(storage: () => Storage): Layout {
+  try {
+    return parseLayout(storage().getItem(LAYOUT_KEY));
+  } catch {
+    return defaultLayout();
+  }
+}
+
+/** Saves the layout; a preference that cannot be stored is silently skipped. */
+export function saveLayout(storage: () => Storage, layout: Layout): void {
+  try {
+    storage().setItem(LAYOUT_KEY, JSON.stringify(layout));
+  } catch {
+    // Storage full or blocked: the layout just resets on the next visit.
+  }
+}
