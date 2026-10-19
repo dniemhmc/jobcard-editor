@@ -8,7 +8,7 @@ interface Props {
   onCreate: (name: string) => void;
 }
 
-/** Shown when the app starts: pick a project or create a new one (wireframe 00). */
+/** Shown when the app starts: pick a project or create a new one. */
 export function OpenProject({ workspace, onOpen, onCreate }: Props) {
   const [search, setSearch] = useState('');
   const [name, setName] = useState('');

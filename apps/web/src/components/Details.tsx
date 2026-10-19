@@ -9,7 +9,7 @@ interface Props {
   focusName: boolean;
 }
 
-/** The details form of the selected item (wireframes 01 to 04). */
+/** The details form of the selected item. */
 export function Details({ resolved, actions, focusName }: Props) {
   const { project, workpack, jobcard, activity } = resolved;
 

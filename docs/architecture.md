@@ -18,8 +18,8 @@
 
 ## Data model
 
-Defined in `packages/domain/src` (Zod). Deliberately minimal: only what the wireframes in
-`docs/wireframes` show (see ADR 0006). Fields are added as screens and the PDF template need them.
+Defined in `packages/domain/src` (Zod). Deliberately minimal: only what the editor screens show
+(see ADR 0006). Fields are added as screens and the PDF template need them.
 
 ```
 Project { name } ─< Workpack { title } ─< Jobcard { title } ─< Activity { name }
@@ -34,7 +34,7 @@ Project { name } ─< Workpack { title } ─< Jobcard { title } ─< Activity { 
 
 | Part                       | Status                                                                                               |
 | -------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Domain schemas             | Minimal v2, matching the wireframes (ADR 0006)                                                       |
+| Domain schemas             | Minimal v2, matching the editor screens (ADR 0006)                                                   |
 | Content templates          | Removed for now (ADR 0006)                                                                           |
 | PDF HTML renderer          | Title + activities only, no Chromium step yet                                                        |
 | API                        | Health check only, no persistence                                                                    |
