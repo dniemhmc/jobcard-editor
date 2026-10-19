@@ -17,10 +17,16 @@ describe('renderActivityHtml', () => {
   });
 
   it('shows the project name in the title block, escaped', () => {
-    const withProject = renderActivityHtml(jobcard, jobcard.activities[1]!, 'Platform <A> & B');
+    const withProject = renderActivityHtml(jobcard, jobcard.activities[1]!, {
+      name: 'Platform <A> & B',
+      jobNumber: 'PO <1> & 2',
+    });
     expect(withProject).toContain('Platform &lt;A&gt; &amp; B</span>');
+    expect(withProject).toContain('PO &lt;1&gt; &amp; 2</span>');
     expect(withProject).not.toContain('<A>');
+    expect(withProject).not.toContain('<1>');
     expect(withProject).not.toContain('cell project empty');
+    expect(withProject).not.toContain('cell job-no empty');
     expect(html).toContain('cell project empty');
   });
 

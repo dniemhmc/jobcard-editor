@@ -121,6 +121,14 @@ export function renameProject(ws: Workspace, id: Id, name: string): Workspace {
   return updateProject(ws, id, (p) => ({ ...p, name }));
 }
 
+/** Sets the job number of a project; an empty value removes it. */
+export function setProjectJobNumber(ws: Workspace, id: Id, jobNumber: string): Workspace {
+  return updateProject(ws, id, ({ jobNumber: _previous, ...rest }) => {
+    const trimmed = jobNumber.trim();
+    return trimmed ? { ...rest, jobNumber: trimmed } : rest;
+  });
+}
+
 /** Deletes a project with all its workpacks and their jobcards. */
 export function deleteProject(ws: Workspace, id: Id): Workspace {
   const project = findProject(ws, id);

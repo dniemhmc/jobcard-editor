@@ -1,4 +1,4 @@
-import type { Jobcard } from '@jobcard/domain';
+import type { Jobcard, Project } from '@jobcard/domain';
 import { escapeHtml as e } from './html';
 
 /**
@@ -24,12 +24,22 @@ ${sheets}
 </html>`;
 }
 
+/** The fields of the project that are printed on the sheets. */
+export type SheetProject = Pick<Project, 'name' | 'jobNumber'>;
+
 /** Values the title block takes besides the jobcard. A box stays empty without its value. */
 export interface TitleBlockInfo {
   /** Name of the project the jobcard belongs to. */
   projectName?: string;
+  /** Job number (supplier order number) of the project. */
+  jobNumber?: string;
   /** Page number of this sheet, e.g. "2 of 4". */
   sheet?: string;
+}
+
+/** Title block values taken from the project, if there is one. */
+export function projectInfo(project?: SheetProject): TitleBlockInfo {
+  return { projectName: project?.name, jobNumber: project?.jobNumber };
 }
 
 /**
@@ -53,7 +63,7 @@ export function titleBlock(jobcard: Jobcard, info: TitleBlockInfo = {}): string 
   return `<div class="title-block">
     <div class="logo"></div>
     <div class="rows">
-      <div class="row r1">${cell('project', 'Project:', info.projectName)}${cell('job-no', 'Job no.:')}${cell('department', 'Department:')}</div>
+      <div class="row r1">${cell('project', 'Project:', info.projectName)}${cell('job-no', 'Job no.:', info.jobNumber)}${cell('department', 'Department:')}</div>
       <div class="row r2">${cell('module', 'Module:')}${cell('title', 'Title:', jobcard.title)}</div>
       <div class="row r3">${cell('date', 'Date:')}${cell('jc-no', 'JC no.:')}${cell('sht', 'Sht.:', info.sheet)}${cell('rev', 'Rev.:')}</div>
     </div>

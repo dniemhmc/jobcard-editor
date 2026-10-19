@@ -31,6 +31,15 @@ export function Details({ resolved, actions, focusName }: Props) {
             onSave={actions.renameProject}
             autoFocus={focusName}
           />
+          <NameField
+            key={`${project.id}-job-number`}
+            id="project-job-number"
+            label="Job number"
+            value={project.jobNumber ?? ''}
+            onSave={actions.setProjectJobNumber}
+            optional
+            hint="The supplier order number. Printed in the title block of every sheet."
+          />
         </section>
       );
     case 'workpack':

@@ -37,6 +37,14 @@ function setup(confirmAnswer = true) {
 }
 
 describe('editor actions', () => {
+  it('sets and clears the job number of the open project', () => {
+    const t = setup();
+    t.actions.setProjectJobNumber('PO-1234');
+    expect(findProject(t.ws(), t.projectId)?.jobNumber).toBe('PO-1234');
+    t.actions.setProjectJobNumber('');
+    expect(findProject(t.ws(), t.projectId)).not.toHaveProperty('jobNumber');
+  });
+
   it('selects a new item and focuses its name', () => {
     const t = setup();
     t.actions.addWorkpack();

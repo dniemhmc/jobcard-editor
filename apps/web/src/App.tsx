@@ -92,11 +92,11 @@ export function App({ store }: { store: WorkspaceStore }) {
     ? resolved.activity
       ? {
           title: 'Live PDF preview: activity',
-          html: renderActivityHtml(resolved.jobcard, resolved.activity, resolved.project.name),
+          html: renderActivityHtml(resolved.jobcard, resolved.activity, resolved.project),
         }
       : {
           title: 'Live PDF preview: jobcard',
-          html: renderJobcardHtml(resolved.jobcard, resolved.project.name),
+          html: renderJobcardHtml(resolved.jobcard, resolved.project),
         }
     : undefined;
 

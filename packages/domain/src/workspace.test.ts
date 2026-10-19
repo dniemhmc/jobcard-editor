@@ -20,6 +20,7 @@ import {
   renameActivity,
   renameJobcard,
   renameProject,
+  setProjectJobNumber,
   renameWorkpack,
   Workspace,
   workpacksOf,
@@ -87,6 +88,16 @@ describe('workspace', () => {
     expect(() => renameWorkpack(ws, w1, '')).toThrow();
     expect(() => renameJobcard(ws, j1, '')).toThrow();
     expect(() => renameActivity(ws, j1, activities[0]!, '')).toThrow();
+  });
+
+  it('sets the job number of a project, trimmed, and clears it when empty', () => {
+    const { ws, projectId } = sample();
+    const set = setProjectJobNumber(ws, projectId, '  PO-1234 ');
+    expect(findProject(set, projectId)?.jobNumber).toBe('PO-1234');
+    const cleared = findProject(setProjectJobNumber(set, projectId, '  '), projectId);
+    expect(cleared).toBeDefined();
+    expect(cleared).not.toHaveProperty('jobNumber');
+    expect(Workspace.safeParse(setProjectJobNumber(set, projectId, '')).success).toBe(true);
   });
 
   it('renames workpacks, jobcards and activities', () => {

@@ -28,14 +28,25 @@ describe('renderJobcardHtml', () => {
   });
 
   it('shows the project name in the title block, escaped', () => {
-    const withProject = renderJobcardHtml(jobcard, 'Platform <A> & B');
+    const withProject = renderJobcardHtml(jobcard, {
+      name: 'Platform <A> & B',
+      jobNumber: 'PO <1> & 2',
+    });
     expect(withProject).toContain('Platform &lt;A&gt; &amp; B</span>');
+    expect(withProject).toContain('PO &lt;1&gt; &amp; 2</span>');
     expect(withProject).not.toContain('<A>');
+    expect(withProject).not.toContain('<1>');
     expect(withProject).not.toContain('cell project empty');
+    expect(withProject).not.toContain('cell job-no empty');
   });
 
-  it('leaves the project box empty without a project name', () => {
+  it('leaves the project and job number boxes empty without a project', () => {
     expect(html).toContain('cell project empty');
+    expect(html).toContain('cell job-no empty');
+  });
+
+  it('leaves the job number box empty when the project has none', () => {
+    expect(renderJobcardHtml(jobcard, { name: 'Platform A' })).toContain('cell job-no empty');
   });
 
   it('numbers the cover page as sheet 1 of all sheets', () => {

@@ -16,6 +16,7 @@ import {
   renameJobcard,
   renameProject,
   renameWorkpack,
+  setProjectJobNumber,
   type Created,
   type Id,
   type NewId,
@@ -27,6 +28,8 @@ import type { Selection } from './selection';
 export interface EditorActions {
   select: (selection: Selection) => void;
   renameProject: (name: string) => void;
+  /** Sets the job number of the project; an empty value clears it. */
+  setProjectJobNumber: (jobNumber: string) => void;
   deleteProject: () => void;
   addWorkpack: () => void;
   renameWorkpack: (id: Id, title: string) => void;
@@ -75,6 +78,8 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
     select: (selection) => select(selection),
 
     renameProject: (name) => change((ws) => renameProject(ws, projectId, name)),
+    setProjectJobNumber: (jobNumber) =>
+      change((ws) => setProjectJobNumber(ws, projectId, jobNumber)),
     deleteProject: () => {
       const project = findProject(workspace(), projectId);
       if (!project) return;

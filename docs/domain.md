@@ -27,7 +27,7 @@ lifts._
 
 The domain currently holds only what the editor screens show (ADR 0006):
 
-- Project: name, and its workpacks in order.
+- Project: name, optional job number (the supplier order number, entered by hand), and its workpacks in order.
 - Workpack: title, and its jobcards in order.
 - Jobcard: title, and its activities in order.
 - Activity: name.

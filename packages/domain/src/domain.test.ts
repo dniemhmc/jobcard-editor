@@ -14,6 +14,13 @@ describe('Project', () => {
     expect(Project.parse(project)).toEqual(project);
   });
 
+  it('accepts an optional job number and trims it', () => {
+    const base = { schemaVersion: SCHEMA_VERSION, id: id(1), name: 'Project A', workpackIds: [] };
+    expect(Project.parse({ ...base, jobNumber: ' PO-1234 ' }).jobNumber).toBe('PO-1234');
+    expect(Project.parse(base).jobNumber).toBeUndefined();
+    expect(Project.safeParse({ ...base, jobNumber: '  ' }).success).toBe(false);
+  });
+
   it('rejects an empty name', () => {
     const result = Project.safeParse({
       schemaVersion: SCHEMA_VERSION,

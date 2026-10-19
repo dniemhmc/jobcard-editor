@@ -12,16 +12,20 @@ interface Props {
   /** Focus the field and select its text when it appears (new items). */
   autoFocus?: boolean;
   hint?: string;
+  /** The field may be left empty; saving an empty value clears it. */
+  optional?: boolean;
 }
 
 /**
  * A name or title, saved as you type. Render it with `key` set to the record id
  * so the field starts over when another record is selected.
  */
-export function NameField({ id, label, value, onSave, onEnter, autoFocus, hint }: Props) {
+export function NameField({ id, label, value, onSave, onEnter, autoFocus, hint, optional }: Props) {
   const [draft, setDraft] = useState(value);
   const input = useRef<HTMLInputElement>(null);
-  const valid = Text.safeParse(draft).success;
+  const isValid = (text: string) =>
+    Text.safeParse(text).success || (optional === true && text.trim() === '');
+  const valid = isValid(draft);
 
   useEffect(() => {
     if (!autoFocus) return;
@@ -41,7 +45,7 @@ export function NameField({ id, label, value, onSave, onEnter, autoFocus, hint }
         aria-describedby={`${id}-help`}
         onChange={(e) => {
           setDraft(e.target.value);
-          if (Text.safeParse(e.target.value).success) onSave(e.target.value);
+          if (isValid(e.target.value)) onSave(e.target.value);
         }}
         onBlur={() => {
           if (!valid) setDraft(value);
