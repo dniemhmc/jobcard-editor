@@ -35,8 +35,20 @@ export function App({ store }: { store: WorkspaceStore }) {
   const [projectId, setProjectId] = useState<Id>();
   const [selection, setSelection] = useState<Selection>({ kind: 'project' });
   const [focusName, setFocusName] = useState(false);
+  // Pane widths. React keeps `layout` between runs of App; calling setLayout
+  // stores a new value and makes React run App again with it.
   const [layout, setLayout] = useState(() => loadLayout(layoutStorage));
 
+  /**
+   * Applies a change to the pane layout, stores it and saves it in the browser.
+   *
+   * `fn` says what changes: it gets the current layout and returns a new one,
+   * e.g. `(l) => resizeTree(l, 350)`. changeLayout supplies the layout itself
+   * (`layout` above), so callers only describe the change. The splitters below
+   * pass `(l) => resizeTree(l, w)`, where `w` is the width the splitter asked
+   * for; the inner function remembers `w` from the outer `(w) => ...` (a
+   * closure).
+   */
   const changeLayout = (fn: (l: Layout) => Layout) => {
     const next = fn(layout);
     setLayout(next);
@@ -120,6 +132,7 @@ export function App({ store }: { store: WorkspaceStore }) {
             direction={1}
             min={TREE_WIDTH.min}
             max={TREE_WIDTH.max}
+            // The splitter calls this with the new width `w` on every mouse move.
             onResize={(w) => changeLayout((l) => resizeTree(l, w))}
           />
           <div className="main">
