@@ -54,7 +54,8 @@ Dark mode: not planned for now.
 - **Forms:** label above the field, 8px gap between fields, 16px between groups.
 - **Radius:** 4px for inputs, buttons and panels. **Shadows:** none, except a subtle one on menus
   and dialogs.
-- Layout follows the wireframes: top bar, sidebar, main area.
+- Layout follows the wireframes: top bar, sidebar, main area. The main area is white and the
+  details form sits directly on it (no panel box), at most 640px wide.
 
 ## Components (to start)
 

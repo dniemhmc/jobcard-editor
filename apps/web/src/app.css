@@ -242,9 +242,19 @@ h3 {
 .main {
   overflow: auto;
   padding: var(--space-4);
+  background: var(--surface);
 }
-.main .panel {
+
+/* The details form sits directly on the white main area, at a readable width. */
+.details {
   max-width: 640px;
+}
+.details-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
 }
 
 .preview {
