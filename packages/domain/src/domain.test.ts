@@ -44,6 +44,16 @@ describe('Workpack', () => {
   });
 });
 
+describe('Workpack module', () => {
+  const base = { schemaVersion: SCHEMA_VERSION, id: id(2), title: 'Module 1', jobcardIds: [] };
+
+  it('accepts an optional module and trims it', () => {
+    expect(Workpack.parse({ ...base, module: ' M12 ' }).module).toBe('M12');
+    expect(Workpack.parse(base).module).toBeUndefined();
+    expect(Workpack.safeParse({ ...base, module: ' ' }).success).toBe(false);
+  });
+});
+
 describe('Jobcard', () => {
   const jobcard = {
     schemaVersion: SCHEMA_VERSION,
@@ -70,6 +80,12 @@ describe('Jobcard', () => {
     });
     expect(parsed.title).toBe('Padded');
     expect(parsed.activities[0]?.name).toBe('Name');
+  });
+
+  it('accepts an optional JC number and trims it', () => {
+    expect(Jobcard.parse({ ...jobcard, jcNumber: ' JC-007 ' }).jcNumber).toBe('JC-007');
+    expect(Jobcard.parse(jobcard).jcNumber).toBeUndefined();
+    expect(Jobcard.safeParse({ ...jobcard, jcNumber: ' ' }).success).toBe(false);
   });
 
   it('rejects an activity without a name', () => {

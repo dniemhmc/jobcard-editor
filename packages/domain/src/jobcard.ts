@@ -13,6 +13,11 @@ export const Jobcard = z.object({
   schemaVersion: z.literal(SCHEMA_VERSION),
   id: Id,
   title: Text,
+  /**
+   * JC number (jobcard number), entered by hand as free text. Printed in the
+   * title block of every sheet. Optional: older jobcards have none.
+   */
+  jcNumber: Text.optional(),
   /** Activities in the order they are performed (and printed). */
   activities: z.array(Activity),
 });

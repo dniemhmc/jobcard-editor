@@ -28,8 +28,8 @@ lifts._
 The domain currently holds only what the editor screens show (ADR 0006):
 
 - Project: name, optional job number (the supplier order number, entered by hand), and its workpacks in order.
-- Workpack: title, and its jobcards in order.
-- Jobcard: title, and its activities in order.
+- Workpack: title, optional module (entered by hand), and its jobcards in order.
+- Jobcard: title, optional JC number (entered by hand), and its activities in order.
 - Activity: name.
 
 Planned later, as screens and the PDF template need them: job number, revision, status, location,

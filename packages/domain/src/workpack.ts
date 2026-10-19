@@ -9,6 +9,11 @@ export const Workpack = z.object({
   schemaVersion: z.literal(SCHEMA_VERSION),
   id: Id,
   title: Text,
+  /**
+   * Module of the platform this workpack is for, entered by hand as free text.
+   * Printed in the title block of every sheet. Optional: older workpacks have none.
+   */
+  module: Text.optional(),
   /** Jobcards of this workpack, in display order (and order in the workpack PDF). */
   jobcardIds: z.array(Id),
 });

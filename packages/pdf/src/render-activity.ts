@@ -1,12 +1,12 @@
 import type { Activity, Jobcard } from '@jobcard/domain';
 import { escapeHtml as e } from './html';
 import {
-  projectInfo,
+  contextInfo,
   sheetCount,
   sheetDocument,
   sheetLabel,
   titleBlock,
-  type SheetProject,
+  type SheetContext,
 } from './sheet';
 
 /**
@@ -14,23 +14,24 @@ import {
  * printable HTML document (A4 portrait). The jobcard is needed for the title
  * block.
  *
- * Filled in: project name, job number, jobcard title and sheet number ("2 of x"
- * for the first activity) in the title block, and the activity name.
+ * Filled in: project name, job number, module, jobcard title, JC number and sheet
+ * number ("2 of x" for the first activity) in the title block, and the
+ * activity name.
  */
 export function renderActivityHtml(
   jobcard: Jobcard,
   activity: Activity,
-  project?: SheetProject,
+  context?: SheetContext,
 ): string {
   return sheetDocument(
     `${jobcard.title} - ${activity.name}`,
     STYLES,
-    activitySheet(jobcard, activity, project),
+    activitySheet(jobcard, activity, context),
   );
 }
 
 /** The activity page. */
-function activitySheet(jobcard: Jobcard, activity: Activity, project?: SheetProject): string {
+function activitySheet(jobcard: Jobcard, activity: Activity, context?: SheetContext): string {
   // The cover page is sheet 1, so the first activity is sheet 2.
   const index = jobcard.activities.findIndex((a) => a.id === activity.id);
   const sheet = index < 0 ? undefined : sheetLabel(index + 2, sheetCount(jobcard));
@@ -45,7 +46,7 @@ function activitySheet(jobcard: Jobcard, activity: Activity, project?: SheetProj
   <div class="box details empty">
     <span class="label">Detailed description of execution, hazards and precautions</span>
   </div>
-  ${titleBlock(jobcard, { ...projectInfo(project), sheet })}
+  ${titleBlock(jobcard, { ...contextInfo(context), sheet })}
 </section>`;
 }
 

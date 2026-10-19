@@ -16,7 +16,9 @@ import {
   renameJobcard,
   renameProject,
   renameWorkpack,
+  setJobcardNumber,
   setProjectJobNumber,
+  setWorkpackModule,
   type Created,
   type Id,
   type NewId,
@@ -33,10 +35,14 @@ export interface EditorActions {
   deleteProject: () => void;
   addWorkpack: () => void;
   renameWorkpack: (id: Id, title: string) => void;
+  /** Sets the module of a workpack; an empty value clears it. */
+  setWorkpackModule: (id: Id, module: string) => void;
   moveWorkpack: (id: Id, delta: number) => void;
   deleteWorkpack: (id: Id) => void;
   addJobcard: (workpackId: Id) => void;
   renameJobcard: (id: Id, title: string) => void;
+  /** Sets the JC number of a jobcard; an empty value clears it. */
+  setJobcardNumber: (id: Id, jcNumber: string) => void;
   moveJobcard: (id: Id, delta: number) => void;
   deleteJobcard: (id: Id) => void;
   /** Adds an activity at the end, or directly after `afterId`. */
@@ -93,6 +99,7 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
       created(result, { kind: 'workpack', id: result.id });
     },
     renameWorkpack: (id, title) => change((ws) => renameWorkpack(ws, id, title)),
+    setWorkpackModule: (id, module) => change((ws) => setWorkpackModule(ws, id, module)),
     moveWorkpack: (id, delta) => change((ws) => moveWorkpack(ws, id, delta)),
     deleteWorkpack: (id) => {
       const workpack = findWorkpack(workspace(), id);
@@ -108,6 +115,7 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
       created(result, { kind: 'jobcard', id: result.id });
     },
     renameJobcard: (id, title) => change((ws) => renameJobcard(ws, id, title)),
+    setJobcardNumber: (id, jcNumber) => change((ws) => setJobcardNumber(ws, id, jcNumber)),
     moveJobcard: (id, delta) => change((ws) => moveJobcard(ws, id, delta)),
     deleteJobcard: (id) => {
       const jobcard = findJobcard(workspace(), id);

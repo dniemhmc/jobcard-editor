@@ -88,15 +88,17 @@ export function App({ store }: { store: WorkspaceStore }) {
 
   const resolved = projectId ? resolveSelection(workspace, projectId, selection) : undefined;
 
+  const sheetContext = resolved && { project: resolved.project, workpack: resolved.workpack };
+
   const preview = resolved?.jobcard
     ? resolved.activity
       ? {
           title: 'Live PDF preview: activity',
-          html: renderActivityHtml(resolved.jobcard, resolved.activity, resolved.project),
+          html: renderActivityHtml(resolved.jobcard, resolved.activity, sheetContext),
         }
       : {
           title: 'Live PDF preview: jobcard',
-          html: renderJobcardHtml(resolved.jobcard, resolved.project),
+          html: renderJobcardHtml(resolved.jobcard, sheetContext),
         }
     : undefined;
 

@@ -1,4 +1,4 @@
-import type { Jobcard, Project } from '@jobcard/domain';
+import type { Jobcard, Project, Workpack } from '@jobcard/domain';
 import { escapeHtml as e } from './html';
 
 /**
@@ -27,19 +27,37 @@ ${sheets}
 /** The fields of the project that are printed on the sheets. */
 export type SheetProject = Pick<Project, 'name' | 'jobNumber'>;
 
+/** The fields of the workpack that are printed on the sheets. */
+export type SheetWorkpack = Pick<Workpack, 'module'>;
+
+/**
+ * The records around a jobcard that the title block prints from. Each is
+ * optional: its boxes stay empty without it.
+ */
+export interface SheetContext {
+  project?: SheetProject;
+  workpack?: SheetWorkpack;
+}
+
 /** Values the title block takes besides the jobcard. A box stays empty without its value. */
 export interface TitleBlockInfo {
   /** Name of the project the jobcard belongs to. */
   projectName?: string;
   /** Job number (supplier order number) of the project. */
   jobNumber?: string;
+  /** Module of the workpack the jobcard belongs to. */
+  module?: string;
   /** Page number of this sheet, e.g. "2 of 4". */
   sheet?: string;
 }
 
-/** Title block values taken from the project, if there is one. */
-export function projectInfo(project?: SheetProject): TitleBlockInfo {
-  return { projectName: project?.name, jobNumber: project?.jobNumber };
+/** Title block values taken from the project and workpack, where there are any. */
+export function contextInfo(context: SheetContext = {}): TitleBlockInfo {
+  return {
+    projectName: context.project?.name,
+    jobNumber: context.project?.jobNumber,
+    module: context.workpack?.module,
+  };
 }
 
 /**
@@ -64,8 +82,8 @@ export function titleBlock(jobcard: Jobcard, info: TitleBlockInfo = {}): string 
     <div class="logo"></div>
     <div class="rows">
       <div class="row r1">${cell('project', 'Project:', info.projectName)}${cell('job-no', 'Job no.:', info.jobNumber)}${cell('department', 'Department:')}</div>
-      <div class="row r2">${cell('module', 'Module:')}${cell('title', 'Title:', jobcard.title)}</div>
-      <div class="row r3">${cell('date', 'Date:')}${cell('jc-no', 'JC no.:')}${cell('sht', 'Sht.:', info.sheet)}${cell('rev', 'Rev.:')}</div>
+      <div class="row r2">${cell('module', 'Module:', info.module)}${cell('title', 'Title:', jobcard.title)}</div>
+      <div class="row r3">${cell('date', 'Date:')}${cell('jc-no', 'JC no.:', jobcard.jcNumber)}${cell('sht', 'Sht.:', info.sheet)}${cell('rev', 'Rev.:')}</div>
     </div>
   </div>`;
 }

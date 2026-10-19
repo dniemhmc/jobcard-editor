@@ -29,15 +29,17 @@ describe('renderJobcardHtml', () => {
 
   it('shows the project name in the title block, escaped', () => {
     const withProject = renderJobcardHtml(jobcard, {
-      name: 'Platform <A> & B',
-      jobNumber: 'PO <1> & 2',
+      project: { name: 'Platform <A> & B', jobNumber: 'PO <1> & 2' },
+      workpack: { module: 'Module <M> & 1' },
     });
     expect(withProject).toContain('Platform &lt;A&gt; &amp; B</span>');
     expect(withProject).toContain('PO &lt;1&gt; &amp; 2</span>');
+    expect(withProject).toContain('Module &lt;M&gt; &amp; 1</span>');
     expect(withProject).not.toContain('<A>');
     expect(withProject).not.toContain('<1>');
     expect(withProject).not.toContain('cell project empty');
     expect(withProject).not.toContain('cell job-no empty');
+    expect(withProject).not.toContain('cell module empty');
   });
 
   it('leaves the project and job number boxes empty without a project', () => {
@@ -45,8 +47,18 @@ describe('renderJobcardHtml', () => {
     expect(html).toContain('cell job-no empty');
   });
 
-  it('leaves the job number box empty when the project has none', () => {
-    expect(renderJobcardHtml(jobcard, { name: 'Platform A' })).toContain('cell job-no empty');
+  it('shows the JC number of the jobcard, escaped', () => {
+    const numbered = renderJobcardHtml({ ...jobcard, jcNumber: 'JC <7> & 8' });
+    expect(numbered).toContain('JC &lt;7&gt; &amp; 8</span>');
+    expect(numbered).not.toContain('<7>');
+    expect(numbered).not.toContain('cell jc-no empty');
+    expect(html).toContain('cell jc-no empty');
+  });
+
+  it('leaves the job number and module boxes empty when they are not set', () => {
+    const bare = renderJobcardHtml(jobcard, { project: { name: 'Platform A' }, workpack: {} });
+    expect(bare).toContain('cell job-no empty');
+    expect(bare).toContain('cell module empty');
   });
 
   it('numbers the cover page as sheet 1 of all sheets', () => {
