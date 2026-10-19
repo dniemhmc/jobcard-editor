@@ -68,6 +68,21 @@ describe('Workpack department and revision', () => {
   });
 });
 
+describe('Workpack date', () => {
+  const base = { schemaVersion: SCHEMA_VERSION, id: id(2), title: 'Module 1', jobcardIds: [] };
+
+  it('accepts an optional ISO date', () => {
+    expect(Workpack.parse({ ...base, date: '2026-10-19' }).date).toBe('2026-10-19');
+    expect(Workpack.parse(base).date).toBeUndefined();
+  });
+
+  it('rejects text that is not a calendar date', () => {
+    for (const date of ['19-10-2026', 'yesterday', '2026-13-40', '2026-02-30', '']) {
+      expect(Workpack.safeParse({ ...base, date }).success).toBe(false);
+    }
+  });
+});
+
 describe('Jobcard', () => {
   const jobcard = {
     schemaVersion: SCHEMA_VERSION,

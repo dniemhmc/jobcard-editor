@@ -24,6 +24,11 @@ export const Workpack = z.object({
    * text. Printed in the title block of every sheet. Optional.
    */
   revision: Text.optional(),
+  /**
+   * Date of this workpack (and so of its jobcards) as an ISO date, YYYY-MM-DD.
+   * Printed in the title block of every sheet. Optional.
+   */
+  date: z.iso.date().optional(),
   /** Jobcards of this workpack, in display order (and order in the workpack PDF). */
   jobcardIds: z.array(Id),
 });

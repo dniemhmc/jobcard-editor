@@ -86,6 +86,16 @@ export function Details({ resolved, actions, focusName }: Props) {
             optional
             hint="The revision of this workpack and its jobcards. Printed in the title block of every sheet."
           />
+          <NameField
+            key={`${workpack.id}-date`}
+            id="workpack-date"
+            label="Date"
+            type="date"
+            value={workpack.date ?? ''}
+            onSave={(date) => actions.setWorkpackDate(workpack.id, date)}
+            optional
+            hint="Printed in the title block of every sheet."
+          />
         </section>
       );
     case 'jobcard':

@@ -14,9 +14,7 @@ import {
  * printable HTML document (A4 portrait). The jobcard is needed for the title
  * block.
  *
- * Filled in: every box of the title block except the date (project, job no.,
- * department, module, title, JC no., sheet "2 of x" for the first activity,
- * revision), and the activity name.
+ * Filled in: every box of the title block, and the activity name.
  */
 export function renderActivityHtml(
   jobcard: Jobcard,

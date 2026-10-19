@@ -188,6 +188,11 @@ export function setWorkpackRevision(ws: Workspace, id: Id, revision: string): Wo
   return updateWorkpack(ws, id, (w) => withOptionalText(w, 'revision', revision));
 }
 
+/** Sets the date (ISO, YYYY-MM-DD) of a workpack; an empty value removes it. */
+export function setWorkpackDate(ws: Workspace, id: Id, date: string): Workspace {
+  return updateWorkpack(ws, id, (w) => withOptionalText(w, 'date', date));
+}
+
 /** Deletes a workpack with all its jobcards. */
 export function deleteWorkpack(ws: Workspace, id: Id): Workspace {
   const workpack = findWorkpack(ws, id);

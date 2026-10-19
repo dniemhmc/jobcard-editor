@@ -75,6 +75,16 @@ describe('editor actions', () => {
     expect(findWorkpack(t.ws(), workpackId)).not.toHaveProperty('revision');
   });
 
+  it('sets and clears the date of a workpack', () => {
+    const t = setup();
+    t.actions.addWorkpack();
+    const workpackId = t.ws().workpacks[0]!.id;
+    t.actions.setWorkpackDate(workpackId, '2026-10-19');
+    expect(findWorkpack(t.ws(), workpackId)?.date).toBe('2026-10-19');
+    t.actions.setWorkpackDate(workpackId, '');
+    expect(findWorkpack(t.ws(), workpackId)).not.toHaveProperty('date');
+  });
+
   it('selects a new item and focuses its name', () => {
     const t = setup();
     t.actions.addWorkpack();
