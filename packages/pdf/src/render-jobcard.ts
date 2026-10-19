@@ -14,8 +14,9 @@ import {
  * document (A4 portrait). The HTML is turned into PDF by headless Chromium
  * (see docs/adr/0003). Each activity has its own template (render-activity.ts).
  *
- * Filled in: project name, job number, module, jobcard title, JC number and sheet
- * number ("1 of x") in the title block, and the summary of activity names.
+ * Filled in: every box of the title block except the date (project, job no.,
+ * department, module, title, JC no., sheet "1 of x", revision), and the summary
+ * of activity names.
  */
 export function renderJobcardHtml(jobcard: Jobcard, context?: SheetContext): string {
   return sheetDocument(jobcard.title, STYLES, coverSheet(jobcard, context));

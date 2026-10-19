@@ -13,6 +13,8 @@ improving how **jobcards** are created.
 | **Project**          | A decommissioning project, usually one platform/installation. Contains workpacks.                                  |
 | **Module**           | A physical part of the platform (e.g. a utilities module) that is decommissioned as a unit.                        |
 | **Job number**       | The supplier order number of a project. Entered by hand; printed in the title block of every sheet.                |
+| **Department**       | The department responsible for a workpack. Entered by hand; printed in the title block of every sheet.             |
+| **Revision**         | The revision of a workpack and its jobcards. Entered by hand; printed in the title block of every sheet.           |
 | **JC number**        | The number of a jobcard. Entered by hand; printed in the title block of every sheet.                               |
 | **Workpack**         | A bundle of jobcards, usually all jobcards needed to decommission one module. Published as one PDF document.       |
 | **Jobcard**          | Instructions for one piece of work offshore: a title and an ordered list of activities.                            |
@@ -30,11 +32,12 @@ lifts._
 The domain currently holds only what the editor screens show (ADR 0006):
 
 - Project: name, optional job number (the supplier order number, entered by hand), and its workpacks in order.
-- Workpack: title, optional module (entered by hand), and its jobcards in order.
+- Workpack: title, optional module, department and revision (entered by hand), and its jobcards in
+  order.
 - Jobcard: title, optional JC number (entered by hand), and its activities in order.
 - Activity: name.
 
-Planned later, as screens and the PDF template need them: revision, status, location,
+Planned later, as screens and the PDF template need them: status, location,
 discipline, detailed steps, images with annotations (ADR 0004), R2S viewpoints and content
 templates. The glossary above keeps these terms so the vocabulary stays consistent.
 
@@ -52,9 +55,9 @@ sheet at once.
 | Title      | `Jobcard.title`                                                                 | Jobcard form  |
 | JC no.     | `Jobcard.jcNumber`                                                              | Jobcard form  |
 | Sht.       | Position of the sheet: "1 of x" is the cover, the activities follow as "2 of x" | Not editable  |
-| Department | Not in the domain yet                                                           |               |
+| Department | `Workpack.department`                                                           | Workpack form |
 | Date       | Not in the domain yet                                                           |               |
-| Rev.       | Not in the domain yet                                                           |               |
+| Rev.       | `Workpack.revision`                                                             | Workpack form |
 
 A box without a value is drawn empty with its label in grey.
 

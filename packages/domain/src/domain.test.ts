@@ -54,6 +54,20 @@ describe('Workpack module', () => {
   });
 });
 
+describe('Workpack department and revision', () => {
+  const base = { schemaVersion: SCHEMA_VERSION, id: id(2), title: 'Module 1', jobcardIds: [] };
+
+  it('accepts an optional department and revision and trims them', () => {
+    const parsed = Workpack.parse({ ...base, department: ' Decom ', revision: ' B ' });
+    expect(parsed.department).toBe('Decom');
+    expect(parsed.revision).toBe('B');
+    expect(Workpack.parse(base).department).toBeUndefined();
+    expect(Workpack.parse(base).revision).toBeUndefined();
+    expect(Workpack.safeParse({ ...base, department: ' ' }).success).toBe(false);
+    expect(Workpack.safeParse({ ...base, revision: '' }).success).toBe(false);
+  });
+});
+
 describe('Jobcard', () => {
   const jobcard = {
     schemaVersion: SCHEMA_VERSION,

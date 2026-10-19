@@ -22,14 +22,14 @@ Defined in `packages/domain/src` (Zod). Deliberately minimal: only what the edit
 (see ADR 0006). Fields are added as screens and the PDF template need them.
 
 ```
-Project { name, jobNumber? } ─< Workpack { title, module? } ─< Jobcard { title, jcNumber? } ─< Activity { name }
+Project { name, jobNumber? } ─< Workpack { title, module?, department?, revision? } ─< Jobcard { title, jcNumber? } ─< Activity { name }
 ```
 
 - Each parent owns the order of its children: `Project.workpackIds`, `Workpack.jobcardIds`,
   `Jobcard.activities`. There are no child→parent references.
 - Project, Workpack and Jobcard are separate records carrying `schemaVersion` and `id`.
   Activities are stored inside their jobcard.
-- `jobNumber`, `module` and `jcNumber` are optional free text, entered by hand. The PDF looks them up
+- `jobNumber`, `module`, `department`, `revision` and `jcNumber` are optional free text, entered by hand. The PDF looks them up
   from the project, workpack and jobcard when a sheet is drawn; they are not copied onto each
   jobcard (see the title block table in [domain.md](domain.md)).
 

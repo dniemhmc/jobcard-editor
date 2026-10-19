@@ -7,8 +7,8 @@ Note (2026-10-19): the wireframes in `docs/wireframes` were removed once the bas
 built. Read "the wireframes" below as "the editor screens".
 
 Note (2026-10-19): fields have since been added back one at a time, as the Consequences below
-allow: `Project.jobNumber`, `Workpack.module` and `Jobcard.jcNumber`, all optional free text, with
-`SCHEMA_VERSION` still 2. The lists below show the original minimal domain.
+allow: `Project.jobNumber`, `Workpack.module`, `Workpack.department`, `Workpack.revision` and
+`Jobcard.jcNumber`, all optional free text, with `SCHEMA_VERSION` still 2. The lists below show the original minimal domain.
 
 ## Context
 

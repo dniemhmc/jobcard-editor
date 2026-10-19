@@ -8,12 +8,16 @@ describe('titleBlock', () => {
       projectName: 'Platform <A> & B',
       jobNumber: 'PO <1> & 2',
       module: 'M <1> & 2',
+      department: 'D <1> & 2',
+      revision: 'R <1> & 2',
       sheet: '1 of <3>',
     });
     expect(html).toContain('Platform &lt;A&gt; &amp; B</span>');
     expect(html).toContain('Remove &lt;grating&gt; &amp; handrail</span>');
     expect(html).toContain('PO &lt;1&gt; &amp; 2</span>');
     expect(html).toContain('M &lt;1&gt; &amp; 2</span>');
+    expect(html).toContain('D &lt;1&gt; &amp; 2</span>');
+    expect(html).toContain('R &lt;1&gt; &amp; 2</span>');
     expect(html).toContain('1 of &lt;3&gt;</span>');
     expect(html).not.toContain('&amp;amp;');
     expect(html).not.toContain('<A>');
@@ -25,6 +29,8 @@ describe('titleBlock', () => {
     expect(html).toContain('cell project empty');
     expect(html).toContain('cell job-no empty');
     expect(html).toContain('cell module empty');
+    expect(html).toContain('cell department empty');
+    expect(html).toContain('cell rev empty');
     expect(html).toContain('cell jc-no empty');
     expect(html).toContain('cell sht empty');
   });

@@ -178,6 +178,16 @@ export function setWorkpackModule(ws: Workspace, id: Id, module: string): Worksp
   return updateWorkpack(ws, id, (w) => withOptionalText(w, 'module', module));
 }
 
+/** Sets the department of a workpack; an empty value removes it. */
+export function setWorkpackDepartment(ws: Workspace, id: Id, department: string): Workspace {
+  return updateWorkpack(ws, id, (w) => withOptionalText(w, 'department', department));
+}
+
+/** Sets the revision of a workpack; an empty value removes it. */
+export function setWorkpackRevision(ws: Workspace, id: Id, revision: string): Workspace {
+  return updateWorkpack(ws, id, (w) => withOptionalText(w, 'revision', revision));
+}
+
 /** Deletes a workpack with all its jobcards. */
 export function deleteWorkpack(ws: Workspace, id: Id): Workspace {
   const workpack = findWorkpack(ws, id);
