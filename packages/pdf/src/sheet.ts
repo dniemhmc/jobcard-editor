@@ -104,4 +104,5 @@ const BASE_STYLES = `
   .cell + .cell { border-left: 0.3mm solid #000; }
   .cell-label { position: absolute; top: 0.4mm; left: 0.8mm; font-size: 5.5pt; text-transform: uppercase; }
   .cell-value { font-size: 11pt; color: #0070C0; text-align: center; overflow-wrap: anywhere; }
+  .cell.title .cell-value { font-weight: bold; }
 `;

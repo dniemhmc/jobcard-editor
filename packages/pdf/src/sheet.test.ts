@@ -23,11 +23,16 @@ describe('titleBlock', () => {
 describe('title block styles', () => {
   const css = (selector: string) => {
     const html = sheetDocument('t', '', '');
-    return new RegExp(`${selector.replace('.', '\\.')} \\{([^}]*)\\}`).exec(html)?.[1] ?? '';
+    return new RegExp(`${selector.replaceAll('.', '\\.')} \\{([^}]*)\\}`).exec(html)?.[1] ?? '';
   };
 
   it('prints the filled-in values in blue', () => {
     expect(css('.cell-value')).toContain('color: #0070C0');
+  });
+
+  it('prints the title value in bold', () => {
+    expect(css('.cell.title .cell-value')).toContain('font-weight: bold');
+    expect(css('.cell-value')).not.toContain('font-weight');
   });
 
   it('centres the value vertically in its cell', () => {
