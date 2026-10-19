@@ -17,6 +17,7 @@ Read before doing non-trivial work:
 - `docs/requirements/README.md`: requirements and their ids
 - `docs/roadmap.md`: what is being built now vs later
 - `docs/open-questions.md`: known unknowns; do not invent answers to these
+- `docs/ideas.md`: loose ideas and directions; not requirements, do not build from them
 - `docs/style-note.md`: look of the editor app (colours, font, density)
 
 ## Commands

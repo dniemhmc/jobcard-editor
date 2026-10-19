@@ -3,6 +3,8 @@
 Deliver in thin vertical slices that real users can try. Every slice ends deployed to a test
 environment and shown to 2–3 pilot users.
 
+Loose ideas that are not planned yet live in [ideas.md](ideas.md) until they are promoted here.
+
 ## Current focus
 
 Phase 1a: build the jobcard PDF template step by step on the minimal domain (ADR 0006). Each step
