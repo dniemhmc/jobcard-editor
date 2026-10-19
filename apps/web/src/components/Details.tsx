@@ -31,6 +31,15 @@ export function Details({ resolved, actions, focusName }: Props) {
             onSave={actions.renameProject}
             autoFocus={focusName}
           />
+          <NameField
+            key={`${project.id}-job-number`}
+            id="project-job-number"
+            label="Job number"
+            value={project.jobNumber ?? ''}
+            onSave={actions.setProjectJobNumber}
+            optional
+            hint="The supplier order number. Printed in the title block of every sheet."
+          />
         </section>
       );
     case 'workpack':
@@ -50,6 +59,15 @@ export function Details({ resolved, actions, focusName }: Props) {
             autoFocus={focusName}
             hint="Press Enter to add a jobcard to this workpack."
           />
+          <NameField
+            key={`${workpack.id}-module`}
+            id="workpack-module"
+            label="Module"
+            value={workpack.module ?? ''}
+            onSave={(module) => actions.setWorkpackModule(workpack.id, module)}
+            optional
+            hint="The module of the platform. Printed in the title block of every sheet."
+          />
         </section>
       );
     case 'jobcard':
@@ -68,6 +86,15 @@ export function Details({ resolved, actions, focusName }: Props) {
             onEnter={() => actions.addActivity(jobcard.id)}
             autoFocus={focusName}
             hint="Press Enter to add an activity. Activities are listed in the tree on the left."
+          />
+          <NameField
+            key={`${jobcard.id}-jc-number`}
+            id="jobcard-jc-number"
+            label="JC number"
+            value={jobcard.jcNumber ?? ''}
+            onSave={(jcNumber) => actions.setJobcardNumber(jobcard.id, jcNumber)}
+            optional
+            hint="The jobcard number. Printed in the title block of every sheet."
           />
         </section>
       );

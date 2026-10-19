@@ -17,11 +17,29 @@ describe('renderActivityHtml', () => {
   });
 
   it('shows the project name in the title block, escaped', () => {
-    const withProject = renderActivityHtml(jobcard, jobcard.activities[1]!, 'Platform <A> & B');
+    const withProject = renderActivityHtml(jobcard, jobcard.activities[1]!, {
+      project: { name: 'Platform <A> & B', jobNumber: 'PO <1> & 2' },
+      workpack: { module: 'Module <M> & 1' },
+    });
     expect(withProject).toContain('Platform &lt;A&gt; &amp; B</span>');
+    expect(withProject).toContain('PO &lt;1&gt; &amp; 2</span>');
+    expect(withProject).toContain('Module &lt;M&gt; &amp; 1</span>');
     expect(withProject).not.toContain('<A>');
+    expect(withProject).not.toContain('<1>');
     expect(withProject).not.toContain('cell project empty');
+    expect(withProject).not.toContain('cell job-no empty');
+    expect(withProject).not.toContain('cell module empty');
     expect(html).toContain('cell project empty');
+  });
+
+  it('shows the JC number of the jobcard, escaped', () => {
+    const numbered = renderActivityHtml(
+      { ...jobcard, jcNumber: 'JC <7> & 8' },
+      jobcard.activities[0]!,
+    );
+    expect(numbered).toContain('JC &lt;7&gt; &amp; 8</span>');
+    expect(numbered).not.toContain('<7>');
+    expect(html).toContain('cell jc-no empty');
   });
 
   it('numbers activity sheets after the cover page', () => {

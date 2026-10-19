@@ -3,6 +3,7 @@ import {
   emptyWorkspace,
   findJobcard,
   findProject,
+  findWorkpack,
   type Workspace,
 } from '@jobcard/domain';
 import { describe, expect, it } from 'vitest';
@@ -37,6 +38,30 @@ function setup(confirmAnswer = true) {
 }
 
 describe('editor actions', () => {
+  it('sets and clears the job number of the open project', () => {
+    const t = setup();
+    t.actions.setProjectJobNumber('PO-1234');
+    expect(findProject(t.ws(), t.projectId)?.jobNumber).toBe('PO-1234');
+    t.actions.setProjectJobNumber('');
+    expect(findProject(t.ws(), t.projectId)).not.toHaveProperty('jobNumber');
+  });
+
+  it('sets and clears the module of a workpack and the JC number of a jobcard', () => {
+    const t = setup();
+    t.actions.addWorkpack();
+    const workpackId = t.ws().workpacks[0]!.id;
+    t.actions.addJobcard(workpackId);
+    const jobcardId = t.ws().jobcards[0]!.id;
+    t.actions.setWorkpackModule(workpackId, 'M12');
+    t.actions.setJobcardNumber(jobcardId, 'JC-007');
+    expect(findWorkpack(t.ws(), workpackId)?.module).toBe('M12');
+    expect(findJobcard(t.ws(), jobcardId)?.jcNumber).toBe('JC-007');
+    t.actions.setWorkpackModule(workpackId, '');
+    t.actions.setJobcardNumber(jobcardId, '');
+    expect(findWorkpack(t.ws(), workpackId)).not.toHaveProperty('module');
+    expect(findJobcard(t.ws(), jobcardId)).not.toHaveProperty('jcNumber');
+  });
+
   it('selects a new item and focuses its name', () => {
     const t = setup();
     t.actions.addWorkpack();

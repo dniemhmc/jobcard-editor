@@ -105,6 +105,16 @@ function updateJobcard(ws: Workspace, id: Id, fn: (j: Jobcard) => Jobcard): Work
   };
 }
 
+/**
+ * Sets an optional text field of a record to the trimmed text; an empty text
+ * removes the field, so cleared fields are not stored.
+ */
+function withOptionalText<T extends object>(record: T, key: keyof T & string, text: string): T {
+  const rest = Object.fromEntries(Object.entries(record).filter(([k]) => k !== key)) as T;
+  const trimmed = text.trim();
+  return trimmed ? { ...rest, [key]: trimmed } : rest;
+}
+
 // Projects
 
 export function createProject(ws: Workspace, name: string, newId: NewId): Created {
@@ -119,6 +129,11 @@ export function createProject(ws: Workspace, name: string, newId: NewId): Create
 
 export function renameProject(ws: Workspace, id: Id, name: string): Workspace {
   return updateProject(ws, id, (p) => ({ ...p, name }));
+}
+
+/** Sets the job number of a project; an empty value removes it. */
+export function setProjectJobNumber(ws: Workspace, id: Id, jobNumber: string): Workspace {
+  return updateProject(ws, id, (p) => withOptionalText(p, 'jobNumber', jobNumber));
 }
 
 /** Deletes a project with all its workpacks and their jobcards. */
@@ -158,6 +173,11 @@ export function moveWorkpack(ws: Workspace, id: Id, delta: number): Workspace {
   }));
 }
 
+/** Sets the module of a workpack; an empty value removes it. */
+export function setWorkpackModule(ws: Workspace, id: Id, module: string): Workspace {
+  return updateWorkpack(ws, id, (w) => withOptionalText(w, 'module', module));
+}
+
 /** Deletes a workpack with all its jobcards. */
 export function deleteWorkpack(ws: Workspace, id: Id): Workspace {
   const workpack = findWorkpack(ws, id);
@@ -189,6 +209,11 @@ export function addJobcard(ws: Workspace, workpackId: Id, title: string, newId: 
 
 export function renameJobcard(ws: Workspace, id: Id, title: string): Workspace {
   return updateJobcard(ws, id, (j) => ({ ...j, title }));
+}
+
+/** Sets the JC number of a jobcard; an empty value removes it. */
+export function setJobcardNumber(ws: Workspace, id: Id, jcNumber: string): Workspace {
+  return updateJobcard(ws, id, (j) => withOptionalText(j, 'jcNumber', jcNumber));
 }
 
 export function moveJobcard(ws: Workspace, id: Id, delta: number): Workspace {

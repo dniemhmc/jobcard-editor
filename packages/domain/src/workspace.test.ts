@@ -20,6 +20,9 @@ import {
   renameActivity,
   renameJobcard,
   renameProject,
+  setJobcardNumber,
+  setProjectJobNumber,
+  setWorkpackModule,
   renameWorkpack,
   Workspace,
   workpacksOf,
@@ -87,6 +90,33 @@ describe('workspace', () => {
     expect(() => renameWorkpack(ws, w1, '')).toThrow();
     expect(() => renameJobcard(ws, j1, '')).toThrow();
     expect(() => renameActivity(ws, j1, activities[0]!, '')).toThrow();
+  });
+
+  it('sets the job number of a project, trimmed, and clears it when empty', () => {
+    const { ws, projectId } = sample();
+    const set = setProjectJobNumber(ws, projectId, '  PO-1234 ');
+    expect(findProject(set, projectId)?.jobNumber).toBe('PO-1234');
+    const cleared = findProject(setProjectJobNumber(set, projectId, '  '), projectId);
+    expect(cleared).toBeDefined();
+    expect(cleared).not.toHaveProperty('jobNumber');
+    expect(Workspace.safeParse(setProjectJobNumber(set, projectId, '')).success).toBe(true);
+  });
+
+  it('sets the module of a workpack, trimmed, and clears it when empty', () => {
+    const { ws, w1, w2 } = sample();
+    const set = setWorkpackModule(ws, w1, '  M12 ');
+    expect(findWorkpack(set, w1)?.module).toBe('M12');
+    expect(findWorkpack(set, w2)).not.toHaveProperty('module');
+    expect(findWorkpack(setWorkpackModule(set, w1, ' '), w1)).not.toHaveProperty('module');
+  });
+
+  it('sets the JC number of a jobcard, trimmed, and clears it when empty', () => {
+    const { ws, j1, j2 } = sample();
+    const set = setJobcardNumber(ws, j1, '  JC-007 ');
+    expect(findJobcard(set, j1)?.jcNumber).toBe('JC-007');
+    expect(findJobcard(set, j2)).not.toHaveProperty('jcNumber');
+    expect(findJobcard(setJobcardNumber(set, j1, ''), j1)).not.toHaveProperty('jcNumber');
+    expect(Workspace.safeParse(setJobcardNumber(set, j1, '')).success).toBe(true);
   });
 
   it('renames workpacks, jobcards and activities', () => {
