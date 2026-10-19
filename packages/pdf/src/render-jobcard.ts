@@ -7,14 +7,15 @@ import { sheetDocument, titleBlock } from './sheet';
  * document (A4 portrait). The HTML is turned into PDF by headless Chromium
  * (see docs/adr/0003). Each activity has its own template (render-activity.ts).
  *
- * Filled in: jobcard title (title block) and the summary of activity names.
+ * Filled in: project name and jobcard title (title block) and the summary of
+ * activity names.
  */
-export function renderJobcardHtml(jobcard: Jobcard): string {
-  return sheetDocument(jobcard.title, STYLES, coverSheet(jobcard));
+export function renderJobcardHtml(jobcard: Jobcard, projectName?: string): string {
+  return sheetDocument(jobcard.title, STYLES, coverSheet(jobcard, projectName));
 }
 
 /** Cover page: summary of the activities, plus the empty cover page boxes. */
-function coverSheet(jobcard: Jobcard): string {
+function coverSheet(jobcard: Jobcard, projectName?: string): string {
   const activities = jobcard.activities.map((a) => `<li>${e(a.name)}</li>`).join('');
 
   return `<section class="sheet cover">
@@ -33,7 +34,7 @@ function coverSheet(jobcard: Jobcard): string {
     <div class="box pictures empty"><span class="label">General picture(s)</span></div>
     <div class="box disciplines empty"><span class="label">Disciplines:</span></div>
   </div>
-  ${titleBlock(jobcard)}
+  ${titleBlock(jobcard, projectName)}
 </section>`;
 }
 

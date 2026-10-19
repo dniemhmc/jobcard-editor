@@ -24,16 +24,19 @@ ${sheets}
 </html>`;
 }
 
-/** The title block repeated at the bottom of every sheet. */
-export function titleBlock(jobcard: Jobcard): string {
+/**
+ * The title block repeated at the bottom of every sheet. `projectName` is the
+ * name of the project the jobcard belongs to; the box stays empty without it.
+ */
+export function titleBlock(jobcard: Jobcard, projectName?: string): string {
   const cell = (cls: string, label: string, value = '') =>
-    `<div class="cell ${cls}${value ? '' : ' empty'}"><span class="cell-label">${label}</span><span class="cell-value">${value}</span></div>`;
+    `<div class="cell ${cls}${value ? '' : ' empty'}"><span class="cell-label">${label}</span><span class="cell-value">${e(value)}</span></div>`;
 
   return `<div class="title-block">
     <div class="logo"></div>
     <div class="rows">
-      <div class="row r1">${cell('project', 'Project:')}${cell('job-no', 'Job no.:')}${cell('department', 'Department:')}</div>
-      <div class="row r2">${cell('module', 'Module:')}${cell('title', 'Title:', e(jobcard.title))}</div>
+      <div class="row r1">${cell('project', 'Project:', projectName)}${cell('job-no', 'Job no.:')}${cell('department', 'Department:')}</div>
+      <div class="row r2">${cell('module', 'Module:')}${cell('title', 'Title:', jobcard.title)}</div>
       <div class="row r3">${cell('date', 'Date:')}${cell('jc-no', 'JC no.:')}${cell('sht', 'Sht.:')}${cell('rev', 'Rev.:')}</div>
     </div>
   </div>`;

@@ -7,18 +7,23 @@ import { sheetDocument, titleBlock } from './sheet';
  * printable HTML document (A4 portrait). The jobcard is needed for the title
  * block.
  *
- * Filled in: jobcard title (title block) and the activity name.
+ * Filled in: project name and jobcard title (title block) and the activity
+ * name.
  */
-export function renderActivityHtml(jobcard: Jobcard, activity: Activity): string {
+export function renderActivityHtml(
+  jobcard: Jobcard,
+  activity: Activity,
+  projectName?: string,
+): string {
   return sheetDocument(
     `${jobcard.title} - ${activity.name}`,
     STYLES,
-    activitySheet(jobcard, activity),
+    activitySheet(jobcard, activity, projectName),
   );
 }
 
 /** The activity page. */
-function activitySheet(jobcard: Jobcard, activity: Activity): string {
+function activitySheet(jobcard: Jobcard, activity: Activity, projectName?: string): string {
   return `<section class="sheet activity">
   <div class="box discipline-bar empty"><span class="label">Discipline</span></div>
   <div class="box work">
@@ -29,7 +34,7 @@ function activitySheet(jobcard: Jobcard, activity: Activity): string {
   <div class="box details empty">
     <span class="label">Detailed description of execution, hazards and precautions</span>
   </div>
-  ${titleBlock(jobcard)}
+  ${titleBlock(jobcard, projectName)}
 </section>`;
 }
 
