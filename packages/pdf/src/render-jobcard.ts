@@ -1,14 +1,14 @@
 import type { Jobcard } from '@jobcard/domain';
 import { escapeHtml as e } from './html';
-import { sheetDocument, titleBlock } from './sheet';
+import { sheetCount, sheetDocument, sheetLabel, titleBlock } from './sheet';
 
 /**
  * Jobcard template: renders the jobcard cover page as a printable HTML
  * document (A4 portrait). The HTML is turned into PDF by headless Chromium
  * (see docs/adr/0003). Each activity has its own template (render-activity.ts).
  *
- * Filled in: project name and jobcard title (title block) and the summary of
- * activity names.
+ * Filled in: project name, jobcard title and sheet number ("1 of x") in the
+ * title block, and the summary of activity names.
  */
 export function renderJobcardHtml(jobcard: Jobcard, projectName?: string): string {
   return sheetDocument(jobcard.title, STYLES, coverSheet(jobcard, projectName));
@@ -34,7 +34,10 @@ function coverSheet(jobcard: Jobcard, projectName?: string): string {
     <div class="box pictures empty"><span class="label">General picture(s)</span></div>
     <div class="box disciplines empty"><span class="label">Disciplines:</span></div>
   </div>
-  ${titleBlock(jobcard, projectName)}
+  ${titleBlock(jobcard, {
+    projectName,
+    sheet: sheetLabel(1, sheetCount(jobcard)),
+  })}
 </section>`;
 }
 

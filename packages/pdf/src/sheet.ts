@@ -24,20 +24,38 @@ ${sheets}
 </html>`;
 }
 
+/** Values the title block takes besides the jobcard. A box stays empty without its value. */
+export interface TitleBlockInfo {
+  /** Name of the project the jobcard belongs to. */
+  projectName?: string;
+  /** Page number of this sheet, e.g. "2 of 4". */
+  sheet?: string;
+}
+
 /**
- * The title block repeated at the bottom of every sheet. `projectName` is the
- * name of the project the jobcard belongs to; the box stays empty without it.
+ * Number of sheets a jobcard prints as: the cover page, then one sheet per
+ * activity.
  */
-export function titleBlock(jobcard: Jobcard, projectName?: string): string {
+export function sheetCount(jobcard: Jobcard): number {
+  return 1 + jobcard.activities.length;
+}
+
+/** Page number as printed in the Sht. box; `position` starts at 1 (the cover page). */
+export function sheetLabel(position: number, total: number): string {
+  return `${position} of ${total}`;
+}
+
+/** The title block repeated at the bottom of every sheet. */
+export function titleBlock(jobcard: Jobcard, info: TitleBlockInfo = {}): string {
   const cell = (cls: string, label: string, value = '') =>
     `<div class="cell ${cls}${value ? '' : ' empty'}"><span class="cell-label">${label}</span><span class="cell-value">${e(value)}</span></div>`;
 
   return `<div class="title-block">
     <div class="logo"></div>
     <div class="rows">
-      <div class="row r1">${cell('project', 'Project:', projectName)}${cell('job-no', 'Job no.:')}${cell('department', 'Department:')}</div>
+      <div class="row r1">${cell('project', 'Project:', info.projectName)}${cell('job-no', 'Job no.:')}${cell('department', 'Department:')}</div>
       <div class="row r2">${cell('module', 'Module:')}${cell('title', 'Title:', jobcard.title)}</div>
-      <div class="row r3">${cell('date', 'Date:')}${cell('jc-no', 'JC no.:')}${cell('sht', 'Sht.:')}${cell('rev', 'Rev.:')}</div>
+      <div class="row r3">${cell('date', 'Date:')}${cell('jc-no', 'JC no.:')}${cell('sht', 'Sht.:', info.sheet)}${cell('rev', 'Rev.:')}</div>
     </div>
   </div>`;
 }
