@@ -38,9 +38,14 @@ describe('renderJobcardHtml', () => {
     expect(html).toContain('cell project empty');
   });
 
+  it('numbers the cover page as sheet 1 of all sheets', () => {
+    expect(html).toContain('>1 of 3</span>');
+  });
+
   it('renders a cover page without activities', () => {
     const empty = renderJobcardHtml({ ...jobcard, activities: [] });
     expect(count(empty, '<section class="sheet cover">')).toBe(1);
     expect(empty).not.toContain('<li>');
+    expect(empty).toContain('>1 of 1</span>');
   });
 });

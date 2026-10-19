@@ -1,14 +1,14 @@
 import type { Activity, Jobcard } from '@jobcard/domain';
 import { escapeHtml as e } from './html';
-import { sheetDocument, titleBlock } from './sheet';
+import { sheetCount, sheetDocument, sheetLabel, titleBlock } from './sheet';
 
 /**
  * Activity template: renders the page of one activity of a jobcard as a
  * printable HTML document (A4 portrait). The jobcard is needed for the title
  * block.
  *
- * Filled in: project name and jobcard title (title block) and the activity
- * name.
+ * Filled in: project name, jobcard title and sheet number ("2 of x" for the
+ * first activity) in the title block, and the activity name.
  */
 export function renderActivityHtml(
   jobcard: Jobcard,
@@ -24,6 +24,10 @@ export function renderActivityHtml(
 
 /** The activity page. */
 function activitySheet(jobcard: Jobcard, activity: Activity, projectName?: string): string {
+  // The cover page is sheet 1, so the first activity is sheet 2.
+  const index = jobcard.activities.findIndex((a) => a.id === activity.id);
+  const sheet = index < 0 ? undefined : sheetLabel(index + 2, sheetCount(jobcard));
+
   return `<section class="sheet activity">
   <div class="box discipline-bar empty"><span class="label">Discipline</span></div>
   <div class="box work">
@@ -34,7 +38,7 @@ function activitySheet(jobcard: Jobcard, activity: Activity, projectName?: strin
   <div class="box details empty">
     <span class="label">Detailed description of execution, hazards and precautions</span>
   </div>
-  ${titleBlock(jobcard, projectName)}
+  ${titleBlock(jobcard, { projectName, sheet })}
 </section>`;
 }
 
