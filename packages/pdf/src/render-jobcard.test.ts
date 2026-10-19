@@ -71,4 +71,41 @@ describe('renderJobcardHtml', () => {
     expect(empty).not.toContain('<li>');
     expect(empty).toContain('>1 of 1</span>');
   });
+
+  describe('keyplan', () => {
+    const png = 'data:image/png;base64,iVBORw0KGgo=';
+
+    it('leaves the keyplan box empty without an image', () => {
+      expect(html).toContain('box keyplan empty');
+      expect(html).not.toContain('<img');
+    });
+
+    it('shows a PNG or JPEG data URI and a blob URL in the keyplan box', () => {
+      const withPng = renderJobcardHtml(jobcard, { keyplanSrc: png });
+      expect(withPng).toContain(`<img class="keyplan-image" src="${png}" alt="Keyplan">`);
+      expect(withPng).not.toContain('box keyplan empty');
+      expect(count(withPng, '<img')).toBe(1);
+      expect(
+        renderJobcardHtml(jobcard, { keyplanSrc: 'data:image/jpeg;base64,/9j/4AAQ' }),
+      ).toContain('<img');
+      expect(
+        renderJobcardHtml(jobcard, { keyplanSrc: 'blob:http://localhost:5173/abc-123' }),
+      ).toContain('<img');
+    });
+
+    it('ignores sources that are not an allowed image source', () => {
+      for (const keyplanSrc of [
+        'https://example.com/a.png',
+        'javascript:alert(1)',
+        'data:text/html;base64,PGI+',
+        'data:image/svg+xml;base64,PHN2Zz4=',
+        'data:image/png;base64,AA" onerror="alert(1)',
+        '',
+      ]) {
+        const out = renderJobcardHtml(jobcard, { keyplanSrc });
+        expect(out, keyplanSrc).not.toContain('<img');
+        expect(out, keyplanSrc).toContain('box keyplan empty');
+      }
+    });
+  });
 });

@@ -6,6 +6,7 @@ import {
   sheetDocument,
   sheetLabel,
   titleBlock,
+  safeImageSrc,
   type SheetContext,
 } from './sheet';
 
@@ -15,7 +16,8 @@ import {
  * (see docs/adr/0003). Each activity has its own template (render-activity.ts).
  *
  * Filled in: project name, job number, module, jobcard title, JC number and sheet
- * number ("1 of x") in the title block, and the summary of activity names.
+ * number ("1 of x") in the title block, the summary of activity names and the
+ * keyplan picture.
  */
 export function renderJobcardHtml(jobcard: Jobcard, context?: SheetContext): string {
   return sheetDocument(jobcard.title, STYLES, coverSheet(jobcard, context));
@@ -23,6 +25,7 @@ export function renderJobcardHtml(jobcard: Jobcard, context?: SheetContext): str
 
 /** Cover page: summary of the activities, plus the empty cover page boxes. */
 function coverSheet(jobcard: Jobcard, context?: SheetContext): string {
+  const keyplanSrc = safeImageSrc(context?.keyplanSrc);
   const activities = jobcard.activities.map((a) => `<li>${e(a.name)}</li>`).join('');
 
   return `<section class="sheet cover">
@@ -34,7 +37,11 @@ function coverSheet(jobcard: Jobcard, context?: SheetContext): string {
         <ul class="activities">${activities}</ul>
       </div>
     </div>
-    <div class="box keyplan empty"><span class="label">Keyplan:</span></div>
+    ${
+      keyplanSrc
+        ? `<div class="box keyplan"><span class="label filled">Keyplan:</span><img class="keyplan-image" src="${e(keyplanSrc)}" alt="Keyplan"></div>`
+        : '<div class="box keyplan empty"><span class="label">Keyplan:</span></div>'
+    }
   </div>
   <div class="box hazards empty"><span class="label">Hazards</span></div>
   <div class="body">
@@ -54,7 +61,8 @@ const STYLES = `
   .cover .top-left { width: 50%; display: flex; flex-direction: column; border-right: 0.3mm solid #000; }
   .cover .location { height: 7.5mm; flex: none; border-bottom: 0.3mm solid #000; }
   .cover .work { flex: 1; }
-  .cover .keyplan { flex: 1; }
+  .cover .keyplan { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .cover .keyplan-image { flex: 1; min-height: 0; width: 100%; object-fit: contain; }
   .cover .hazards { height: 18mm; flex: none; }
   .cover .body { flex: 1; min-height: 0; display: flex; padding: 0; }
   .cover .pictures { flex: 1; }

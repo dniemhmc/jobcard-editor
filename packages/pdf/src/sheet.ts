@@ -37,6 +37,19 @@ export type SheetWorkpack = Pick<Workpack, 'module'>;
 export interface SheetContext {
   project?: SheetProject;
   workpack?: SheetWorkpack;
+  /**
+   * Where the keyplan picture of the workpack can be loaded from: a `blob:` URL
+   * or a PNG / JPEG `data:` URI. Any other value is ignored. The caller resolves
+   * it from the workpack's `keyplan` reference; the box stays empty without it.
+   */
+  keyplanSrc?: string;
+}
+
+const IMAGE_SRC = /^(blob:\S+|data:image\/(png|jpeg);base64,[A-Za-z0-9+/]+=*)$/;
+
+/** The keyplan source if it is an allowed image source, otherwise undefined. */
+export function safeImageSrc(src: string | undefined): string | undefined {
+  return src !== undefined && IMAGE_SRC.test(src) ? src : undefined;
 }
 
 /** Values the title block takes besides the jobcard. A box stays empty without its value. */
