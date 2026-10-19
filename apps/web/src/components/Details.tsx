@@ -9,15 +9,15 @@ interface Props {
   focusName: boolean;
 }
 
-/** The details form of the selected item (wireframes 01 to 04). */
+/** The details form of the selected item. */
 export function Details({ resolved, actions, focusName }: Props) {
   const { project, workpack, jobcard, activity } = resolved;
 
   switch (resolved.selection.kind) {
     case 'project':
       return (
-        <section className="panel">
-          <div className="panel-header">
+        <section className="details">
+          <div className="details-header">
             <h2>Project</h2>
             <button type="button" className="btn btn-danger" onClick={actions.deleteProject}>
               Delete project
@@ -36,8 +36,8 @@ export function Details({ resolved, actions, focusName }: Props) {
     case 'workpack':
       if (!workpack) return null;
       return (
-        <section className="panel">
-          <div className="panel-header">
+        <section className="details">
+          <div className="details-header">
             <h2>Workpack</h2>
           </div>
           <NameField
@@ -55,8 +55,8 @@ export function Details({ resolved, actions, focusName }: Props) {
     case 'jobcard':
       if (!jobcard) return null;
       return (
-        <section className="panel">
-          <div className="panel-header">
+        <section className="details">
+          <div className="details-header">
             <h2>Jobcard</h2>
           </div>
           <NameField
@@ -74,8 +74,8 @@ export function Details({ resolved, actions, focusName }: Props) {
     case 'activity':
       if (!jobcard || !activity) return null;
       return (
-        <section className="panel">
-          <div className="panel-header">
+        <section className="details">
+          <div className="details-header">
             <h2>{activityLabel(jobcard, activity.id)}</h2>
           </div>
           <NameField

@@ -2,5 +2,3 @@ pnpm-lock.yaml
 dist
 coverage
 fixtures/**/*.pdf
-docs/wireframes/*.html
-docs/wireframes/*.css

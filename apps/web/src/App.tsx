@@ -5,13 +5,28 @@ import { Details } from './components/Details';
 import { OpenProject } from './components/OpenProject';
 import { Preview } from './components/Preview';
 import { ProjectTree } from './components/ProjectTree';
+import { Splitter } from './components/Splitter';
 import { createEditorActions } from './editor-actions';
+import {
+  loadLayout,
+  MAIN_MIN_WIDTH,
+  PREVIEW_WIDTH,
+  previewScale,
+  resizePreview,
+  resizeTree,
+  saveLayout,
+  TREE_WIDTH,
+  type Layout,
+} from './layout';
 import { breadcrumb, resolveSelection, type Selection } from './selection';
 import type { WorkspaceStore } from './storage';
 
 type SaveState = 'idle' | 'saved' | 'failed';
 
 const newId = () => crypto.randomUUID();
+
+// Read lazily: accessing window.localStorage itself can throw when storage is blocked.
+const layoutStorage = () => window.localStorage;
 
 export function App({ store }: { store: WorkspaceStore }) {
   const [loaded] = useState(() => store.load());
@@ -20,6 +35,25 @@ export function App({ store }: { store: WorkspaceStore }) {
   const [projectId, setProjectId] = useState<Id>();
   const [selection, setSelection] = useState<Selection>({ kind: 'project' });
   const [focusName, setFocusName] = useState(false);
+  // Pane widths. React keeps `layout` between runs of App; calling setLayout
+  // stores a new value and makes React run App again with it.
+  const [layout, setLayout] = useState(() => loadLayout(layoutStorage));
+
+  /**
+   * Applies a change to the pane layout, stores it and saves it in the browser.
+   *
+   * `fn` says what changes: it gets the current layout and returns a new one,
+   * e.g. `(l) => resizeTree(l, 350)`. changeLayout supplies the layout itself
+   * (`layout` above), so callers only describe the change. The splitters below
+   * pass `(l) => resizeTree(l, w)`, where `w` is the width the splitter asked
+   * for; the inner function remembers `w` from the outer `(w) => ...` (a
+   * closure).
+   */
+  const changeLayout = (fn: (l: Layout) => Layout) => {
+    const next = fn(layout);
+    setLayout(next);
+    saveLayout(layoutStorage, next);
+  };
 
   const update = (next: Workspace) => {
     setWorkspace(next);
@@ -54,6 +88,22 @@ export function App({ store }: { store: WorkspaceStore }) {
 
   const resolved = projectId ? resolveSelection(workspace, projectId, selection) : undefined;
 
+  const preview = resolved?.jobcard
+    ? resolved.activity
+      ? {
+          title: 'Live PDF preview: activity',
+          html: renderActivityHtml(resolved.jobcard, resolved.activity),
+        }
+      : { title: 'Live PDF preview: jobcard', html: renderJobcardHtml(resolved.jobcard) }
+    : undefined;
+
+  const columns = [
+    `${layout.treeWidth}px`,
+    'auto',
+    `minmax(${MAIN_MIN_WIDTH}px, 1fr)`,
+    ...(preview ? ['auto', `${layout.previewWidth}px`] : []),
+  ].join(' ');
+
   return (
     <div className="app">
       <header className="topbar">
@@ -74,20 +124,36 @@ export function App({ store }: { store: WorkspaceStore }) {
       {loaded.warning && <div className="banner">{loaded.warning}</div>}
 
       {resolved && actions ? (
-        <div className="workarea">
+        <div className="workarea" style={{ gridTemplateColumns: columns }}>
           <ProjectTree workspace={workspace} resolved={resolved} actions={actions} />
+          <Splitter
+            label="Resize project tree"
+            width={layout.treeWidth}
+            direction={1}
+            min={TREE_WIDTH.min}
+            max={TREE_WIDTH.max}
+            // The splitter calls this with the new width `w` on every mouse move.
+            onResize={(w) => changeLayout((l) => resizeTree(l, w))}
+          />
           <div className="main">
             <Details resolved={resolved} actions={actions} focusName={focusName} />
           </div>
-          {resolved.jobcard && resolved.activity ? (
-            <Preview
-              title="Live PDF preview: activity"
-              html={renderActivityHtml(resolved.jobcard, resolved.activity)}
-            />
-          ) : resolved.jobcard ? (
-            <Preview title="Live PDF preview: jobcard" html={renderJobcardHtml(resolved.jobcard)} />
-          ) : (
-            <div />
+          {preview && (
+            <>
+              <Splitter
+                label="Resize PDF preview"
+                width={layout.previewWidth}
+                direction={-1}
+                min={PREVIEW_WIDTH.min}
+                max={PREVIEW_WIDTH.max}
+                onResize={(w) => changeLayout((l) => resizePreview(l, w))}
+              />
+              <Preview
+                title={preview.title}
+                html={preview.html}
+                scale={previewScale(layout.previewWidth)}
+              />
+            </>
           )}
         </div>
       ) : (

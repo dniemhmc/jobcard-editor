@@ -2,8 +2,11 @@
 
 The look of the editor app (`apps/web`). The first app setup turns this into shared theme
 settings (CSS custom properties) once, and every screen uses those instead of its own colours or
-sizes. The wireframes in `docs/wireframes` stay deliberately sketchy and record structure only;
-the PDF (`packages/pdf`) keeps its own print styling.
+sizes. The PDF (`packages/pdf`) keeps its own print styling.
+
+The running app is the reference for the UI; there are no separate wireframe files (they were
+removed once the base editor was built). For a new screen whose layout is not obvious, agree a
+quick sketch in the issue, PR or project thread before building it.
 
 ## Principles
 
@@ -54,7 +57,8 @@ Dark mode: not planned for now.
 - **Forms:** label above the field, 8px gap between fields, 16px between groups.
 - **Radius:** 4px for inputs, buttons and panels. **Shadows:** none, except a subtle one on menus
   and dialogs.
-- Layout follows the wireframes: top bar, sidebar, main area.
+- Layout: top bar, project tree on the left, main area, PDF preview on the right. The main area is white and the
+  details form sits directly on it (no panel box), at most 640px wide.
 
 ## Components (to start)
 

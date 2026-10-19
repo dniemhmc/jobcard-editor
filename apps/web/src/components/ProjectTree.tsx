@@ -10,9 +10,9 @@ interface Props {
 }
 
 /**
- * The project tree (wireframes 01 to 04): project, workpacks, jobcards and
- * activities. Click to edit an item; the selected item can be moved with the
- * arrow buttons or Alt+↑ / Alt+↓, and deleted with ✕ or the Delete key.
+ * The project tree: project, workpacks, jobcards and activities. Click to edit
+ * an item; the selected item can be moved with the arrow buttons or Alt+↑ /
+ * Alt+↓, and deleted with ✕ or the Delete key.
  */
 export function ProjectTree({ workspace, resolved, actions }: Props) {
   const { project } = resolved;

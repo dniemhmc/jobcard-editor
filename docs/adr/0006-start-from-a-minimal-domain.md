@@ -3,6 +3,9 @@
 - Status: Accepted
 - Date: 2026-10-15
 
+Note (2026-10-19): the wireframes in `docs/wireframes` were removed once the base editor was
+built. Read "the wireframes" below as "the editor screens".
+
 ## Context
 
 The first domain draft (schema v1) modelled everything we expected a jobcard to need: job number,
