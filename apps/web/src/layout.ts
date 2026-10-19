@@ -1,13 +1,11 @@
 /**
  * Pane layout of the editor: widths of the project tree and the PDF preview
- * (the details form takes the rest), and whether the tree is hidden. A
- * per-browser preference, so it is kept in browser storage, not in the
- * workspace data.
+ * (the details form takes the rest). A per-browser preference, so it is kept
+ * in browser storage, not in the workspace data.
  */
 export interface Layout {
   treeWidth: number;
   previewWidth: number;
-  treeHidden: boolean;
 }
 
 export const TREE_WIDTH = { min: 200, max: 600, default: 300 };
@@ -16,7 +14,6 @@ export const PREVIEW_WIDTH = { min: 320, max: 1000, default: 470 };
 export const defaultLayout = (): Layout => ({
   treeWidth: TREE_WIDTH.default,
   previewWidth: PREVIEW_WIDTH.default,
-  treeHidden: false,
 });
 
 export function clamp(value: number, limits: { min: number; max: number }): number {
@@ -31,11 +28,6 @@ export const resizeTree = (layout: Layout, width: number): Layout => ({
 export const resizePreview = (layout: Layout, width: number): Layout => ({
   ...layout,
   previewWidth: clamp(width, PREVIEW_WIDTH),
-});
-
-export const toggleTree = (layout: Layout): Layout => ({
-  ...layout,
-  treeHidden: !layout.treeHidden,
 });
 
 /** Width of the A4 page in the preview at 96 dpi. */
@@ -67,7 +59,6 @@ export function parseLayout(raw: string | null): Layout {
       typeof d.previewWidth === 'number'
         ? clamp(d.previewWidth, PREVIEW_WIDTH)
         : fallback.previewWidth,
-    treeHidden: typeof d.treeHidden === 'boolean' ? d.treeHidden : fallback.treeHidden,
   };
 }
 

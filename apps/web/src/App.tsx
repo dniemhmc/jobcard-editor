@@ -14,7 +14,6 @@ import {
   previewScale,
   resizePreview,
   resizeTree,
-  toggleTree,
   TREE_WIDTH,
   type Layout,
 } from './layout';
@@ -99,7 +98,8 @@ export function App({ store }: { store: WorkspaceStore }) {
     : undefined;
 
   const columns = [
-    ...(layout.treeHidden ? [] : [`${layout.treeWidth}px`, 'auto']),
+    `${layout.treeWidth}px`,
+    'auto',
     'minmax(320px, 1fr)',
     ...(preview ? ['auto', `${layout.previewWidth}px`] : []),
   ].join(' ');
@@ -108,16 +108,6 @@ export function App({ store }: { store: WorkspaceStore }) {
     <div className="app">
       <header className="topbar">
         <span className="brand">Jobcards</span>
-        {resolved && (
-          <button
-            type="button"
-            className="btn"
-            aria-pressed={layout.treeHidden}
-            onClick={() => changeLayout(toggleTree)}
-          >
-            {layout.treeHidden ? 'Show tree' : 'Hide tree'}
-          </button>
-        )}
         <span className="crumbs">
           {resolved && breadcrumb(resolved).map((part, i) => <span key={i}>{part}</span>)}
         </span>
@@ -135,19 +125,15 @@ export function App({ store }: { store: WorkspaceStore }) {
 
       {resolved && actions ? (
         <div className="workarea" style={{ gridTemplateColumns: columns }}>
-          {!layout.treeHidden && (
-            <>
-              <ProjectTree workspace={workspace} resolved={resolved} actions={actions} />
-              <Splitter
-                label="Resize project tree"
-                width={layout.treeWidth}
-                direction={1}
-                min={TREE_WIDTH.min}
-                max={TREE_WIDTH.max}
-                onResize={(w) => changeLayout((l) => resizeTree(l, w))}
-              />
-            </>
-          )}
+          <ProjectTree workspace={workspace} resolved={resolved} actions={actions} />
+          <Splitter
+            label="Resize project tree"
+            width={layout.treeWidth}
+            direction={1}
+            min={TREE_WIDTH.min}
+            max={TREE_WIDTH.max}
+            onResize={(w) => changeLayout((l) => resizeTree(l, w))}
+          />
           <div className="main">
             <Details resolved={resolved} actions={actions} focusName={focusName} />
           </div>

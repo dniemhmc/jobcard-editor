@@ -6,7 +6,6 @@ import {
   previewScale,
   resizePreview,
   resizeTree,
-  toggleTree,
   TREE_WIDTH,
 } from './layout';
 
@@ -20,20 +19,15 @@ describe('layout', () => {
     expect(resizePreview(layout, 5000).previewWidth).toBe(PREVIEW_WIDTH.max);
   });
 
-  it('hides and shows the tree', () => {
-    const hidden = toggleTree(defaultLayout());
-    expect(hidden.treeHidden).toBe(true);
-    expect(toggleTree(hidden).treeHidden).toBe(false);
-  });
-
   it('scales the A4 page to fill the preview pane', () => {
     expect(previewScale(794 + 50)).toBe(1);
   });
 
   it('reads a stored layout and repairs bad values', () => {
-    expect(
-      parseLayout(JSON.stringify({ treeWidth: 400, previewWidth: 9999, treeHidden: true })),
-    ).toEqual({ treeWidth: 400, previewWidth: PREVIEW_WIDTH.max, treeHidden: true });
+    expect(parseLayout(JSON.stringify({ treeWidth: 400, previewWidth: 9999 }))).toEqual({
+      treeWidth: 400,
+      previewWidth: PREVIEW_WIDTH.max,
+    });
     expect(parseLayout(JSON.stringify({ treeWidth: 'wide' }))).toEqual(defaultLayout());
     expect(parseLayout('{')).toEqual(defaultLayout());
     expect(parseLayout('null')).toEqual(defaultLayout());
