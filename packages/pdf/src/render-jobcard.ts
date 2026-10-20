@@ -80,12 +80,12 @@ const STYLES = `
   .cover .body { flex: 1; min-height: 0; display: flex; padding: 0; }
   .cover .pictures { flex: 1; }
   .cover .disciplines {
-    width: 44mm; flex: none; align-self: flex-start; padding: 1.5mm 2mm 2mm;
+    width: 44mm; flex: none; align-self: flex-start; padding: 1.5mm 1mm 1mm;
     border-left: 0.3mm solid #000; border-bottom: 0.3mm solid #000;
   }
-  .cover .disciplines .label { padding: 0 0.5mm; }
+  .cover .disciplines .label { padding: 0 1.5mm; }
   .cover .disciplines .discipline-bar {
-    height: 7.5mm; box-sizing: border-box; padding: 2.2mm 2.5mm 0; margin-top: 2mm;
+    height: 7.5mm; box-sizing: border-box; padding: 2.2mm 2.5mm 0; margin-top: 1mm;
     font-weight: bold; text-transform: uppercase; font-size: 9pt;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
