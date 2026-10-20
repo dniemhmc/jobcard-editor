@@ -4,21 +4,41 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      backfill:
+        description: Rebuild the history from git log (one sample per day)
+        type: boolean
+        default: false
 
 env:
   SCC_VERSION: 3.5.0
+  DATA_BRANCH: repo-size-data
+
+# One run at a time so pushes to the data branch cannot race.
+concurrency:
+  group: repo-size-${{ github.event_name == 'pull_request' && github.ref || 'data' }}
+  cancel-in-progress: false
 
 jobs:
   scc:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
       - name: Install scc
         run: |
           curl -sSfL "https://github.com/boyter/scc/releases/download/v${SCC_VERSION}/scc_Linux_x86_64.tar.gz" | tar -xz scc
           ./scc --version
       - name: Report repo size
         run: |
+          ./scc --format json . > scc.json
           ./scc . | tee scc.txt
           {
             echo '## Repo size (scc)'
@@ -26,3 +46,35 @@ jobs:
             cat scc.txt
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # The history lives on its own branch so main stays free of bot commits.
+      - name: Check out history
+        if: github.event_name != 'pull_request'
+        run: |
+          if git ls-remote --exit-code --heads origin "$DATA_BRANCH" >/dev/null; then
+            git fetch origin "$DATA_BRANCH"
+            git worktree add history "origin/$DATA_BRANCH"
+          else
+            git worktree add --detach history
+            git -C history checkout --orphan "$DATA_BRANCH"
+            git -C history rm -rf --quiet . || true
+          fi
+      - name: Backfill history
+        if: github.event_name == 'workflow_dispatch' && inputs.backfill
+        run: node packages/repo-size/src/cli.ts backfill history/history.jsonl "$PWD/scc"
+      - name: Record this commit
+        if: github.event_name == 'push'
+        run: |
+          node packages/repo-size/src/cli.ts sample history/history.jsonl scc.json \
+            "$GITHUB_SHA" "$(git log -1 --format=%cI "$GITHUB_SHA")"
+      - name: Render chart and publish
+        if: github.event_name != 'pull_request'
+        working-directory: history
+        run: |
+          node ../packages/repo-size/src/cli.ts render history.jsonl repo-size.svg
+          git add history.jsonl repo-size.svg
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update repo size history"
+          git push origin "HEAD:refs/heads/$DATA_BRANCH"

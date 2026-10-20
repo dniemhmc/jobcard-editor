@@ -95,6 +95,12 @@ importers:
         specifier: workspace:*
         version: link:../domain
 
+  packages/repo-size:
+    dependencies:
+      zod:
+        specifier: ^4.6.6
+        version: 4.6.6
+
 packages:
 
   '@babel/code-frame@7.29.7':
