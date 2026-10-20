@@ -30,7 +30,8 @@ export function indexedDbAssetStore(factory: IDBFactory, dbName = ASSET_DB_NAME)
       const request = factory.open(dbName, 1);
       request.onupgradeneeded = () => request.result.createObjectStore(OBJECT_STORE);
       request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
+      request.onerror = () =>
+        reject(request.error ?? new Error('The asset database failed to open'));
       request.onblocked = () => reject(new Error('The asset database is blocked'));
     }).catch((error: unknown) => {
       opened = undefined; // allow a retry after a failed open
@@ -49,7 +50,8 @@ export function indexedDbAssetStore(factory: IDBFactory, dbName = ASSET_DB_NAME)
       const tx = db.transaction(OBJECT_STORE, mode);
       const request = action(tx.objectStore(OBJECT_STORE));
       tx.oncomplete = () => resolve(request.result);
-      tx.onerror = () => reject(tx.error ?? request.error);
+      tx.onerror = () =>
+        reject(tx.error ?? request.error ?? new Error('The asset transaction failed'));
       tx.onabort = () => reject(tx.error ?? new Error('The asset transaction was aborted'));
     });
   };
@@ -72,9 +74,15 @@ export function indexedDbAssetStore(factory: IDBFactory, dbName = ASSET_DB_NAME)
 export function inMemoryAssetStore(): AssetStore {
   const blobs = new Map<Id, Blob>();
   return {
-    put: async (id, blob) => void blobs.set(id, blob),
-    get: async (id) => blobs.get(id),
-    delete: async (id) => void blobs.delete(id),
+    put: (id, blob) => {
+      blobs.set(id, blob);
+      return Promise.resolve();
+    },
+    get: (id) => Promise.resolve(blobs.get(id)),
+    delete: (id) => {
+      blobs.delete(id);
+      return Promise.resolve();
+    },
   };
 }
 
