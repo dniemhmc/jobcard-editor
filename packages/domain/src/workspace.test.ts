@@ -22,7 +22,10 @@ import {
   renameProject,
   setJobcardNumber,
   setProjectJobNumber,
+  setWorkpackDate,
+  setWorkpackDepartment,
   setWorkpackModule,
+  setWorkpackRevision,
   renameWorkpack,
   Workspace,
   workpacksOf,
@@ -108,6 +111,36 @@ describe('workspace', () => {
     expect(findWorkpack(set, w1)?.module).toBe('M12');
     expect(findWorkpack(set, w2)).not.toHaveProperty('module');
     expect(findWorkpack(setWorkpackModule(set, w1, ' '), w1)).not.toHaveProperty('module');
+  });
+
+  it('sets the department and revision of a workpack, trimmed, and clears them when empty', () => {
+    const { ws, w1, w2 } = sample();
+    const set = setWorkpackRevision(setWorkpackDepartment(ws, w1, '  Decom '), w1, ' B ');
+    expect(findWorkpack(set, w1)).toMatchObject({ department: 'Decom', revision: 'B' });
+    expect(findWorkpack(set, w2)).not.toHaveProperty('department');
+    expect(findWorkpack(set, w2)).not.toHaveProperty('revision');
+    const cleared = findWorkpack(
+      setWorkpackRevision(setWorkpackDepartment(set, w1, ''), w1, ' '),
+      w1,
+    );
+    expect(cleared).not.toHaveProperty('department');
+    expect(cleared).not.toHaveProperty('revision');
+    expect(Workspace.safeParse(setWorkpackRevision(set, w1, '')).success).toBe(true);
+  });
+
+  it('sets the date of a workpack and clears it when empty', () => {
+    const { ws, w1, w2 } = sample();
+    const set = setWorkpackDate(ws, w1, ' 2026-10-19 ');
+    expect(findWorkpack(set, w1)?.date).toBe('2026-10-19');
+    expect(findWorkpack(set, w2)).not.toHaveProperty('date');
+    expect(findWorkpack(setWorkpackDate(set, w1, ''), w1)).not.toHaveProperty('date');
+    expect(Workspace.safeParse(setWorkpackDate(set, w1, ' ')).success).toBe(true);
+  });
+
+  it('rejects a date that does not exist', () => {
+    const { ws, w1 } = sample();
+    expect(() => setWorkpackDate(ws, w1, '2026-02-30')).toThrow();
+    expect(() => setWorkpackDate(ws, w1, '19-10-2026')).toThrow();
   });
 
   it('sets the JC number of a jobcard, trimmed, and clears it when empty', () => {
