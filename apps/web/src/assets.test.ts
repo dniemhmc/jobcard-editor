@@ -4,6 +4,7 @@ import {
   type AssetStore,
   indexedDbAssetStore,
   inMemoryAssetStore,
+  keyplanMediaType,
   MAX_KEYPLAN_BYTES,
   validateKeyplanFile,
 } from './assets';
@@ -84,6 +85,31 @@ describe('validateKeyplanFile', () => {
     for (const type of ['image/gif', 'image/svg+xml', 'application/pdf', 'text/html', '']) {
       expect(validateKeyplanFile({ type, size: 1000 }), type).toMatch(/PNG or JPEG/);
     }
+  });
+
+  it('ignores the case of the media type and of the file extension', () => {
+    expect(validateKeyplanFile({ type: 'image/PNG', size: 1000 })).toBeUndefined();
+    expect(validateKeyplanFile({ type: 'IMAGE/JPEG', size: 1000 })).toBeUndefined();
+    // Some browsers and systems report no type for a file; fall back to the extension.
+    for (const name of ['sketch.PNG', 'sketch.png', 'sketch.JPG', 'sketch.jpg', 'Sketch.JPEG']) {
+      expect(validateKeyplanFile({ type: '', size: 1000, name }), name).toBeUndefined();
+    }
+  });
+
+  it('does not let the extension override a type the browser did report', () => {
+    expect(validateKeyplanFile({ type: 'image/gif', size: 1000, name: 'a.png' })).toMatch(/PNG/);
+    expect(validateKeyplanFile({ type: '', size: 1000, name: 'a.gif' })).toMatch(/PNG/);
+    expect(validateKeyplanFile({ type: '', size: 1000 })).toMatch(/PNG/);
+    for (const name of ['a.constructor', 'a.toString', 'a.__proto__', 'png']) {
+      expect(validateKeyplanFile({ type: '', size: 1000, name }), name).toMatch(/PNG/);
+    }
+  });
+
+  it('tells which media type a file has', () => {
+    expect(keyplanMediaType({ type: 'image/PNG' })).toBe('image/png');
+    expect(keyplanMediaType({ type: '', name: 'a.JPG' })).toBe('image/jpeg');
+    expect(keyplanMediaType({ type: '', name: 'a.jpeg' })).toBe('image/jpeg');
+    expect(keyplanMediaType({ type: 'image/svg+xml', name: 'a.png' })).toBeUndefined();
   });
 
   it('rejects an empty file and one over the limit', () => {
