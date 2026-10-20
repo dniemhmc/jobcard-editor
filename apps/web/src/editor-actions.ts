@@ -18,7 +18,10 @@ import {
   renameWorkpack,
   setJobcardNumber,
   setProjectJobNumber,
+  setWorkpackDate,
+  setWorkpackDepartment,
   setWorkpackModule,
+  setWorkpackRevision,
   type Created,
   type Id,
   type NewId,
@@ -37,6 +40,12 @@ export interface EditorActions {
   renameWorkpack: (id: Id, title: string) => void;
   /** Sets the module of a workpack; an empty value clears it. */
   setWorkpackModule: (id: Id, module: string) => void;
+  /** Sets the department of a workpack; an empty value clears it. */
+  setWorkpackDepartment: (id: Id, department: string) => void;
+  /** Sets the revision of a workpack; an empty value clears it. */
+  setWorkpackRevision: (id: Id, revision: string) => void;
+  /** Sets the date (ISO, YYYY-MM-DD) of a workpack; an empty value clears it. */
+  setWorkpackDate: (id: Id, date: string) => void;
   moveWorkpack: (id: Id, delta: number) => void;
   deleteWorkpack: (id: Id) => void;
   addJobcard: (workpackId: Id) => void;
@@ -100,6 +109,10 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
     },
     renameWorkpack: (id, title) => change((ws) => renameWorkpack(ws, id, title)),
     setWorkpackModule: (id, module) => change((ws) => setWorkpackModule(ws, id, module)),
+    setWorkpackDepartment: (id, department) =>
+      change((ws) => setWorkpackDepartment(ws, id, department)),
+    setWorkpackRevision: (id, revision) => change((ws) => setWorkpackRevision(ws, id, revision)),
+    setWorkpackDate: (id, date) => change((ws) => setWorkpackDate(ws, id, date)),
     moveWorkpack: (id, delta) => change((ws) => moveWorkpack(ws, id, delta)),
     deleteWorkpack: (id) => {
       const workpack = findWorkpack(workspace(), id);

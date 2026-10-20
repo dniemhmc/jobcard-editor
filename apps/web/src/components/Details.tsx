@@ -68,6 +68,34 @@ export function Details({ resolved, actions, focusName }: Props) {
             optional
             hint="The module of the platform. Printed in the title block of every sheet."
           />
+          <NameField
+            key={`${workpack.id}-department`}
+            id="workpack-department"
+            label="Department"
+            value={workpack.department ?? ''}
+            onSave={(department) => actions.setWorkpackDepartment(workpack.id, department)}
+            optional
+            hint="Printed in the title block of every sheet."
+          />
+          <NameField
+            key={`${workpack.id}-revision`}
+            id="workpack-revision"
+            label="Revision"
+            value={workpack.revision ?? ''}
+            onSave={(revision) => actions.setWorkpackRevision(workpack.id, revision)}
+            optional
+            hint="The revision of this workpack and its jobcards. Printed in the title block of every sheet."
+          />
+          <NameField
+            key={`${workpack.id}-date`}
+            id="workpack-date"
+            label="Date"
+            type="date"
+            value={workpack.date ?? ''}
+            onSave={(date) => actions.setWorkpackDate(workpack.id, date)}
+            optional
+            hint="Printed in the title block of every sheet."
+          />
         </section>
       );
     case 'jobcard':

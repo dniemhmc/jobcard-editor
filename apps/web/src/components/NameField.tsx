@@ -14,13 +14,25 @@ interface Props {
   hint?: string;
   /** The field may be left empty; saving an empty value clears it. */
   optional?: boolean;
+  /** Type of the input, for example "date" for a date picker. */
+  type?: 'text' | 'date';
 }
 
 /**
  * A name or title, saved as you type. Render it with `key` set to the record id
  * so the field starts over when another record is selected.
  */
-export function NameField({ id, label, value, onSave, onEnter, autoFocus, hint, optional }: Props) {
+export function NameField({
+  id,
+  label,
+  value,
+  onSave,
+  onEnter,
+  autoFocus,
+  hint,
+  optional,
+  type = 'text',
+}: Props) {
   const [draft, setDraft] = useState(value);
   const input = useRef<HTMLInputElement>(null);
   const isValid = (text: string) =>
@@ -39,6 +51,7 @@ export function NameField({ id, label, value, onSave, onEnter, autoFocus, hint, 
       <input
         ref={input}
         id={id}
+        type={type}
         className="input"
         value={draft}
         aria-invalid={!valid}

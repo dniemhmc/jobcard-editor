@@ -28,6 +28,21 @@ export const Workpack = z.object({
    * Printed in the title block of every sheet. Optional: older workpacks have none.
    */
   module: Text.optional(),
+  /**
+   * Department responsible for this workpack, entered by hand as free text.
+   * Printed in the title block of every sheet. Optional.
+   */
+  department: Text.optional(),
+  /**
+   * Revision of this workpack (and so of its jobcards), entered by hand as free
+   * text. Printed in the title block of every sheet. Optional.
+   */
+  revision: Text.optional(),
+  /**
+   * Date of this workpack (and so of its jobcards) as an ISO date, YYYY-MM-DD.
+   * Printed in the title block of every sheet. Optional.
+   */
+  date: z.iso.date().optional(),
   /** Keyplan picture printed on the cover page of every jobcard. Optional. */
   keyplan: Keyplan.optional(),
   /** Jobcards of this workpack, in display order (and order in the workpack PDF). */

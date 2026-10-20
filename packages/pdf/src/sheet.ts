@@ -28,7 +28,7 @@ ${sheets}
 export type SheetProject = Pick<Project, 'name' | 'jobNumber'>;
 
 /** The fields of the workpack that are printed on the sheets. */
-export type SheetWorkpack = Pick<Workpack, 'module'>;
+export type SheetWorkpack = Pick<Workpack, 'module' | 'department' | 'revision' | 'date'>;
 
 /**
  * The records around a jobcard that the title block prints from. Each is
@@ -60,6 +60,12 @@ export interface TitleBlockInfo {
   jobNumber?: string;
   /** Module of the workpack the jobcard belongs to. */
   module?: string;
+  /** Department of the workpack the jobcard belongs to. */
+  department?: string;
+  /** Revision of the workpack the jobcard belongs to. */
+  revision?: string;
+  /** Date of the workpack, as printed (see `formatSheetDate`). */
+  date?: string;
   /** Page number of this sheet, e.g. "2 of 4". */
   sheet?: string;
 }
@@ -70,7 +76,24 @@ export function contextInfo(context: SheetContext = {}): TitleBlockInfo {
     projectName: context.project?.name,
     jobNumber: context.project?.jobNumber,
     module: context.workpack?.module,
+    department: context.workpack?.department,
+    revision: context.workpack?.revision,
+    date: context.workpack?.date && formatSheetDate(context.workpack.date),
   };
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/**
+ * Prints an ISO date (YYYY-MM-DD) as day, month name and year, e.g. "19 Oct
+ * 2026": unambiguous for readers who write the day and month in either order.
+ * The date is read from its text, so the time zone cannot move it. Anything that
+ * is not an ISO date is returned unchanged.
+ */
+export function formatSheetDate(iso: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  const month = match ? MONTHS[Number(match[2]) - 1] : undefined;
+  return match && month ? `${Number(match[3])} ${month} ${match[1]}` : iso;
 }
 
 /**
@@ -94,9 +117,9 @@ export function titleBlock(jobcard: Jobcard, info: TitleBlockInfo = {}): string 
   return `<div class="title-block">
     <div class="logo"></div>
     <div class="rows">
-      <div class="row r1">${cell('project', 'Project:', info.projectName)}${cell('job-no', 'Job no.:', info.jobNumber)}${cell('department', 'Department:')}</div>
+      <div class="row r1">${cell('project', 'Project:', info.projectName)}${cell('job-no', 'Job no.:', info.jobNumber)}${cell('department', 'Department:', info.department)}</div>
       <div class="row r2">${cell('module', 'Module:', info.module)}${cell('title', 'Title:', jobcard.title)}</div>
-      <div class="row r3">${cell('date', 'Date:')}${cell('jc-no', 'JC no.:', jobcard.jcNumber)}${cell('sht', 'Sht.:', info.sheet)}${cell('rev', 'Rev.:')}</div>
+      <div class="row r3">${cell('date', 'Date:', info.date)}${cell('jc-no', 'JC no.:', jobcard.jcNumber)}${cell('sht', 'Sht.:', info.sheet)}${cell('rev', 'Rev.:', info.revision)}</div>
     </div>
   </div>`;
 }
