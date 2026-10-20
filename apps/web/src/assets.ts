@@ -89,44 +89,17 @@ export function inMemoryAssetStore(): AssetStore {
 /** Largest keyplan file the editor accepts. */
 export const MAX_KEYPLAN_BYTES = 5 * 1024 * 1024;
 
-type KeyplanMediaType = Keyplan['mediaType'];
-
 const KEYPLAN_TYPES: readonly string[] = Keyplan.shape.mediaType.options;
-
-const EXTENSION_TYPES = new Map<string, KeyplanMediaType>([
-  ['png', 'image/png'],
-  ['jpg', 'image/jpeg'],
-  ['jpeg', 'image/jpeg'],
-]);
 
 /** What the editor needs to know about a chosen file to validate it. */
 export interface PickedFile {
-  /** Media type as reported by the browser; empty when it reports none. */
   type: string;
   size: number;
-  /** File name, used to find the type when the browser reports none. */
-  name?: string;
-}
-
-/**
- * The keyplan media type of a chosen file, or undefined when it is not a PNG or
- * JPEG. Case does not matter (`IMAGE/PNG`, `scan.JPG`). The extension is only
- * used when the browser reports no type; a reported type is never overridden.
- */
-export function keyplanMediaType(
-  file: Pick<PickedFile, 'type' | 'name'>,
-): KeyplanMediaType | undefined {
-  const reported = file.type.trim().toLowerCase();
-  if (reported)
-    return KEYPLAN_TYPES.find((type) => type === reported) as KeyplanMediaType | undefined;
-  const parts = file.name?.split('.') ?? [];
-  const extension = parts.length > 1 ? parts.pop()?.toLowerCase() : undefined;
-  return extension === undefined ? undefined : EXTENSION_TYPES.get(extension);
 }
 
 /** Why a chosen file cannot be used as a keyplan, or undefined when it can. */
 export function validateKeyplanFile(file: PickedFile): string | undefined {
-  if (!keyplanMediaType(file)) return 'The keyplan must be a PNG or JPEG image.';
+  if (!KEYPLAN_TYPES.includes(file.type)) return 'The keyplan must be a PNG or JPEG image.';
   if (file.size === 0) return 'The file is empty.';
   if (file.size > MAX_KEYPLAN_BYTES) {
     return `The file is too large: the keyplan can be at most ${MAX_KEYPLAN_BYTES / (1024 * 1024)} MB.`;
