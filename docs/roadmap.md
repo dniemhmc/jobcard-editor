@@ -51,5 +51,8 @@ is picked up (ADR 0006).
 
 - Review/approval workflow and revisions
 - Read API / export for downstream systems
+  - Oracle Primavera Cloud export
+  - 4D planner export
+- Reviewer mode
 - Permitting, execution tracking
 - Read-only tablet app for offshore crews to read jobcards (Q5)
