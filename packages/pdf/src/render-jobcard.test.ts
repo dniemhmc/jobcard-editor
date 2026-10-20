@@ -1,3 +1,4 @@
+import type { Discipline } from '@jobcard/domain';
 import { describe, expect, it } from 'vitest';
 import { renderJobcardHtml } from './render-jobcard';
 import { count, jobcard } from './test-fixtures';
@@ -122,6 +123,53 @@ describe('renderJobcardHtml', () => {
         expect(out, keyplanSrc).not.toContain('<img');
         expect(out, keyplanSrc).toContain('box keyplan empty');
       }
+    });
+  });
+
+  describe('disciplines', () => {
+    const withDisciplines = (...lists: Discipline[][]) =>
+      renderJobcardHtml({
+        ...jobcard,
+        activities: lists.map((disciplines, n) => ({
+          id: `00000000-0000-4000-8000-0000000001${n}0`,
+          name: `A${n}`,
+          disciplines,
+        })),
+      });
+
+    it('leaves a compact empty box without disciplines', () => {
+      expect(html).toContain('box disciplines empty');
+      expect(html).not.toContain('class="discipline-bar"');
+      expect(html).not.toContain('height: 104mm');
+    });
+
+    it('stacks one coloured bar per used discipline, once each, in list order', () => {
+      const out = withDisciplines(['NDE (RAT)', 'RIG'], ['RIG', 'MECH']);
+      expect(out).not.toContain('box disciplines empty');
+      expect(count(out, 'class="discipline-bar"')).toBe(3);
+      expect(out).toContain('background:#FFFF00;color:#000000">RIG</div>');
+      expect(out).toContain('background:#0070C0;color:#FFFFFF">NDE (RAT)</div>');
+      const at = (d: string) => out.indexOf(`>${d}</div>`);
+      expect(at('RIG')).toBeLessThan(at('MECH'));
+      expect(at('MECH')).toBeLessThan(at('NDE (RAT)'));
+    });
+
+    it('fits all disciplines', () => {
+      const all = withDisciplines([
+        'RIG',
+        'MECH',
+        'HSE',
+        'WLDR',
+        'ELEC',
+        'SCAF',
+        'NDE (RAT)',
+        'NDE',
+        'SUBSEA',
+        'DECOM RIG',
+        'RAT',
+        'FIELD',
+      ]);
+      expect(count(all, 'class="discipline-bar"')).toBe(12);
     });
   });
 });
