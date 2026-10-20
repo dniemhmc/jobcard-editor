@@ -10,7 +10,7 @@ describe('titleBlock', () => {
       module: 'M <1> & 2',
       department: 'D <1> & 2',
       revision: 'R <1> & 2',
-      date: '<19 Oct> & 2026',
+      date: '<23-03> & 2026',
       sheet: '1 of <3>',
     });
     expect(html).toContain('Platform &lt;A&gt; &amp; B</span>');
@@ -19,7 +19,7 @@ describe('titleBlock', () => {
     expect(html).toContain('M &lt;1&gt; &amp; 2</span>');
     expect(html).toContain('D &lt;1&gt; &amp; 2</span>');
     expect(html).toContain('R &lt;1&gt; &amp; 2</span>');
-    expect(html).toContain('&lt;19 Oct&gt; &amp; 2026</span>');
+    expect(html).toContain('&lt;23-03&gt; &amp; 2026</span>');
     expect(html).toContain('1 of &lt;3&gt;</span>');
     expect(html).not.toContain('&amp;amp;');
     expect(html).not.toContain('<A>');
@@ -56,10 +56,10 @@ describe('title block styles', () => {
 });
 
 describe('formatSheetDate', () => {
-  it('prints an ISO date as day, month name and year, whatever the time zone', () => {
-    expect(formatSheetDate('2026-10-19')).toBe('19 Oct 2026');
-    expect(formatSheetDate('2026-01-05')).toBe('5 Jan 2026');
-    expect(formatSheetDate('2026-12-31')).toBe('31 Dec 2026');
+  it('prints an ISO date as DD-MM-YYYY, with the day and month padded to two digits', () => {
+    expect(formatSheetDate('2026-03-23')).toBe('23-03-2026');
+    expect(formatSheetDate('2026-01-05')).toBe('05-01-2026');
+    expect(formatSheetDate('2026-12-31')).toBe('31-12-2026');
   });
 
   it('leaves anything that is not an ISO date as it is', () => {
