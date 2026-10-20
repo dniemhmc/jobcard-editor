@@ -9,7 +9,8 @@ built. Read "the wireframes" below as "the editor screens".
 Note (2026-10-19): fields have since been added back one at a time, as the Consequences below
 allow: `Project.jobNumber`, `Workpack.module`, `Workpack.department`, `Workpack.revision`,
 `Workpack.date` and `Jobcard.jcNumber`, all optional (the date is an ISO date, the rest free text),
-with `SCHEMA_VERSION` still 2. The lists below show the original minimal domain.
+with `SCHEMA_VERSION` still 2. The keyplan picture of a workpack has also come back, as a plain
+image without markup (ADR 0007). The lists below show the original minimal domain.
 
 ## Context
 

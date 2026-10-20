@@ -17,6 +17,7 @@ improving how **jobcards** are created.
 | **Date**             | The date of a workpack (ISO, YYYY-MM-DD). Printed in the title block of every sheet, e.g. 19 Oct 2026.             |
 | **Revision**         | The revision of a workpack and its jobcards. Entered by hand; printed in the title block of every sheet.           |
 | **JC number**        | The number of a jobcard. Entered by hand; printed in the title block of every sheet.                               |
+| **Keyplan**          | A sketch of the platform with the workpack's module highlighted, printed on the cover page.                        |
 | **Workpack**         | A bundle of jobcards, usually all jobcards needed to decommission one module. Published as one PDF document.       |
 | **Jobcard**          | Instructions for one piece of work offshore: a title and an ordered list of activities.                            |
 | **Activity**         | A main activity on a jobcard, in the order it is performed. Stored inside its jobcard (Q12).                       |
@@ -33,13 +34,13 @@ lifts._
 The domain currently holds only what the editor screens show (ADR 0006):
 
 - Project: name, optional job number (the supplier order number, entered by hand), and its workpacks in order.
-- Workpack: title, optional module, department and revision (entered by hand), optional date, and
-  its jobcards in order.
+- Workpack: title, optional module, department and revision (entered by hand), optional date,
+  an optional keyplan (a reference to an uploaded PNG or JPEG, ADR 0007), and its jobcards in order.
 - Jobcard: title, optional JC number (entered by hand), and its activities in order.
 - Activity: name.
 
 Planned later, as screens and the PDF template need them: status, location,
-discipline, detailed steps, images with annotations (ADR 0004), R2S viewpoints and content
+discipline, detailed steps, general pictures and images with annotations (ADR 0004), R2S viewpoints and content
 templates. The glossary above keeps these terms so the vocabulary stays consistent.
 
 ## Title block

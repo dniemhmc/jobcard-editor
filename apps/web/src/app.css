@@ -392,3 +392,26 @@ h3 {
   transform: scale(var(--preview-scale)) translateY(-8mm);
   transform-origin: 0 0;
 }
+
+.keyplan-thumb {
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+.keyplan-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
