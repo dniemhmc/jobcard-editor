@@ -9,6 +9,8 @@ jobcards actually contain and what the PDF must look like.
 - `jobcards/`: 10–20 real, representative jobcards (PDF and, where possible, the `.pptx`),
   including simple and complex ones and examples of annotated images
 - `workpacks/`: one or two complete workpack PDFs
+- `keyplans/`: one or two real keyplan sketches (PNG or JPEG), to check the size and the look in the
+  Keyplan box (Q13)
 
 ## Rules
 

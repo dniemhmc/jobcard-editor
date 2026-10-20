@@ -9,6 +9,7 @@ Unresolved questions that affect design. AI agents: do not guess answers to thes
 | Q3  | Does R2S have an API? Can we get an image + viewpoint (position, heading, pitch, FOV)? Deep-link format? | R2S integration  | R4 (Later) |
 | Q8  | What does a workpack PDF contain besides jobcards (cover, index, revision history)?                      | Workpack PDF     | Phase 2    |
 | Q9  | Who owns and approves the 25 content templates?                                                          | Template process | R5 (Later) |
+| Q13 | What size and aspect ratio are real keyplan sketches? Is letterboxing in the box acceptable?             | Keyplan box      | Phase 1a   |
 
 ## Answered
 

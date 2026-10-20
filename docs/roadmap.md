@@ -26,6 +26,8 @@ layout template. Discovery (Phase 0) runs alongside.
 - Grow the domain one field at a time, only as the template needs it (additive, optional fields)
 - Editor: edit project, workpacks, jobcards and activities (add, edit, reorder, delete)
 - Single jobcard PDF that matches the current template, with live preview (visual regression tests)
+- Keyplan: the user uploads a sketch per workpack; it is printed in the Keyplan box of the cover page
+  (ADR 0007)
 
 ## Phase 1b – Persistence and deployment
 
@@ -42,7 +44,7 @@ layout template. Discovery (Phase 0) runs alongside.
 Deferred requirements (see `docs/requirements/README.md`). Each gets its data model only when it
 is picked up (ADR 0006).
 
-- R6 Images: upload / paste / drag-and-drop; annotations (highlight + label with leader line);
+- R6 Images: upload / paste / drag-and-drop (the keyplan is already a plain uploaded image, ADR 0007); annotations (highlight + label with leader line);
   rendered in PDF
 - R5 Content templates: 25 prefilled templates (content from engineering) + generic
 - R4 R2S integration: pick an image from R2S, store viewpoint, "open in R2S" link in editor and PDF

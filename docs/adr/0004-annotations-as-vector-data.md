@@ -1,6 +1,7 @@
 # 0004. Image annotations are stored as vector data, not burned into pixels
 
-- Status: Accepted; applies when images (R6) return, see 0006
+- Status: Accepted; applies when images with annotations (R6) return, see 0006. The keyplan is a
+  plain image without markup and is not covered by it, see 0007
 - Date: 2026-10-12
 
 ## Context
