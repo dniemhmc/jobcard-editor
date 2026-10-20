@@ -70,3 +70,12 @@ export const Jobcard = z.object({
   activities: z.array(Activity),
 });
 export type Jobcard = z.infer<typeof Jobcard>;
+
+/**
+ * The disciplines used by the activities of a jobcard: each one once, in the
+ * order of `DISCIPLINES`. Printed on the jobcard cover.
+ */
+export function jobcardDisciplines(jobcard: Pick<Jobcard, 'activities'>): Discipline[] {
+  const used = new Set(jobcard.activities.flatMap((a) => a.disciplines ?? []));
+  return DISCIPLINES.filter((d) => used.has(d));
+}

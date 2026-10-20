@@ -2,11 +2,13 @@ import { describe, expect, it } from 'vitest';
 import {
   DISCIPLINES,
   DISCIPLINE_STYLES,
+  jobcardDisciplines,
   Jobcard,
   Keyplan,
   Project,
   SCHEMA_VERSION,
   Workpack,
+  type Discipline,
 } from './index';
 
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
@@ -179,5 +181,25 @@ describe('Activity disciplines', () => {
 
   it('has a colour for every discipline', () => {
     for (const d of DISCIPLINES) expect(DISCIPLINE_STYLES[d].background).toMatch(/^#[0-9A-F]{6}$/);
+  });
+});
+
+describe('jobcardDisciplines', () => {
+  const jobcardWith = (...lists: (Discipline[] | undefined)[]) => ({
+    activities: lists.map((disciplines, n) => ({
+      id: id(10 + n),
+      name: `A${n}`,
+      ...(disciplines ? { disciplines } : {}),
+    })),
+  });
+
+  it('is empty when no activity has disciplines', () => {
+    expect(jobcardDisciplines(jobcardWith())).toEqual([]);
+    expect(jobcardDisciplines(jobcardWith(undefined, []))).toEqual([]);
+  });
+
+  it('lists each discipline once, in list order, whatever the activity order', () => {
+    const jobcard = jobcardWith(['NDE', 'RIG'], undefined, ['MECH', 'RIG'], ['SUBSEA']);
+    expect(jobcardDisciplines(jobcard)).toEqual(['RIG', 'MECH', 'NDE', 'SUBSEA']);
   });
 });

@@ -39,7 +39,8 @@ The domain currently holds only what the editor screens show (ADR 0006):
 - Jobcard: title, optional JC number (entered by hand), and its activities in order.
 - Activity: name and optional disciplines. A discipline is one of a fixed list (RIG, MECH, HSE,
   WLDR, ELEC, SCAF, NDE (RAT), NDE, SUBSEA, DECOM RIG, RAT, FIELD), each with its own colour. They are
-  printed as the header bar of the activity sheet, split into equal segments when several apply.
+  printed as the header bar of the activity sheet, split into equal segments when several apply. The jobcard cover lists the disciplines used by
+  its activities as stacked colour bars, each once, in list order.
 
 Planned later, as screens and the PDF template need them: status, location,
 detailed steps, general pictures and images with annotations (ADR 0004), R2S viewpoints and content
