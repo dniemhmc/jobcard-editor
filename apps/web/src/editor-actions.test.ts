@@ -175,16 +175,6 @@ describe('keyplan actions', () => {
     expect(await (await t.assets.get(keyplan!.assetId))?.text()).toBe('png-bytes');
   });
 
-  it('accepts a file the browser gave no type, by its extension, and stores it with that type', async () => {
-    const t = withWorkpack();
-    expect(
-      await t.actions.uploadKeyplan(t.workpackId, imageFile('', 'Sketch.JPG')),
-    ).toBeUndefined();
-    const keyplan = findWorkpack(t.ws(), t.workpackId)?.keyplan;
-    expect(keyplan?.mediaType).toBe('image/jpeg');
-    expect((await t.assets.get(keyplan!.assetId))?.type).toBe('image/jpeg');
-  });
-
   it('leaves out the file name when the file has none', async () => {
     const t = withWorkpack();
     await t.actions.uploadKeyplan(t.workpackId, imageFile('image/jpeg', ' '));

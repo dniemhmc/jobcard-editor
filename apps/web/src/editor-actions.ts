@@ -29,7 +29,7 @@ import {
   type NewId,
   type Workspace,
 } from '@jobcard/domain';
-import { keyplanMediaType, validateKeyplanFile, type AssetStore, type PickedFile } from './assets';
+import { validateKeyplanFile, type AssetStore, type PickedFile } from './assets';
 import type { Selection } from './selection';
 
 /** Everything the editor screens can do, so components stay free of editing logic. */
@@ -143,15 +143,10 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
     setWorkpackDate: (id, date) => change((ws) => setWorkpackDate(ws, id, date)),
     uploadKeyplan: async (workpackId, file) => {
       const problem = validateKeyplanFile(file);
-      const mediaType = keyplanMediaType(file);
-      if (problem || !mediaType) return problem ?? 'The keyplan must be a PNG or JPEG image.';
+      if (problem) return problem;
       const assetId = newId();
       try {
-        // Store it with the media type found, also when the browser reported none.
-        await assets.put(
-          assetId,
-          file.type === mediaType ? file : file.slice(0, file.size, mediaType),
-        );
+        await assets.put(assetId, file);
       } catch {
         return KEYPLAN_STORE_ERROR;
       }
@@ -163,7 +158,7 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
       }
       const keyplan = Keyplan.parse({
         assetId,
-        mediaType,
+        mediaType: file.type,
         ...(file.name.trim() ? { fileName: file.name } : {}),
       });
       const saved = update(setWorkpackKeyplan(workspace(), workpackId, keyplan));
