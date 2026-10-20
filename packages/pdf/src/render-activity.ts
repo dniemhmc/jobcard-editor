@@ -1,4 +1,4 @@
-import type { Activity, Jobcard } from '@jobcard/domain';
+import { DISCIPLINE_STYLES, type Activity, type Jobcard } from '@jobcard/domain';
 import { escapeHtml as e } from './html';
 import {
   contextInfo,
@@ -14,7 +14,8 @@ import {
  * printable HTML document (A4 portrait). The jobcard is needed for the title
  * block.
  *
- * Filled in: every box of the title block, and the activity name.
+ * Filled in: every box of the title block, the activity name and the
+ * discipline bar (one coloured segment per discipline, equal widths).
  */
 export function renderActivityHtml(
   jobcard: Jobcard,
@@ -35,7 +36,7 @@ function activitySheet(jobcard: Jobcard, activity: Activity, context?: SheetCont
   const sheet = index < 0 ? undefined : sheetLabel(index + 2, sheetCount(jobcard));
 
   return `<section class="sheet activity">
-  <div class="box discipline-bar empty"><span class="label">Discipline</span></div>
+  ${disciplineBar(activity)}
   <div class="box work">
     <span class="label filled">Activity:</span>
     <ul class="activities"><li>${e(activity.name)}</li></ul>
@@ -48,9 +49,27 @@ function activitySheet(jobcard: Jobcard, activity: Activity, context?: SheetCont
 </section>`;
 }
 
+/** The header bar: coloured segments, or the empty grey box without disciplines. */
+function disciplineBar(activity: Activity): string {
+  const disciplines = activity.disciplines ?? [];
+  if (disciplines.length === 0) {
+    return '<div class="box discipline-bar empty"><span class="label">Discipline</span></div>';
+  }
+  const segments = disciplines.map((d) => {
+    const { background, text } = DISCIPLINE_STYLES[d];
+    return `<span class="segment" style="background:${background};color:${text}">${e(d)}</span>`;
+  });
+  return `<div class="box discipline-bar filled">${segments.join('')}</div>`;
+}
+
 const STYLES = `
   /* Activity page */
   .activity .discipline-bar { height: 7.5mm; flex: none; padding-top: 1.2mm; }
+  .activity .discipline-bar.filled { display: flex; padding: 0; }
+  .activity .discipline-bar .segment {
+    flex: 1; padding: 1.2mm 2.5mm 0; font-weight: bold; text-transform: uppercase; font-size: 9pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
   .activity .work { min-height: 39mm; }
   .activity .steps { height: 27mm; flex: none; }
   .activity .details { flex: 1; min-height: 0; }

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { SCHEMA_VERSION, type Id } from './common';
-import { Jobcard } from './jobcard';
+import { DISCIPLINES, Jobcard, type Discipline } from './jobcard';
 import { Project } from './project';
 import { Workpack, type Keyplan } from './workpack';
 
@@ -286,6 +286,27 @@ export function renameActivity(ws: Workspace, jobcardId: Id, id: Id, name: strin
   return updateJobcard(ws, jobcardId, (j) => ({
     ...j,
     activities: j.activities.map((a) => (a.id === id ? { ...a, name } : a)),
+  }));
+}
+
+/**
+ * Sets the disciplines of an activity. They are stored in the order of
+ * `DISCIPLINES` without duplicates; an empty list removes the field.
+ */
+export function setActivityDisciplines(
+  ws: Workspace,
+  jobcardId: Id,
+  id: Id,
+  disciplines: readonly Discipline[],
+): Workspace {
+  const sorted = DISCIPLINES.filter((d) => disciplines.includes(d));
+  return updateJobcard(ws, jobcardId, (j) => ({
+    ...j,
+    activities: j.activities.map((a) => {
+      if (a.id !== id) return a;
+      const rest = Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'disciplines'));
+      return (sorted.length > 0 ? { ...rest, disciplines: sorted } : rest) as typeof a;
+    }),
   }));
 }
 

@@ -1,6 +1,7 @@
 import type { AssetStore } from '../assets';
 import type { EditorActions } from '../editor-actions';
 import { activityLabel, type Resolved } from '../selection';
+import { DisciplineField } from './DisciplineField';
 import { KeyplanField } from './KeyplanField';
 import { NameField } from './NameField';
 
@@ -152,6 +153,14 @@ export function Details({ resolved, actions, assets, focusName }: Props) {
             onEnter={() => actions.addActivity(jobcard.id, activity.id)}
             autoFocus={focusName}
             hint="Press Enter to add the next activity."
+          />
+          <DisciplineField
+            key={`${activity.id}-disciplines`}
+            id="activity-disciplines"
+            value={activity.disciplines ?? []}
+            onChange={(disciplines) =>
+              actions.setActivityDisciplines(jobcard.id, activity.id, disciplines)
+            }
           />
         </section>
       );

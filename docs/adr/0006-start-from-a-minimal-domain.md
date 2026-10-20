@@ -6,6 +6,10 @@
 Note (2026-10-19): the wireframes in `docs/wireframes` were removed once the base editor was
 built. Read "the wireframes" below as "the editor screens".
 
+Note (2026-10-20): `Activity.disciplines` has come back as an optional list of codes from a fixed
+enum (`DISCIPLINES` in `packages/domain`), stored in list order; label colours live in
+`DISCIPLINE_STYLES`. It is additive, so `SCHEMA_VERSION` stays 2.
+
 Note (2026-10-19): fields have since been added back one at a time, as the Consequences below
 allow: `Project.jobNumber`, `Workpack.module`, `Workpack.department`, `Workpack.revision`,
 `Workpack.date` and `Jobcard.jcNumber`, all optional (the date is an ISO date, the rest free text),

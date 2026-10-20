@@ -17,6 +17,7 @@ import {
   renameJobcard,
   renameProject,
   renameWorkpack,
+  setActivityDisciplines,
   setJobcardNumber,
   setProjectJobNumber,
   setWorkpackDate,
@@ -25,6 +26,7 @@ import {
   setWorkpackModule,
   setWorkpackRevision,
   type Created,
+  type Discipline,
   type Id,
   type NewId,
   type Workspace,
@@ -67,6 +69,8 @@ export interface EditorActions {
   /** Adds an activity at the end, or directly after `afterId`. */
   addActivity: (jobcardId: Id, afterId?: Id) => void;
   renameActivity: (jobcardId: Id, id: Id, name: string) => void;
+  /** Sets the disciplines of an activity; an empty list clears them. */
+  setActivityDisciplines: (jobcardId: Id, id: Id, disciplines: Discipline[]) => void;
   moveActivity: (jobcardId: Id, id: Id, delta: number) => void;
   deleteActivity: (jobcardId: Id, id: Id) => void;
 }
@@ -205,6 +209,8 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
     },
     renameActivity: (jobcardId, id, name) =>
       change((ws) => renameActivity(ws, jobcardId, id, name)),
+    setActivityDisciplines: (jobcardId, id, disciplines) =>
+      change((ws) => setActivityDisciplines(ws, jobcardId, id, disciplines)),
     moveActivity: (jobcardId, id, delta) => change((ws) => moveActivity(ws, jobcardId, id, delta)),
     deleteActivity: (jobcardId, id) => {
       const activity = findJobcard(workspace(), jobcardId)?.activities.find((a) => a.id === id);
