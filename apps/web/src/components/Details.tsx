@@ -1,16 +1,19 @@
+import type { AssetStore } from '../assets';
 import type { EditorActions } from '../editor-actions';
 import { activityLabel, type Resolved } from '../selection';
+import { KeyplanField } from './KeyplanField';
 import { NameField } from './NameField';
 
 interface Props {
   resolved: Resolved;
   actions: EditorActions;
+  assets: AssetStore;
   /** Put the cursor in the name field (the item was just created). */
   focusName: boolean;
 }
 
 /** The details form of the selected item. */
-export function Details({ resolved, actions, focusName }: Props) {
+export function Details({ resolved, actions, assets, focusName }: Props) {
   const { project, workpack, jobcard, activity } = resolved;
 
   switch (resolved.selection.kind) {
@@ -95,6 +98,13 @@ export function Details({ resolved, actions, focusName }: Props) {
             onSave={(date) => actions.setWorkpackDate(workpack.id, date)}
             optional
             hint="Printed in the title block of every sheet."
+          />
+          <KeyplanField
+            key={`${workpack.id}-keyplan`}
+            workpackId={workpack.id}
+            keyplan={workpack.keyplan}
+            assets={assets}
+            actions={actions}
           />
         </section>
       );

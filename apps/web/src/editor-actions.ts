@@ -9,6 +9,7 @@ import {
   findJobcard,
   findProject,
   findWorkpack,
+  Keyplan,
   moveActivity,
   moveJobcard,
   moveWorkpack,
@@ -20,6 +21,7 @@ import {
   setProjectJobNumber,
   setWorkpackDate,
   setWorkpackDepartment,
+  setWorkpackKeyplan,
   setWorkpackModule,
   setWorkpackRevision,
   type Created,
@@ -27,6 +29,7 @@ import {
   type NewId,
   type Workspace,
 } from '@jobcard/domain';
+import { keyplanMediaType, validateKeyplanFile, type AssetStore, type PickedFile } from './assets';
 import type { Selection } from './selection';
 
 /** Everything the editor screens can do, so components stay free of editing logic. */
@@ -46,6 +49,13 @@ export interface EditorActions {
   setWorkpackRevision: (id: Id, revision: string) => void;
   /** Sets the date (ISO, YYYY-MM-DD) of a workpack; an empty value clears it. */
   setWorkpackDate: (id: Id, date: string) => void;
+  /**
+   * Stores a chosen image as the keyplan of a workpack, replacing any earlier
+   * one. Resolves to a message when the file cannot be used, otherwise undefined.
+   */
+  uploadKeyplan: (workpackId: Id, file: KeyplanFile) => Promise<string | undefined>;
+  /** Removes the keyplan of a workpack. */
+  removeKeyplan: (workpackId: Id) => Promise<void>;
   moveWorkpack: (id: Id, delta: number) => void;
   deleteWorkpack: (id: Id) => void;
   addJobcard: (workpackId: Id) => void;
@@ -61,12 +71,19 @@ export interface EditorActions {
   deleteActivity: (jobcardId: Id, id: Id) => void;
 }
 
+/** A file chosen by the user: the browser's `File` fits this. */
+export type KeyplanFile = Blob & PickedFile & { name: string };
+
+export const KEYPLAN_STORE_ERROR = 'The image could not be stored in this browser.';
+
 export interface EditorDeps {
   projectId: Id;
   /** Current workspace (read when an action runs). */
   workspace: () => Workspace;
-  /** Stores a changed workspace (state + save). */
-  update: (workspace: Workspace) => void;
+  /** Stores a changed workspace (state + save). Returns whether it was saved. */
+  update: (workspace: Workspace) => boolean;
+  /** Where the image bytes of keyplans are kept. */
+  assets: AssetStore;
   /** Selects an item; `focusName` puts the cursor in its name field (new items). */
   select: (selection: Selection, focusName?: boolean) => void;
   /** Called when the open project was deleted. */
@@ -81,8 +98,17 @@ export const NEW_JOBCARD = 'New jobcard';
 export const NEW_ACTIVITY = 'New activity';
 
 export function createEditorActions(deps: EditorDeps): EditorActions {
-  const { projectId, workspace, update, select, confirm, newId } = deps;
+  const { projectId, workspace, update, assets, select, confirm, newId } = deps;
   const change = (fn: (ws: Workspace) => Workspace) => update(fn(workspace()));
+  // Keyplan images are in a store of their own. A record that is saved never
+  // points to a missing image: write an image before the record that points to
+  // it, and delete an image only after the record without it was saved. A
+  // failure then leaves at worst an unused image behind.
+  const deleteAssets = async (ids: Id[]) => {
+    await Promise.allSettled(ids.map((id) => assets.delete(id)));
+  };
+  const keyplanAssetIds = (ws: Workspace, workpackIds: Id[]) =>
+    workpackIds.flatMap((id) => findWorkpack(ws, id)?.keyplan?.assetId ?? []);
   const created = (result: Created, selection: Selection) => {
     update(result.workspace);
     select(selection, true);
@@ -99,8 +125,10 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
       const project = findProject(workspace(), projectId);
       if (!project) return;
       if (!confirm(`Delete project "${project.name}" with all its workpacks and jobcards?`)) return;
-      change((ws) => deleteProject(ws, projectId));
+      const assetIds = keyplanAssetIds(workspace(), project.workpackIds);
+      const saved = update(deleteProject(workspace(), projectId));
       deps.closeProject();
+      if (saved) void deleteAssets(assetIds);
     },
 
     addWorkpack: () => {
@@ -113,14 +141,51 @@ export function createEditorActions(deps: EditorDeps): EditorActions {
       change((ws) => setWorkpackDepartment(ws, id, department)),
     setWorkpackRevision: (id, revision) => change((ws) => setWorkpackRevision(ws, id, revision)),
     setWorkpackDate: (id, date) => change((ws) => setWorkpackDate(ws, id, date)),
+    uploadKeyplan: async (workpackId, file) => {
+      const problem = validateKeyplanFile(file);
+      const mediaType = keyplanMediaType(file);
+      if (problem || !mediaType) return problem ?? 'The keyplan must be a PNG or JPEG image.';
+      const assetId = newId();
+      try {
+        // Store it with the media type found, also when the browser reported none.
+        await assets.put(
+          assetId,
+          file.type === mediaType ? file : file.slice(0, file.size, mediaType),
+        );
+      } catch {
+        return KEYPLAN_STORE_ERROR;
+      }
+      // The workspace may have changed while the image was being stored.
+      const replaced = findWorkpack(workspace(), workpackId)?.keyplan?.assetId;
+      if (!findWorkpack(workspace(), workpackId)) {
+        await deleteAssets([assetId]);
+        return undefined;
+      }
+      const keyplan = Keyplan.parse({
+        assetId,
+        mediaType,
+        ...(file.name.trim() ? { fileName: file.name } : {}),
+      });
+      const saved = update(setWorkpackKeyplan(workspace(), workpackId, keyplan));
+      if (saved && replaced) await deleteAssets([replaced]);
+      return undefined;
+    },
+    removeKeyplan: async (workpackId) => {
+      const old = findWorkpack(workspace(), workpackId)?.keyplan;
+      if (!old) return;
+      const saved = update(setWorkpackKeyplan(workspace(), workpackId, undefined));
+      if (saved) await deleteAssets([old.assetId]);
+    },
     moveWorkpack: (id, delta) => change((ws) => moveWorkpack(ws, id, delta)),
     deleteWorkpack: (id) => {
       const workpack = findWorkpack(workspace(), id);
       if (!workpack) return;
       const jobcards = count(workpack.jobcardIds.length, 'jobcard', 'jobcards');
       if (!confirm(`Delete workpack "${workpack.title}" and its ${jobcards}?`)) return;
-      change((ws) => deleteWorkpack(ws, id));
+      const assetIds = keyplanAssetIds(workspace(), [id]);
+      const saved = update(deleteWorkpack(workspace(), id));
       select({ kind: 'project' });
+      if (saved) void deleteAssets(assetIds);
     },
 
     addJobcard: (workpackId) => {

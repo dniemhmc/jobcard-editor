@@ -1,6 +1,7 @@
 import { createProject, type Id, type Workspace } from '@jobcard/domain';
 import { renderActivityHtml, renderJobcardHtml } from '@jobcard/pdf';
 import { useState } from 'react';
+import type { AssetStore } from './assets';
 import { Details } from './components/Details';
 import { OpenProject } from './components/OpenProject';
 import { Preview } from './components/Preview';
@@ -20,6 +21,8 @@ import {
 } from './layout';
 import { breadcrumb, resolveSelection, type Selection } from './selection';
 import type { WorkspaceStore } from './storage';
+import { useAssetUrl } from './use-asset-url';
+import { useWorkspaceState } from './use-workspace-state';
 
 type SaveState = 'idle' | 'saved' | 'failed';
 
@@ -28,9 +31,9 @@ const newId = () => crypto.randomUUID();
 // Read lazily: accessing window.localStorage itself can throw when storage is blocked.
 const layoutStorage = () => window.localStorage;
 
-export function App({ store }: { store: WorkspaceStore }) {
+export function App({ store, assets }: { store: WorkspaceStore; assets: AssetStore }) {
   const [loaded] = useState(() => store.load());
-  const [workspace, setWorkspace] = useState<Workspace>(loaded.workspace);
+  const { workspace, setWorkspace, latest } = useWorkspaceState(loaded.workspace);
   const [saveState, setSaveState] = useState<SaveState>('idle');
   const [projectId, setProjectId] = useState<Id>();
   const [selection, setSelection] = useState<Selection>({ kind: 'project' });
@@ -55,13 +58,16 @@ export function App({ store }: { store: WorkspaceStore }) {
     saveLayout(layoutStorage, next);
   };
 
-  const update = (next: Workspace) => {
+  /** Shows and saves a changed workspace. Returns whether it was saved. */
+  const update = (next: Workspace): boolean => {
     setWorkspace(next);
     try {
       store.save(next);
       setSaveState('saved');
+      return true;
     } catch {
       setSaveState('failed');
+      return false;
     }
   };
 
@@ -75,8 +81,9 @@ export function App({ store }: { store: WorkspaceStore }) {
     projectId &&
     createEditorActions({
       projectId,
-      workspace: () => workspace,
+      workspace: latest,
       update,
+      assets,
       select: (s, focus = false) => {
         setSelection(s);
         setFocusName(focus);
@@ -88,7 +95,12 @@ export function App({ store }: { store: WorkspaceStore }) {
 
   const resolved = projectId ? resolveSelection(workspace, projectId, selection) : undefined;
 
-  const sheetContext = resolved && { project: resolved.project, workpack: resolved.workpack };
+  const keyplanImage = useAssetUrl(assets, resolved?.workpack?.keyplan?.assetId);
+  const sheetContext = resolved && {
+    project: resolved.project,
+    workpack: resolved.workpack,
+    keyplanSrc: keyplanImage.status === 'ready' ? keyplanImage.url : undefined,
+  };
 
   const preview = resolved?.jobcard
     ? resolved.activity
@@ -141,7 +153,7 @@ export function App({ store }: { store: WorkspaceStore }) {
             onResize={(w) => changeLayout((l) => resizeTree(l, w))}
           />
           <div className="main">
-            <Details resolved={resolved} actions={actions} focusName={focusName} />
+            <Details resolved={resolved} actions={actions} assets={assets} focusName={focusName} />
           </div>
           {preview && (
             <>
