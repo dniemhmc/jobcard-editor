@@ -14,7 +14,7 @@ improving how **jobcards** are created.
 | **Module**           | A physical part of the platform (e.g. a utilities module) that is decommissioned as a unit.                        |
 | **Job number**       | The supplier order number of a project. Entered by hand; printed in the title block of every sheet.                |
 | **Department**       | The department responsible for a workpack. Entered by hand; printed in the title block of every sheet.             |
-| **Date**             | The date of a workpack (ISO, YYYY-MM-DD). Printed in the title block of every sheet, e.g. 23-03-2026.              |
+| **Date**             | The date of a workpack (ISO, YYYY-MM-DD). Printed in the title block of every sheet, e.g. 19 Oct 2026.             |
 | **Revision**         | The revision of a workpack and its jobcards. Entered by hand; printed in the title block of every sheet.           |
 | **JC number**        | The number of a jobcard. Entered by hand; printed in the title block of every sheet.                               |
 | **Workpack**         | A bundle of jobcards, usually all jobcards needed to decommission one module. Published as one PDF document.       |
@@ -60,8 +60,9 @@ sheet at once.
 | Date       | `Workpack.date`                                                                 | Workpack form |
 | Rev.       | `Workpack.revision`                                                             | Workpack form |
 
-The date is stored as an ISO date (YYYY-MM-DD) and printed as DD-MM-YYYY (23-03-2026). A box
-without a value is drawn empty with its label in grey.
+The date is stored as an ISO date and printed as day, month name and year (19 Oct 2026), so it
+reads the same whichever order a reader is used to. A box without a value is drawn empty with its
+label in grey.
 
 ## Current workflow (as-is)
 

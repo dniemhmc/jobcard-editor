@@ -69,14 +69,18 @@ export function contextInfo(context: SheetContext = {}): TitleBlockInfo {
   };
 }
 
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 /**
- * Prints an ISO date (YYYY-MM-DD) as DD-MM-YYYY, e.g. "23-03-2026". The date is
- * rearranged as text, so the time zone cannot move it. Anything that is not an
- * ISO date is returned unchanged.
+ * Prints an ISO date (YYYY-MM-DD) as day, month name and year, e.g. "19 Oct
+ * 2026": unambiguous for readers who write the day and month in either order.
+ * The date is read from its text, so the time zone cannot move it. Anything that
+ * is not an ISO date is returned unchanged.
  */
 export function formatSheetDate(iso: string): string {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
-  return match ? `${match[3]}-${match[2]}-${match[1]}` : iso;
+  const month = match ? MONTHS[Number(match[2]) - 1] : undefined;
+  return match && month ? `${Number(match[3])} ${month} ${match[1]}` : iso;
 }
 
 /**

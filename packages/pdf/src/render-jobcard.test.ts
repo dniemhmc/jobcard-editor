@@ -34,7 +34,7 @@ describe('renderJobcardHtml', () => {
         module: 'Module <M> & 1',
         department: 'Dept <D> & 2',
         revision: 'Rev <R> & 3',
-        date: '2026-03-23',
+        date: '2026-10-19',
       },
     });
     expect(withProject).toContain('Platform &lt;A&gt; &amp; B</span>');
@@ -42,7 +42,7 @@ describe('renderJobcardHtml', () => {
     expect(withProject).toContain('Module &lt;M&gt; &amp; 1</span>');
     expect(withProject).toContain('Dept &lt;D&gt; &amp; 2</span>');
     expect(withProject).toContain('Rev &lt;R&gt; &amp; 3</span>');
-    expect(withProject).toContain('23-03-2026</span>');
+    expect(withProject).toContain('19 Oct 2026</span>');
     expect(withProject).not.toContain('<D>');
     expect(withProject).not.toContain('<R>');
     expect(withProject).not.toContain('<A>');
