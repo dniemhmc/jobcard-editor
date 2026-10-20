@@ -28,6 +28,7 @@ import {
   setWorkpackModule,
   setWorkpackRevision,
   renameWorkpack,
+  setActivityDisciplines,
   Workspace,
   workpacksOf,
 } from './index';
@@ -174,6 +175,19 @@ describe('workspace', () => {
       'Two',
       'Activity 3',
     ]);
+  });
+
+  it('sets the disciplines of an activity in list order and clears them when empty', () => {
+    const { ws, j1, activities } = sample();
+    const get = (w: Workspace) => findJobcard(w, j1)!.activities.map((a) => a.disciplines);
+    const set = setActivityDisciplines(ws, j1, activities[1]!, ['NDE (RAT)', 'RIG', 'RIG']);
+    expect(get(set)).toEqual([undefined, ['RIG', 'NDE (RAT)'], undefined]);
+    const cleared = setActivityDisciplines(set, j1, activities[1]!, []);
+    expect(findJobcard(cleared, j1)!.activities[1]).not.toHaveProperty('disciplines');
+    expect(Workspace.safeParse(cleared).success).toBe(true);
+    expect(setActivityDisciplines(ws, j1, '00000000-0000-4000-8000-0000000000ff', ['RIG'])).toEqual(
+      ws,
+    );
   });
 
   it('does not change the input workspace', () => {

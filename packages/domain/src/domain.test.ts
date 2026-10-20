@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { Jobcard, Keyplan, Project, SCHEMA_VERSION, Workpack } from './index';
+import {
+  DISCIPLINES,
+  DISCIPLINE_STYLES,
+  Jobcard,
+  Keyplan,
+  Project,
+  SCHEMA_VERSION,
+  Workpack,
+} from './index';
 
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
 
@@ -145,5 +153,31 @@ describe('Jobcard', () => {
 
   it('rejects data from an older schema version', () => {
     expect(Jobcard.safeParse({ ...jobcard, schemaVersion: 1 }).success).toBe(false);
+  });
+});
+
+describe('Activity disciplines', () => {
+  const base = { schemaVersion: SCHEMA_VERSION, id: id(3), title: 'JC', activities: [] };
+  const activity = (extra: object) => ({
+    ...base,
+    activities: [{ id: id(4), name: 'A', ...extra }],
+  });
+
+  it('is optional, so activities without disciplines stay valid', () => {
+    expect(Jobcard.safeParse(activity({})).success).toBe(true);
+  });
+
+  it('accepts predefined disciplines', () => {
+    const parsed = Jobcard.parse(activity({ disciplines: ['RIG', 'NDE (RAT)'] }));
+    expect(parsed.activities[0]?.disciplines).toEqual(['RIG', 'NDE (RAT)']);
+  });
+
+  it('rejects unknown and duplicate disciplines', () => {
+    expect(Jobcard.safeParse(activity({ disciplines: ['PAINT'] })).success).toBe(false);
+    expect(Jobcard.safeParse(activity({ disciplines: ['RIG', 'RIG'] })).success).toBe(false);
+  });
+
+  it('has a colour for every discipline', () => {
+    for (const d of DISCIPLINES) expect(DISCIPLINE_STYLES[d].background).toMatch(/^#[0-9A-F]{6}$/);
   });
 });

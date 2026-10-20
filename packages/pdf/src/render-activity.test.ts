@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { Activity } from '@jobcard/domain';
 import { renderActivityHtml } from './render-activity';
 import { count, jobcard } from './test-fixtures';
 
@@ -69,5 +70,29 @@ describe('renderActivityHtml', () => {
     expect(count(html, 'class="title-block"')).toBe(1);
     expect(html).toContain('Remove &lt;grating&gt; &amp; handrail</span>');
     expect(html).not.toContain('<grating>');
+  });
+
+  describe('discipline bar', () => {
+    const withDisciplines = (disciplines: Activity['disciplines']) =>
+      renderActivityHtml(jobcard, { ...jobcard.activities[1]!, disciplines });
+
+    it('stays an empty box without disciplines', () => {
+      expect(html).toContain('discipline-bar empty');
+      expect(html).not.toContain('class="segment"');
+    });
+
+    it('shows one segment in the colour of the discipline', () => {
+      const one = withDisciplines(['RIG']);
+      expect(count(one, 'class="segment"')).toBe(1);
+      expect(one).toContain('background:#FFFF00;color:#000000">RIG</span>');
+      expect(one).not.toContain('discipline-bar empty');
+    });
+
+    it('splits the bar into one segment per discipline, in order', () => {
+      const two = withDisciplines(['RIG', 'NDE (RAT)']);
+      expect(count(two, 'class="segment"')).toBe(2);
+      expect(two.indexOf('>RIG</span>')).toBeLessThan(two.indexOf('>NDE (RAT)</span>'));
+      expect(two).toContain('background:#0070C0;color:#FFFFFF">NDE (RAT)</span>');
+    });
   });
 });

@@ -37,10 +37,12 @@ The domain currently holds only what the editor screens show (ADR 0006):
 - Workpack: title, optional module, department and revision (entered by hand), optional date,
   an optional keyplan (a reference to an uploaded PNG or JPEG, ADR 0007), and its jobcards in order.
 - Jobcard: title, optional JC number (entered by hand), and its activities in order.
-- Activity: name.
+- Activity: name and optional disciplines. A discipline is one of a fixed list (RIG, MECH, HSE,
+  WLDR, ELEC, SCAF, NDE (RAT), NDE, SUBSEA, DECOM RIG, RAT, FIELD), each with its own colour. They are
+  printed as the header bar of the activity sheet, split into equal segments when several apply.
 
 Planned later, as screens and the PDF template need them: status, location,
-discipline, detailed steps, general pictures and images with annotations (ADR 0004), R2S viewpoints and content
+detailed steps, general pictures and images with annotations (ADR 0004), R2S viewpoints and content
 templates. The glossary above keeps these terms so the vocabulary stays consistent.
 
 ## Title block

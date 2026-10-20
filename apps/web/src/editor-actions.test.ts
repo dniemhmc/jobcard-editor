@@ -125,6 +125,19 @@ describe('editor actions', () => {
     expect(t.lastSelection()?.[0]).toMatchObject({ kind: 'activity', jobcardId });
   });
 
+  it('sets and clears the disciplines of an activity', () => {
+    const t = setup();
+    t.actions.addWorkpack();
+    t.actions.addJobcard(t.ws().workpacks[0]!.id);
+    const jobcardId = t.ws().jobcards[0]!.id;
+    t.actions.addActivity(jobcardId);
+    const activityId = findJobcard(t.ws(), jobcardId)!.activities[0]!.id;
+    t.actions.setActivityDisciplines(jobcardId, activityId, ['NDE', 'RIG']);
+    expect(findJobcard(t.ws(), jobcardId)!.activities[0]!.disciplines).toEqual(['RIG', 'NDE']);
+    t.actions.setActivityDisciplines(jobcardId, activityId, []);
+    expect(findJobcard(t.ws(), jobcardId)!.activities[0]!.disciplines).toBeUndefined();
+  });
+
   it('asks before deleting and names what goes with it', () => {
     const t = setup();
     t.actions.addWorkpack();
