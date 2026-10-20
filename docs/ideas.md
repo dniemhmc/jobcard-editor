@@ -34,6 +34,14 @@ One or two lines on the idea.
 
 ## Entries
 
+### 2026-10-20: Always-on PDF preview of the whole project or workpack
+
+**Status:** raw
+
+The PDF render should always show the entire PDF, not just the current jobcard. Open question:
+whole project or whole workpack? The preview could move together with the navigation tree (follow
+the selection), or be moved on its own (scroll independently of the tree).
+
 ### 2026-10-17: Low-friction feedback in the early-access version
 
 **Status:** raw
