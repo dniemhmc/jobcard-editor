@@ -1,0 +1,28 @@
+name: Repo size
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  SCC_VERSION: 3.5.0
+
+jobs:
+  scc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install scc
+        run: |
+          curl -sSfL "https://github.com/boyter/scc/releases/download/v${SCC_VERSION}/scc_Linux_x86_64.tar.gz" | tar -xz scc
+          ./scc --version
+      - name: Report repo size
+        run: |
+          ./scc . | tee scc.txt
+          {
+            echo '## Repo size (scc)'
+            echo '```'
+            cat scc.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
