@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { SCHEMA_VERSION, type Id } from './common';
 import { Jobcard } from './jobcard';
 import { Project } from './project';
-import { Workpack } from './workpack';
+import { Workpack, type Keyplan } from './workpack';
 
 /**
  * All records the editor works on: the projects, workpacks and jobcards as
@@ -176,6 +176,13 @@ export function moveWorkpack(ws: Workspace, id: Id, delta: number): Workspace {
 /** Sets the module of a workpack; an empty value removes it. */
 export function setWorkpackModule(ws: Workspace, id: Id, module: string): Workspace {
   return updateWorkpack(ws, id, (w) => withOptionalText(w, 'module', module));
+}
+
+/** Sets the keyplan picture of a workpack; `undefined` removes it. */
+export function setWorkpackKeyplan(ws: Workspace, id: Id, keyplan: Keyplan | undefined): Workspace {
+  return updateWorkpack(ws, id, ({ keyplan: _old, ...rest }) =>
+    keyplan ? { ...rest, keyplan } : rest,
+  );
 }
 
 /** Sets the department of a workpack; an empty value removes it. */

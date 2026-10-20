@@ -22,6 +22,7 @@ import {
   renameProject,
   setJobcardNumber,
   setProjectJobNumber,
+  setWorkpackKeyplan,
   setWorkpackDate,
   setWorkpackDepartment,
   setWorkpackModule,
@@ -111,6 +112,18 @@ describe('workspace', () => {
     expect(findWorkpack(set, w1)?.module).toBe('M12');
     expect(findWorkpack(set, w2)).not.toHaveProperty('module');
     expect(findWorkpack(setWorkpackModule(set, w1, ' '), w1)).not.toHaveProperty('module');
+  });
+
+  it('sets the keyplan of a workpack and removes it again', () => {
+    const { ws, w1, w2 } = sample();
+    const keyplan = { assetId: ids()(), mediaType: 'image/png' as const, fileName: 'a.png' };
+    const set = setWorkpackKeyplan(ws, w1, keyplan);
+    expect(findWorkpack(set, w1)?.keyplan).toEqual(keyplan);
+    expect(findWorkpack(set, w2)).not.toHaveProperty('keyplan');
+    expect(Workspace.safeParse(set).success).toBe(true);
+    const replaced = setWorkpackKeyplan(set, w1, { ...keyplan, mediaType: 'image/jpeg' });
+    expect(findWorkpack(replaced, w1)?.keyplan?.mediaType).toBe('image/jpeg');
+    expect(findWorkpack(setWorkpackKeyplan(set, w1, undefined), w1)).not.toHaveProperty('keyplan');
   });
 
   it('sets the department and revision of a workpack, trimmed, and clears them when empty', () => {

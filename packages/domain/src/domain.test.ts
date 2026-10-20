@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Jobcard, Project, SCHEMA_VERSION, Workpack } from './index';
+import { Jobcard, Keyplan, Project, SCHEMA_VERSION, Workpack } from './index';
 
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
 
@@ -51,6 +51,27 @@ describe('Workpack module', () => {
     expect(Workpack.parse({ ...base, module: ' M12 ' }).module).toBe('M12');
     expect(Workpack.parse(base).module).toBeUndefined();
     expect(Workpack.safeParse({ ...base, module: ' ' }).success).toBe(false);
+  });
+});
+
+describe('Workpack keyplan', () => {
+  const base = { schemaVersion: SCHEMA_VERSION, id: id(2), title: 'Module 1', jobcardIds: [] };
+  const keyplan = { assetId: id(9), mediaType: 'image/png' as const, fileName: ' module-a.png ' };
+
+  it('accepts an optional keyplan reference and trims the file name', () => {
+    expect(Workpack.parse({ ...base, keyplan }).keyplan).toEqual({
+      ...keyplan,
+      fileName: 'module-a.png',
+    });
+    expect(Workpack.parse(base).keyplan).toBeUndefined();
+    expect(Keyplan.safeParse({ assetId: id(9), mediaType: 'image/jpeg' }).success).toBe(true);
+  });
+
+  it('rejects an unsupported media type, a bad asset id and an empty file name', () => {
+    expect(Keyplan.safeParse({ ...keyplan, mediaType: 'image/gif' }).success).toBe(false);
+    expect(Keyplan.safeParse({ ...keyplan, mediaType: 'image/svg+xml' }).success).toBe(false);
+    expect(Keyplan.safeParse({ ...keyplan, assetId: 'not-an-id' }).success).toBe(false);
+    expect(Keyplan.safeParse({ ...keyplan, fileName: ' ' }).success).toBe(false);
   });
 });
 
